@@ -76,7 +76,9 @@ public class HardLineWrapTest {
     			{"wrap test\n", 9, "a", 10, "wrap testa\n", 10},
     			{"wrap test\n", 9, "a", 9, "wrap\ntesta\n", 10},
     			{"wrap_test\n", 0, "a", 9, "awrap_test\n", 1},
+    			{"wrap test  test \r\n", 10, "a", 9, "wrap test\r\na test\r\n", 12},
     			//Different line delimeters
+    			{"wrap test\r", 0, "a", 1, "awrap\rtest\r", 1},
     			{"wrap test\r\n", 0, "a", 9, "awrap\r\ntest\r\n", 1},
     			{"wrap test\r\n", 9, "a", 9, "wrap\r\ntesta\r\n", 11},
     			{"wrap test \r\n", 10, "a", 9, "wrap test\r\na\r\n", 12},
@@ -101,10 +103,12 @@ public class HardLineWrapTest {
     			{"  \n", 2, "wrap test", 10, "  wrap\n  test\n", 13},
     			{"  test \n", 7, "wrapa", 11, "  test\n  wrapa\n", 14},
     			{"  a test\n", 8, "wrap ", 12, "  a testwrap \n", 13},
+    			{" wrap test  test \r\n", 11, "a", 10, " wrap test\r\n a test\r\n", 14},
 
     			//Text on the next line
     			{"wrap test\nmore text\n", 0, "a", 9, "awrap\ntest more text\n", 1},
     			{"wrap test\n\\begin{env}\n", 0, "a", 9, "awrap\ntest\n\\begin{env}\n", 1},
+    			{"wrap test\n%Comment\n", 0, "a", 9, "awrap\ntest\n%Comment\n", 1},
     			});
     }
     
