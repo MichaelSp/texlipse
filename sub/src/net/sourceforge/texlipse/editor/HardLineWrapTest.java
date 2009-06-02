@@ -19,7 +19,7 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class HardLineWrapTest {
 
-    private static class TestDocumentCommand extends DocumentCommand {
+    public static class TestDocumentCommand extends DocumentCommand {
         public TestDocumentCommand(int offset, String text) {
             super();
             this.offset = offset;
@@ -87,6 +87,8 @@ public class HardLineWrapTest {
     			//Whitespaces at the end of a line
     			{"  wrap test   \n", 2, "a", 9, "  awrap\n  test\n", 3},
     			{"wrap test        \n", 0, "a", 10, "awrap test        \n", 1},
+    			{"wrap test        a\n", 0, "a", 10, "awrap test\na\n", 1},
+    			{"wrap test        a\n", 10, "a", 10, "wrap test\na       a\n", 11},
     			//Hard case
     			{"wrap test\n", 9, " ", 9, "wrap test \n", 10},
     			{"wrap test\r\n", 9, " ", 9, "wrap test \r\n", 10},
