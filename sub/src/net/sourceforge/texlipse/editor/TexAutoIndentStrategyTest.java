@@ -12,6 +12,7 @@ import net.sourceforge.texlipse.properties.TexlipseProperties;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +24,8 @@ public class TexAutoIndentStrategyTest {
 
     static TexAutoIndentStrategy autoIndent;
     
-    @BeforeClass
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
     	IPreferenceStore fPreferenceStore = TexlipsePlugin.getDefault().getPreferenceStore();
     	fPreferenceStore.setValue(TexlipseProperties.TEX_ITEM_COMPLETION, true);
     	fPreferenceStore.setValue(TexlipseProperties.INDENTATION_LEVEL, 2);
