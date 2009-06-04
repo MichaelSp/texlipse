@@ -13,7 +13,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -75,6 +74,20 @@ public class TexAutoIndentStrategyTest {
     			//Simple automatic \item insertion and closure of environments
     			{"\\begin{enumerate}", 17, "\n", "\\begin{enumerate}\n\\item \n\\end{enumerate}", 24},
     			{"\\begin{enumerate}\n\\item aa\n\\end{enumerate}", 26, "\n", "\\begin{enumerate}\n\\item aa\n\\item \n\\end{enumerate}", 33},
+    			{"\\begin{enumerate}\n\\item aa\n\\end{enumerate}", 25, "\n", "\\begin{enumerate}\n\\item a\na\n\\end{enumerate}", 26},
+    			//Simple automatic \item insertion and closure of environments with indentation
+    			{"\\begin{itemize}", 15, "\n", "\\begin{itemize}\n  \\item \n\\end{itemize}", 24},
+    			{"\\begin{itemize}\n  \\item aa\n\\end{itemize}", 26, "\n", "\\begin{itemize}\n  \\item aa\n  \\item \n\\end{itemize}", 35},
+    			{"\\begin{itemize}\n  \\item aa\n\\end{itemize}", 25, "\n", "\\begin{itemize}\n  \\item a\n  a\n\\end{itemize}", 28},
+    			//Simple automatic \item[] insertion and closure of environments with indentation
+    			{"\\begin{description}", 19, "\n", "\\begin{description}\n  \\item[]\n\\end{description}", 28},
+    			{"\\begin{description}\n  \\item[aa] aaa\n\\end{description}", 35, "\n", "\\begin{description}\n  \\item[aa] aaa\n  \\item[]\n\\end{description}", 44},
+    			{"\\begin{description}\n  \\item[aa] aaa\n\\end{description}", 34, "\n", "\\begin{description}\n  \\item[aa] aa\n  a\n\\end{description}", 37},
+    			//Closure of environments
+    			{"\\begin{test}\\begin{test}\\end{test}", 12, "\n", "\\begin{test}\n\n\\end{test}\\begin{test}\\end{test}", 13},
+    			{"\\begin{test}\\begin{test}\\end{test}\\end{test}", 12, "\n", "\\begin{test}\n\\begin{test}\\end{test}\\end{test}", 13},
+    			//item insertion
+    			{"\\begin{itemize}\n  \\item aa\n  aa\n\\end{itemize}", 31, "\n", "\\begin{itemize}\n  \\item aa\n  aa\n  \\item \n\\end{itemize}", 40},
     			});
     }
 
