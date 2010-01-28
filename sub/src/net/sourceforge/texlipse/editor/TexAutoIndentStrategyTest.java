@@ -86,6 +86,7 @@ public class TexAutoIndentStrategyTest {
     			//Closure of environments
     			{"\\begin{test}\\begin{test}\\end{test}", 12, "\n", "\\begin{test}\n\n\\end{test}\\begin{test}\\end{test}", 13},
     			{"\\begin{test}\\begin{test}\\end{test}\\end{test}", 12, "\n", "\\begin{test}\n\\begin{test}\\end{test}\\end{test}", 13},
+    			{"\test{a}{\\begin{test}\n\n\\end{test}}", 21, "\n", "\test{a}{\\begin{test}\n\n\n\\end{test}}", 22},
     			//item insertion
     			{"\\begin{itemize}\n  \\item aa\n  aa\n\\end{itemize}", 31, "\n", "\\begin{itemize}\n  \\item aa\n  aa\n  \\item \n\\end{itemize}", 40},
     			});
