@@ -111,6 +111,19 @@ public class HardLineWrapTest {
     			{"wrap test\nmore text\n", 0, "a", 9, "awrap\ntest more text\n", 1},
     			{"wrap test\n\\begin{env}\n", 0, "a", 9, "awrap\ntest\n\\begin{env}\n", 1},
     			{"wrap test\n%Comment\n", 0, "a", 9, "awrap\ntest\n%Comment\n", 1},
+    			{"wrap test\n %Comment\n", 0, "a", 9, "awrap\ntest\n %Comment\n", 1},
+    			
+    			//Lines ending with . or : or \\ should not be merged with next line
+    			{"wrap test.\nmore text\n", 0, "a", 9, "awrap\ntest.\nmore text\n", 1},
+    			{"wrap test:\nmore text\n", 0, "a", 9, "awrap\ntest:\nmore text\n", 1},
+    			{"wrap test\\\\\nmore text\n", 0, "a", 9, "awrap\ntest\\\\\nmore text\n", 1},
+    			
+    			//Comments should be wrapped correctly
+    			{"%wrap test\nmore text\n", 1, "a", 9, "%awrap\n% test\nmore text\n", 2},
+    			{"%wrap test\n%more text\n", 1, "a", 9, "%awrap\n% test more text\n", 2},
+    			{"wrap %test\n%more text\n", 0, "a", 9, "awrap\n%test more text\n", 1},
+    			{"wrap %test\nmore text\n", 0, "a", 9, "awrap\n%test\nmore text\n", 1},
+    			
     			});
     }
     
