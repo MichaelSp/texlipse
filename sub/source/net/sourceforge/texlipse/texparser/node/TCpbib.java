@@ -5,14 +5,14 @@ package net.sourceforge.texlipse.texparser.node;
 import net.sourceforge.texlipse.texparser.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TCbib extends Token
+public final class TCpbib extends Token
 {
-    public TCbib(String text)
+    public TCpbib(String text)
     {
         setText(text);
     }
 
-    public TCbib(String text, int line, int pos)
+    public TCpbib(String text, int line, int pos)
     {
         setText(text);
         setLine(line);
@@ -22,11 +22,11 @@ public final class TCbib extends Token
     @Override
     public Object clone()
     {
-      return new TCbib(getText(), getLine(), getPos());
+      return new TCpbib(getText(), getLine(), getPos());
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTCbib(this);
+        ((Analysis) sw).caseTCpbib(this);
     }
 }
