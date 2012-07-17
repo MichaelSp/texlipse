@@ -26,66 +26,51 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 /**
- * TexTikzScanner is used as a scanner for the "__tex_TikzPartition"
- * content type areas.
- * It uses defined rules to detect sequences and it returns the
- * specified token that satisfies a rule. The token defines how the
- * characters are presented.
+ * TexTikzScanner is used as a scanner for the "__tex_TikzPartition" content
+ * type areas. It uses defined rules to detect sequences and it returns the
+ * specified token that satisfies a rule. The token defines how the characters
+ * are presented.
  * 
  * @see net.sourceforge.texlipse.editor.partitioner.FastLaTeXPartitionScanner
  * @author Matthias Erll
  */
 public class TexTikzScanner extends RuleBasedScanner {
-    
-    /**
-     * A default constructor.
-     * @param manager
-     */
-    public TexTikzScanner(ColorManager manager) {
-        IToken commandToken = new Token(
-                new TextAttribute(
-                        manager.getColor(ColorManager.COMMAND),
-                        null,
-                        manager.getStyle(ColorManager.COMMAND_STYLE)));
 
-        IToken specialCharToken = new Token(new TextAttribute(manager
-                .getColor(ColorManager.TEX_SPECIAL),
-                null,
-                manager.getStyle(ColorManager.TEX_SPECIAL_STYLE)));
+	/**
+	 * A default constructor.
+	 * 
+	 * @param manager
+	 */
+	public TexTikzScanner(ColorManager manager) {
+		IToken commandToken = new Token(new TextAttribute(manager.getColor(ColorManager.COMMAND), null,
+				manager.getStyle(ColorManager.COMMAND_STYLE)));
 
-        IToken numberToken = new Token(new TextAttribute(manager
-                .getColor(ColorManager.TEX_NUMBER),
-                null,
-                manager.getStyle(ColorManager.TEX_NUMBER_STYLE)));
+		IToken specialCharToken = new Token(new TextAttribute(manager.getColor(ColorManager.TEX_SPECIAL), null,
+				manager.getStyle(ColorManager.TEX_SPECIAL_STYLE)));
 
-        IToken commentToken = new Token(new TextAttribute(manager
-                .getColor(ColorManager.COMMENT),
-                null,
-                manager.getStyle(ColorManager.COMMENT_STYLE)));
+		IToken numberToken = new Token(new TextAttribute(manager.getColor(ColorManager.TEX_NUMBER), null,
+				manager.getStyle(ColorManager.TEX_NUMBER_STYLE)));
 
-        IToken argToken = new Token(
-                new TextAttribute(
-                        manager.getColor(ColorManager.CURLY_BRACKETS),
-                        null,
-                        manager.getStyle(ColorManager.CURLY_BRACKETS_STYLE)));
+		IToken commentToken = new Token(new TextAttribute(manager.getColor(ColorManager.COMMENT), null,
+				manager.getStyle(ColorManager.COMMENT_STYLE)));
 
-        IToken optArgToken = new Token(
-                new TextAttribute(
-                        manager.getColor(ColorManager.SQUARE_BRACKETS),
-                        null,
-                        manager.getStyle(ColorManager.SQUARE_BRACKETS_STYLE)));
+		IToken argToken = new Token(new TextAttribute(manager.getColor(ColorManager.CURLY_BRACKETS), null,
+				manager.getStyle(ColorManager.CURLY_BRACKETS_STYLE)));
 
-        List<IRule> rules = new ArrayList<IRule>();
-        rules.add(new TexSpecialCharRule(specialCharToken));
-        rules.add(new WordRule(new TexWord(), commandToken));
-        rules.add(new NumberRule(numberToken));
-        rules.add(new EndOfLineRule("%", commentToken, '\\'));
-        rules.add(new WhitespaceRule(new WhitespaceDetector()));
-        rules.add(new MultiLineRule("{", "}", argToken, '\\'));
-        rules.add(new MultiLineRule("[", "]", optArgToken, '\\'));
+		IToken optArgToken = new Token(new TextAttribute(manager.getColor(ColorManager.SQUARE_BRACKETS), null,
+				manager.getStyle(ColorManager.SQUARE_BRACKETS_STYLE)));
 
-        IRule[] result = new IRule[rules.size()];
-        rules.toArray(result);
-        setRules(result);
-    }
+		List<IRule> rules = new ArrayList<IRule>();
+		rules.add(new TexSpecialCharRule(specialCharToken));
+		rules.add(new WordRule(new TexWord(), commandToken));
+		rules.add(new NumberRule(numberToken));
+		rules.add(new EndOfLineRule("%", commentToken, '\\'));
+		rules.add(new WhitespaceRule(new WhitespaceDetector()));
+		rules.add(new MultiLineRule("{", "}", argToken, '\\'));
+		rules.add(new MultiLineRule("[", "]", optArgToken, '\\'));
+
+		IRule[] result = new IRule[rules.size()];
+		rules.toArray(result);
+		setRules(result);
+	}
 }

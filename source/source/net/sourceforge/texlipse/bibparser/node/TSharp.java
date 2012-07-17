@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TSharp extends Token
-{
-    public TSharp()
-    {
-        super.setText("#");
-    }
+public final class TSharp extends Token {
+	public TSharp() {
+		super.setText("#");
+	}
 
-    public TSharp(int line, int pos)
-    {
-        super.setText("#");
-        setLine(line);
-        setPos(pos);
-    }
+	public TSharp(int line, int pos) {
+		super.setText("#");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TSharp(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TSharp(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTSharp(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTSharp(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TSharp text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TSharp text.");
+	}
 }

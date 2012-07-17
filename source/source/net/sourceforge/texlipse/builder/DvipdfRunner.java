@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * Run the external dvipdf program.
  * 
@@ -24,48 +23,50 @@ import org.eclipse.ui.PlatformUI;
  */
 public class DvipdfRunner extends AbstractProgramRunner {
 
-    public DvipdfRunner() {
-        super();
-    }
+	public DvipdfRunner() {
+		super();
+	}
 
-    protected String getWindowsProgramName() {
-        return "dvipdfm.exe";
-    }
+	protected String getWindowsProgramName() {
+		return "dvipdfm.exe";
+	}
 
-    protected String getUnixProgramName() {
-        return "dvipdf";
-    }
+	protected String getUnixProgramName() {
+		return "dvipdf";
+	}
 
-    public String getDescription() {
-        return "Dvipdf program";
-    }
+	public String getDescription() {
+		return "Dvipdf program";
+	}
 
-    public String getInputFormat() {
-        return TexlipseProperties.OUTPUT_FORMAT_DVI;
-    }
+	public String getInputFormat() {
+		return TexlipseProperties.OUTPUT_FORMAT_DVI;
+	}
 
-    public String getOutputFormat() {
-        return TexlipseProperties.OUTPUT_FORMAT_PDF;
-    }
+	public String getOutputFormat() {
+		return TexlipseProperties.OUTPUT_FORMAT_PDF;
+	}
 
-    /**
-     * Parse the output of dvipdf program.
-     * 
-     * @param resource the input file that was processed
-     * @param output the output of the external program
-     * @return true, if error messages were found in the output, false otherwise
-     */
-    protected boolean parseErrors(IResource resource, String output) {
-        if (output.indexOf("Unable to open ") >= 0) {
-            PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-                public void run() {
-                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-                            "Error", "Unable to create the pdf file. Please close all pdf viewers!");
-                }
-            });
-            return true;
-        }
-        //TODO: more dvipdf error parsing
-        return false;
-    }
+	/**
+	 * Parse the output of dvipdf program.
+	 * 
+	 * @param resource
+	 *            the input file that was processed
+	 * @param output
+	 *            the output of the external program
+	 * @return true, if error messages were found in the output, false otherwise
+	 */
+	protected boolean parseErrors(IResource resource, String output) {
+		if (output.indexOf("Unable to open ") >= 0) {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error",
+							"Unable to create the pdf file. Please close all pdf viewers!");
+				}
+			});
+			return true;
+		}
+		// TODO: more dvipdf error parsing
+		return false;
+	}
 }

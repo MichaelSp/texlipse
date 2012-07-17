@@ -26,11 +26,10 @@ import net.sourceforge.texlipse.model.ReferenceEntry;
 
 import org.eclipse.core.resources.IMarker;
 
-
 /**
- * BibTeX parser front-end. After creation, the parsing is done by calling
- * the getEntries() -method, after which getAbbrevs() and getErrors() should
- * be called (otherwise the data returned by these two is essentially meaningless.)
+ * BibTeX parser front-end. After creation, the parsing is done by calling the
+ * getEntries() -method, after which getAbbrevs() and getErrors() should be
+ * called (otherwise the data returned by these two is essentially meaningless.)
  * 
  * @author Oskar Ojala
  */
@@ -47,7 +46,8 @@ public class BibParser {
 	/**
 	 * Constructs a new BibTeX parser.
 	 * 
-	 * @param filename The file to parse
+	 * @param filename
+	 *            The file to parse
 	 */
 	public BibParser(String filename) {
 		this.filename = filename;
@@ -58,7 +58,8 @@ public class BibParser {
 	/**
 	 * Constructs a new BibTeX parser.
 	 * 
-	 * @param r A reader to the BibTeX-data to parse
+	 * @param r
+	 *            A reader to the BibTeX-data to parse
 	 */
 	public BibParser(Reader r) {
 		this.reader = r;
@@ -67,17 +68,15 @@ public class BibParser {
 	}
 
 	/**
-	 * Parses the document, constructs a list of the entries and returns
-	 * them.
+	 * Parses the document, constructs a list of the entries and returns them.
 	 * 
 	 * @return BibTeX entries (<code>ReferenceEntry</code>)
 	 */
-	public List<ReferenceEntry> getEntries() throws IOException, FileNotFoundException 
-	{
+	public List<ReferenceEntry> getEntries() throws IOException, FileNotFoundException {
 		try {
 			BibLexer l;
 			if (filename != null) {
-				l = new BibLexer(new PushbackReader (new FileReader(filename), 1024));
+				l = new BibLexer(new PushbackReader(new FileReader(filename), 1024));
 			} else {
 				l = new BibLexer(new PushbackReader(reader, 1024));
 			}
@@ -93,7 +92,8 @@ public class BibParser {
 
 			// FIXME
 			// Search for files of the referenced material to be able to display
-			//new Thread(new BibFileReferenceSearch(sortIndex, project)).start();
+			// new Thread(new BibFileReferenceSearch(sortIndex,
+			// project)).start();
 
 			return er.getEntries();
 
@@ -104,19 +104,13 @@ public class BibParser {
 			int last = msg.indexOf(']');
 			String numseq = msg.substring(first + 1, last);
 			String[] numbers = numseq.split(",");
-			this.errors.add(new ParseErrorMessage(Integer.parseInt(numbers[0]),
-					Integer.parseInt(numbers[1]) - 1,
-					2,
-					msg.substring(last+2),
-					IMarker.SEVERITY_ERROR));
+			this.errors.add(new ParseErrorMessage(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]) - 1, 2,
+					msg.substring(last + 2), IMarker.SEVERITY_ERROR));
 		} catch (ParserException pe) {
 			String msg = pe.getMessage();
 			int last = msg.indexOf(']');
-			this.errors.add(new ParseErrorMessage(pe.getToken().getLine(),
-					pe.getToken().getPos(),
-					pe.getToken().getText().length(),
-					msg.substring(last+2),
-					IMarker.SEVERITY_ERROR));
+			this.errors.add(new ParseErrorMessage(pe.getToken().getLine(), pe.getToken().getPos(), pe.getToken()
+					.getText().length(), msg.substring(last + 2), IMarker.SEVERITY_ERROR));
 		}
 		return null;
 	}
@@ -132,7 +126,7 @@ public class BibParser {
 
 	public List<ParseErrorMessage> getErrors() {
 		return errors;
-	}    
+	}
 
 	public List<ParseErrorMessage> getWarnings() {
 		return warnings;

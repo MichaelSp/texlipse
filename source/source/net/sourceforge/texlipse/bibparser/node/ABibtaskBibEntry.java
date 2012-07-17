@@ -2,93 +2,75 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ABibtaskBibEntry extends PBibEntry
-{
-    private TTaskcomment _taskcomment_;
+public final class ABibtaskBibEntry extends PBibEntry {
+	private TTaskcomment _taskcomment_;
 
-    public ABibtaskBibEntry()
-    {
-        // Constructor
-    }
+	public ABibtaskBibEntry() {
+		// Constructor
+	}
 
-    public ABibtaskBibEntry(
-        @SuppressWarnings("hiding") TTaskcomment _taskcomment_)
-    {
-        // Constructor
-        setTaskcomment(_taskcomment_);
+	public ABibtaskBibEntry( TTaskcomment _taskcomment_) {
+		// Constructor
+		setTaskcomment(_taskcomment_);
 
-    }
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new ABibtaskBibEntry(
-            cloneNode(this._taskcomment_));
-    }
+	@Override
+	public Object clone() {
+		return new ABibtaskBibEntry(cloneNode(this._taskcomment_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseABibtaskBibEntry(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseABibtaskBibEntry(this);
+	}
 
-    public TTaskcomment getTaskcomment()
-    {
-        return this._taskcomment_;
-    }
+	public TTaskcomment getTaskcomment() {
+		return this._taskcomment_;
+	}
 
-    public void setTaskcomment(TTaskcomment node)
-    {
-        if(this._taskcomment_ != null)
-        {
-            this._taskcomment_.parent(null);
-        }
+	public void setTaskcomment(TTaskcomment node) {
+		if (this._taskcomment_ != null) {
+			this._taskcomment_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._taskcomment_ = node;
-    }
+		this._taskcomment_ = node;
+	}
 
-    @Override
-    public String toString()
-    {
-        return ""
-            + toString(this._taskcomment_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._taskcomment_);
+	}
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
-        // Remove child
-        if(this._taskcomment_ == child)
-        {
-            this._taskcomment_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		// Remove child
+		if (this._taskcomment_ == child) {
+			this._taskcomment_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
-        // Replace child
-        if(this._taskcomment_ == oldChild)
-        {
-            setTaskcomment((TTaskcomment) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		// Replace child
+		if (this._taskcomment_ == oldChild) {
+			setTaskcomment((TTaskcomment) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 }

@@ -10,19 +10,18 @@
 
 package net.sourceforge.texlipse;
 
-/** 
+/**
  * Small wrapper for Win32 DDE execute commands
  * 
- * @author Tor Arne Vestbø
- *
+ * @author Tor Arne Vestbï¿½
+ * 
  */
 public class DDEClient {
 
-	public static native int execute(String server, String topic,
-			String command);
+	public static native int execute(String server, String topic, String command);
 
 	static {
-		if (System.getProperty("os.arch").contains("64")) { 
+		if (System.getProperty("os.arch").contains("64")) {
 			System.loadLibrary("ddeclient-x86_64");
 		} else {
 			System.loadLibrary("ddeclient-x86");
@@ -30,8 +29,7 @@ public class DDEClient {
 	}
 
 	public static void main(String[] args) {
-		int error = DDEClient.execute("acroview", "control",
-				"[DocOpen(\"C:\\test.pdf\")][FileOpen(\"C:\\test.pdf\")]");
+		int error = DDEClient.execute("acroview", "control", "[DocOpen(\"C:\\test.pdf\")][FileOpen(\"C:\\test.pdf\")]");
 		// Try [DocClose("test.pdf")], but must be opened by DDE (not user)
 		// Also, [MenuitemExecute("GoBack")] works in Acrobat (full)
 		System.out.println("Error: " + error);

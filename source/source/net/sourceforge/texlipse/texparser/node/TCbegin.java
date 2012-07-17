@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCbegin extends Token
-{
-    public TCbegin()
-    {
-        super.setText("\\begin");
-    }
+public final class TCbegin extends Token {
+	public TCbegin() {
+		super.setText("\\begin");
+	}
 
-    public TCbegin(int line, int pos)
-    {
-        super.setText("\\begin");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCbegin(int line, int pos) {
+		super.setText("\\begin");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCbegin(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCbegin(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCbegin(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCbegin(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCbegin text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCbegin text.");
+	}
 }

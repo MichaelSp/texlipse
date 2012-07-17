@@ -25,7 +25,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
  * 
  * @author Oskar Ojala
  * 
- * TODO This feature must be reimplemented, cmp. Bracketinserter 
+ *         TODO This feature must be reimplemented, cmp. Bracketinserter
  */
 public class BibStringCompleter implements IDocumentListener {
 
@@ -43,14 +43,15 @@ public class BibStringCompleter implements IDocumentListener {
 	 */
 	public BibStringCompleter(ITextEditor editor) {
 		this.editor = editor;
-		this.document = editor.getDocumentProvider().getDocument(
-				editor.getEditorInput());
+		this.document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org.eclipse.jface.text.DocumentEvent)
+	 * @see
+	 * org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org
+	 * .eclipse.jface.text.DocumentEvent)
 	 */
 	public void documentAboutToBeChanged(DocumentEvent event) {
 	}
@@ -58,22 +59,21 @@ public class BibStringCompleter implements IDocumentListener {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse.jface.text.DocumentEvent)
+	 * @see
+	 * org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse.
+	 * jface.text.DocumentEvent)
 	 */
 	public void documentChanged(DocumentEvent event) {
-	    if (TexlipsePlugin.getDefault().getPreferenceStore().getBoolean(
-				TexlipseProperties.BIB_STRING)) {
+		if (TexlipsePlugin.getDefault().getPreferenceStore().getBoolean(TexlipseProperties.BIB_STRING)) {
 
 			if ("{".equals(event.getText())) {
-				ITextSelection textSelection = (ITextSelection) this.editor
-						.getSelectionProvider().getSelection();
+				ITextSelection textSelection = (ITextSelection) this.editor.getSelectionProvider().getSelection();
 				try {
 					document.replace(textSelection.getOffset() + 0, 1, "}");
 				} catch (BadLocationException e) {
 				}
 			} else if ("\"".equals(event.getText()) && !recentlyAdded) {
-				ITextSelection textSelection = (ITextSelection) this.editor
-						.getSelectionProvider().getSelection();
+				ITextSelection textSelection = (ITextSelection) this.editor.getSelectionProvider().getSelection();
 				try {
 					recentlyAdded = true;
 					document.replace(textSelection.getOffset() + 1, 0, "\"");

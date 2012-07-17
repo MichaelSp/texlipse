@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TComma extends Token
-{
-    public TComma()
-    {
-        super.setText(",");
-    }
+public final class TComma extends Token {
+	public TComma() {
+		super.setText(",");
+	}
 
-    public TComma(int line, int pos)
-    {
-        super.setText(",");
-        setLine(line);
-        setPos(pos);
-    }
+	public TComma(int line, int pos) {
+		super.setText(",");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TComma(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TComma(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTComma(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTComma(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TComma text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TComma text.");
+	}
 }

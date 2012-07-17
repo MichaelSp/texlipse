@@ -8,7 +8,7 @@ Bundle-Activator: net.sourceforge.texlipse.TexlipsePlugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: texlipse.jar,
  jazzy-core.jar
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.jface.text,

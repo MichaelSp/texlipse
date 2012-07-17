@@ -2,93 +2,75 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AConcat extends PConcat
-{
-    private PValOrSid _valOrSid_;
+public final class AConcat extends PConcat {
+	private PValOrSid _valOrSid_;
 
-    public AConcat()
-    {
-        // Constructor
-    }
+	public AConcat() {
+		// Constructor
+	}
 
-    public AConcat(
-        @SuppressWarnings("hiding") PValOrSid _valOrSid_)
-    {
-        // Constructor
-        setValOrSid(_valOrSid_);
+	public AConcat( PValOrSid _valOrSid_) {
+		// Constructor
+		setValOrSid(_valOrSid_);
 
-    }
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new AConcat(
-            cloneNode(this._valOrSid_));
-    }
+	@Override
+	public Object clone() {
+		return new AConcat(cloneNode(this._valOrSid_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseAConcat(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseAConcat(this);
+	}
 
-    public PValOrSid getValOrSid()
-    {
-        return this._valOrSid_;
-    }
+	public PValOrSid getValOrSid() {
+		return this._valOrSid_;
+	}
 
-    public void setValOrSid(PValOrSid node)
-    {
-        if(this._valOrSid_ != null)
-        {
-            this._valOrSid_.parent(null);
-        }
+	public void setValOrSid(PValOrSid node) {
+		if (this._valOrSid_ != null) {
+			this._valOrSid_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._valOrSid_ = node;
-    }
+		this._valOrSid_ = node;
+	}
 
-    @Override
-    public String toString()
-    {
-        return ""
-            + toString(this._valOrSid_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._valOrSid_);
+	}
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
-        // Remove child
-        if(this._valOrSid_ == child)
-        {
-            this._valOrSid_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		// Remove child
+		if (this._valOrSid_ == child) {
+			this._valOrSid_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
-        // Replace child
-        if(this._valOrSid_ == oldChild)
-        {
-            setValOrSid((PValOrSid) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		// Replace child
+		if (this._valOrSid_ == oldChild) {
+			setValOrSid((PValOrSid) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 }

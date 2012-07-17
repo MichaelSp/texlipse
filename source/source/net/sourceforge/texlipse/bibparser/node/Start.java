@@ -2,131 +2,103 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class Start extends Node
-{
-    private PBibtex _pBibtex_;
-    private EOF _eof_;
+public final class Start extends Node {
+	private PBibtex _pBibtex_;
+	private EOF _eof_;
 
-    public Start()
-    {
-        // Empty body
-    }
+	public Start() {
+		// Empty body
+	}
 
-    public Start(
-        @SuppressWarnings("hiding") PBibtex _pBibtex_,
-        @SuppressWarnings("hiding") EOF _eof_)
-    {
-        setPBibtex(_pBibtex_);
-        setEOF(_eof_);
-    }
+	public Start( PBibtex _pBibtex_,  EOF _eof_) {
+		setPBibtex(_pBibtex_);
+		setEOF(_eof_);
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new Start(
-            cloneNode(this._pBibtex_),
-            cloneNode(this._eof_));
-    }
+	@Override
+	public Object clone() {
+		return new Start(cloneNode(this._pBibtex_), cloneNode(this._eof_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseStart(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseStart(this);
+	}
 
-    public PBibtex getPBibtex()
-    {
-        return this._pBibtex_;
-    }
+	public PBibtex getPBibtex() {
+		return this._pBibtex_;
+	}
 
-    public void setPBibtex(PBibtex node)
-    {
-        if(this._pBibtex_ != null)
-        {
-            this._pBibtex_.parent(null);
-        }
+	public void setPBibtex(PBibtex node) {
+		if (this._pBibtex_ != null) {
+			this._pBibtex_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._pBibtex_ = node;
-    }
+		this._pBibtex_ = node;
+	}
 
-    public EOF getEOF()
-    {
-        return this._eof_;
-    }
+	public EOF getEOF() {
+		return this._eof_;
+	}
 
-    public void setEOF(EOF node)
-    {
-        if(this._eof_ != null)
-        {
-            this._eof_.parent(null);
-        }
+	public void setEOF(EOF node) {
+		if (this._eof_ != null) {
+			this._eof_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._eof_ = node;
-    }
+		this._eof_ = node;
+	}
 
-    @Override
-    void removeChild(Node child)
-    {
-        if(this._pBibtex_ == child)
-        {
-            this._pBibtex_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		if (this._pBibtex_ == child) {
+			this._pBibtex_ = null;
+			return;
+		}
 
-        if(this._eof_ == child)
-        {
-            this._eof_ = null;
-            return;
-        }
+		if (this._eof_ == child) {
+			this._eof_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(Node oldChild, Node newChild)
-    {
-        if(this._pBibtex_ == oldChild)
-        {
-            setPBibtex((PBibtex) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		if (this._pBibtex_ == oldChild) {
+			setPBibtex((PBibtex) newChild);
+			return;
+		}
 
-        if(this._eof_ == oldChild)
-        {
-            setEOF((EOF) newChild);
-            return;
-        }
+		if (this._eof_ == oldChild) {
+			setEOF((EOF) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    public String toString()
-    {
-        return "" +
-            toString(this._pBibtex_) +
-            toString(this._eof_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._pBibtex_) + toString(this._eof_);
+	}
 }

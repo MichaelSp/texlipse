@@ -2,7 +2,6 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-public interface Switch
-{
-        // Empty body
+public interface Switch {
+	// Empty body
 }

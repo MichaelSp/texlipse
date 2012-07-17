@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TPreamble extends Token
-{
-    public TPreamble(String text)
-    {
-        setText(text);
-    }
+public final class TPreamble extends Token {
+	public TPreamble(String text) {
+		setText(text);
+	}
 
-    public TPreamble(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TPreamble(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TPreamble(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TPreamble(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTPreamble(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTPreamble(this);
+	}
 }

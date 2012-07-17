@@ -2,50 +2,123 @@
 
 package net.sourceforge.texlipse.bibparser.analysis;
 
-import net.sourceforge.texlipse.bibparser.node.*;
+import net.sourceforge.texlipse.bibparser.node.ABibeBibEntry;
+import net.sourceforge.texlipse.bibparser.node.ABibstreBibEntry;
+import net.sourceforge.texlipse.bibparser.node.ABibtaskBibEntry;
+import net.sourceforge.texlipse.bibparser.node.ABibtex;
+import net.sourceforge.texlipse.bibparser.node.AConcat;
+import net.sourceforge.texlipse.bibparser.node.AEntryDef;
+import net.sourceforge.texlipse.bibparser.node.AEntrybraceEntry;
+import net.sourceforge.texlipse.bibparser.node.AEntryparenEntry;
+import net.sourceforge.texlipse.bibparser.node.AIdValOrSid;
+import net.sourceforge.texlipse.bibparser.node.AKeyvalDecl;
+import net.sourceforge.texlipse.bibparser.node.ANumValOrSid;
+import net.sourceforge.texlipse.bibparser.node.AStrbraceStringEntry;
+import net.sourceforge.texlipse.bibparser.node.AStrparenStringEntry;
+import net.sourceforge.texlipse.bibparser.node.AValueBValOrSid;
+import net.sourceforge.texlipse.bibparser.node.AValueQValOrSid;
+import net.sourceforge.texlipse.bibparser.node.EOF;
+import net.sourceforge.texlipse.bibparser.node.Node;
+import net.sourceforge.texlipse.bibparser.node.Start;
+import net.sourceforge.texlipse.bibparser.node.Switch;
+import net.sourceforge.texlipse.bibparser.node.TBString;
+import net.sourceforge.texlipse.bibparser.node.TComma;
+import net.sourceforge.texlipse.bibparser.node.TComment;
+import net.sourceforge.texlipse.bibparser.node.TEntryName;
+import net.sourceforge.texlipse.bibparser.node.TEquals;
+import net.sourceforge.texlipse.bibparser.node.TEstring;
+import net.sourceforge.texlipse.bibparser.node.TIdentifier;
+import net.sourceforge.texlipse.bibparser.node.TLBrace;
+import net.sourceforge.texlipse.bibparser.node.TLParen;
+import net.sourceforge.texlipse.bibparser.node.TNumber;
+import net.sourceforge.texlipse.bibparser.node.TPreamble;
+import net.sourceforge.texlipse.bibparser.node.TQuotec;
+import net.sourceforge.texlipse.bibparser.node.TRBrace;
+import net.sourceforge.texlipse.bibparser.node.TRParen;
+import net.sourceforge.texlipse.bibparser.node.TScribeComment;
+import net.sourceforge.texlipse.bibparser.node.TSharp;
+import net.sourceforge.texlipse.bibparser.node.TStringLiteral;
+import net.sourceforge.texlipse.bibparser.node.TTaskcomment;
+import net.sourceforge.texlipse.bibparser.node.TWhitespace;
 
-public interface Analysis extends Switch
-{
-    Object getIn(Node node);
-    void setIn(Node node, Object o);
-    Object getOut(Node node);
-    void setOut(Node node, Object o);
+public interface Analysis extends Switch {
+	Object getIn(Node node);
 
-    void caseStart(Start node);
-    void caseABibtex(ABibtex node);
-    void caseABibstreBibEntry(ABibstreBibEntry node);
-    void caseABibeBibEntry(ABibeBibEntry node);
-    void caseABibtaskBibEntry(ABibtaskBibEntry node);
-    void caseAStrbraceStringEntry(AStrbraceStringEntry node);
-    void caseAStrparenStringEntry(AStrparenStringEntry node);
-    void caseAEntrybraceEntry(AEntrybraceEntry node);
-    void caseAEntryparenEntry(AEntryparenEntry node);
-    void caseAEntryDef(AEntryDef node);
-    void caseAKeyvalDecl(AKeyvalDecl node);
-    void caseAConcat(AConcat node);
-    void caseAValueBValOrSid(AValueBValOrSid node);
-    void caseAValueQValOrSid(AValueQValOrSid node);
-    void caseANumValOrSid(ANumValOrSid node);
-    void caseAIdValOrSid(AIdValOrSid node);
+	void setIn(Node node, Object o);
 
-    void caseTTaskcomment(TTaskcomment node);
-    void caseTWhitespace(TWhitespace node);
-    void caseTEstring(TEstring node);
-    void caseTScribeComment(TScribeComment node);
-    void caseTPreamble(TPreamble node);
-    void caseTEntryName(TEntryName node);
-    void caseTComment(TComment node);
-    void caseTLBrace(TLBrace node);
-    void caseTRBrace(TRBrace node);
-    void caseTBString(TBString node);
-    void caseTLParen(TLParen node);
-    void caseTRParen(TRParen node);
-    void caseTComma(TComma node);
-    void caseTEquals(TEquals node);
-    void caseTSharp(TSharp node);
-    void caseTNumber(TNumber node);
-    void caseTIdentifier(TIdentifier node);
-    void caseTQuotec(TQuotec node);
-    void caseTStringLiteral(TStringLiteral node);
-    void caseEOF(EOF node);
+	Object getOut(Node node);
+
+	void setOut(Node node, Object o);
+
+	void caseStart(Start node);
+
+	void caseABibtex(ABibtex node);
+
+	void caseABibstreBibEntry(ABibstreBibEntry node);
+
+	void caseABibeBibEntry(ABibeBibEntry node);
+
+	void caseABibtaskBibEntry(ABibtaskBibEntry node);
+
+	void caseAStrbraceStringEntry(AStrbraceStringEntry node);
+
+	void caseAStrparenStringEntry(AStrparenStringEntry node);
+
+	void caseAEntrybraceEntry(AEntrybraceEntry node);
+
+	void caseAEntryparenEntry(AEntryparenEntry node);
+
+	void caseAEntryDef(AEntryDef node);
+
+	void caseAKeyvalDecl(AKeyvalDecl node);
+
+	void caseAConcat(AConcat node);
+
+	void caseAValueBValOrSid(AValueBValOrSid node);
+
+	void caseAValueQValOrSid(AValueQValOrSid node);
+
+	void caseANumValOrSid(ANumValOrSid node);
+
+	void caseAIdValOrSid(AIdValOrSid node);
+
+	void caseTTaskcomment(TTaskcomment node);
+
+	void caseTWhitespace(TWhitespace node);
+
+	void caseTEstring(TEstring node);
+
+	void caseTScribeComment(TScribeComment node);
+
+	void caseTPreamble(TPreamble node);
+
+	void caseTEntryName(TEntryName node);
+
+	void caseTComment(TComment node);
+
+	void caseTLBrace(TLBrace node);
+
+	void caseTRBrace(TRBrace node);
+
+	void caseTBString(TBString node);
+
+	void caseTLParen(TLParen node);
+
+	void caseTRParen(TRParen node);
+
+	void caseTComma(TComma node);
+
+	void caseTEquals(TEquals node);
+
+	void caseTSharp(TSharp node);
+
+	void caseTNumber(TNumber node);
+
+	void caseTIdentifier(TIdentifier node);
+
+	void caseTQuotec(TQuotec node);
+
+	void caseTStringLiteral(TStringLiteral node);
+
+	void caseEOF(EOF node);
 }

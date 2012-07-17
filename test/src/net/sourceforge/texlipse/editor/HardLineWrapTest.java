@@ -28,7 +28,7 @@ public class HardLineWrapTest {
             this.caretOffset = offset;
             this.shiftsCaret = true;
         }
-        
+
         public void execute(IDocument document){
         	try{
         		document.replace(offset, length, text);
@@ -67,7 +67,7 @@ public class HardLineWrapTest {
     }
     
     @Parameters
-    public static Collection testWrappingValues() {
+    public static Collection<Object[]> testWrappingValues() {
     	return Arrays.asList(new Object[] [] {
     			//{Document text, insert position, ins. text, MAX_LINE_LENGTH, result, cursor position}
     			{"wrap test\n", 0, "a", 10, "awrap test\n", 1},

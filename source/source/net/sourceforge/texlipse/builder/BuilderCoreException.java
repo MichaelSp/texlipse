@@ -19,10 +19,11 @@ import org.eclipse.core.runtime.IStatus;
  */
 public class BuilderCoreException extends CoreException {
 
-    /**
-     * @param status status
-     */
-    public BuilderCoreException(IStatus status) {
-        super(status);
-    }
+	/**
+	 * @param status
+	 *            status
+	 */
+	public BuilderCoreException(IStatus status) {
+		super(status);
+	}
 }

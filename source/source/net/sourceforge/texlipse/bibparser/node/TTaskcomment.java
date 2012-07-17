@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TTaskcomment extends Token
-{
-    public TTaskcomment(String text)
-    {
-        setText(text);
-    }
+public final class TTaskcomment extends Token {
+	public TTaskcomment(String text) {
+		setText(text);
+	}
 
-    public TTaskcomment(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TTaskcomment(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TTaskcomment(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TTaskcomment(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTTaskcomment(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTTaskcomment(this);
+	}
 }

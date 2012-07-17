@@ -16,31 +16,32 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 
-
 /**
- * The outline copy action. 
+ * The outline copy action.
  * 
  * @author Taavi Hupponen
  */
 public class TexOutlineActionCopy extends Action {
-	
+
 	private TexOutlinePage outline;
-	
+
 	public TexOutlineActionCopy(TexOutlinePage outline) {
 		super("Copy");
 		setToolTipText("Copy");
-		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
-		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
+		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
+		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
 		this.outline = outline;
 	}
-	
+
 	public void run() {
 		if (outline.isModelDirty()) {
 			return;
 		}
 		String text = outline.getSelectedText();
 		if (text != null) {
-			outline.getClipboard().setContents(new Object[] {text}, new Transfer[] {TextTransfer.getInstance()});
+			outline.getClipboard().setContents(new Object[] { text }, new Transfer[] { TextTransfer.getInstance() });
 		}
 	}
 }

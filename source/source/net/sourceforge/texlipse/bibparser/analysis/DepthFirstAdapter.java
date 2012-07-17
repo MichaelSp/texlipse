@@ -2,404 +2,349 @@
 
 package net.sourceforge.texlipse.bibparser.analysis;
 
-import java.util.*;
-import net.sourceforge.texlipse.bibparser.node.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DepthFirstAdapter extends AnalysisAdapter
-{
-    public void inStart(Start node)
-    {
-        defaultIn(node);
-    }
+import net.sourceforge.texlipse.bibparser.node.ABibeBibEntry;
+import net.sourceforge.texlipse.bibparser.node.ABibstreBibEntry;
+import net.sourceforge.texlipse.bibparser.node.ABibtaskBibEntry;
+import net.sourceforge.texlipse.bibparser.node.ABibtex;
+import net.sourceforge.texlipse.bibparser.node.AConcat;
+import net.sourceforge.texlipse.bibparser.node.AEntryDef;
+import net.sourceforge.texlipse.bibparser.node.AEntrybraceEntry;
+import net.sourceforge.texlipse.bibparser.node.AEntryparenEntry;
+import net.sourceforge.texlipse.bibparser.node.AIdValOrSid;
+import net.sourceforge.texlipse.bibparser.node.AKeyvalDecl;
+import net.sourceforge.texlipse.bibparser.node.ANumValOrSid;
+import net.sourceforge.texlipse.bibparser.node.AStrbraceStringEntry;
+import net.sourceforge.texlipse.bibparser.node.AStrparenStringEntry;
+import net.sourceforge.texlipse.bibparser.node.AValueBValOrSid;
+import net.sourceforge.texlipse.bibparser.node.AValueQValOrSid;
+import net.sourceforge.texlipse.bibparser.node.Node;
+import net.sourceforge.texlipse.bibparser.node.PBibEntry;
+import net.sourceforge.texlipse.bibparser.node.PConcat;
+import net.sourceforge.texlipse.bibparser.node.PKeyvalDecl;
+import net.sourceforge.texlipse.bibparser.node.Start;
 
-    public void outStart(Start node)
-    {
-        defaultOut(node);
-    }
+public class DepthFirstAdapter extends AnalysisAdapter {
+	public void inStart(Start node) {
+		defaultIn(node);
+	}
 
-    public void defaultIn(@SuppressWarnings("unused") Node node)
-    {
-        // Do nothing
-    }
+	public void outStart(Start node) {
+		defaultOut(node);
+	}
 
-    public void defaultOut(@SuppressWarnings("unused") Node node)
-    {
-        // Do nothing
-    }
+	public void defaultIn(Node node) {
+		// Do nothing
+	}
 
-    @Override
-    public void caseStart(Start node)
-    {
-        inStart(node);
-        node.getPBibtex().apply(this);
-        node.getEOF().apply(this);
-        outStart(node);
-    }
+	public void defaultOut(Node node) {
+		// Do nothing
+	}
 
-    public void inABibtex(ABibtex node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseStart(Start node) {
+		inStart(node);
+		node.getPBibtex().apply(this);
+		node.getEOF().apply(this);
+		outStart(node);
+	}
 
-    public void outABibtex(ABibtex node)
-    {
-        defaultOut(node);
-    }
+	public void inABibtex(ABibtex node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseABibtex(ABibtex node)
-    {
-        inABibtex(node);
-        {
-            List<PBibEntry> copy = new ArrayList<PBibEntry>(node.getBibEntry());
-            for(PBibEntry e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        outABibtex(node);
-    }
+	public void outABibtex(ABibtex node) {
+		defaultOut(node);
+	}
 
-    public void inABibstreBibEntry(ABibstreBibEntry node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseABibtex(ABibtex node) {
+		inABibtex(node);
+		{
+			List<PBibEntry> copy = new ArrayList<PBibEntry>(node.getBibEntry());
+			for (PBibEntry e : copy) {
+				e.apply(this);
+			}
+		}
+		outABibtex(node);
+	}
 
-    public void outABibstreBibEntry(ABibstreBibEntry node)
-    {
-        defaultOut(node);
-    }
+	public void inABibstreBibEntry(ABibstreBibEntry node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseABibstreBibEntry(ABibstreBibEntry node)
-    {
-        inABibstreBibEntry(node);
-        if(node.getStringEntry() != null)
-        {
-            node.getStringEntry().apply(this);
-        }
-        outABibstreBibEntry(node);
-    }
+	public void outABibstreBibEntry(ABibstreBibEntry node) {
+		defaultOut(node);
+	}
 
-    public void inABibeBibEntry(ABibeBibEntry node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseABibstreBibEntry(ABibstreBibEntry node) {
+		inABibstreBibEntry(node);
+		if (node.getStringEntry() != null) {
+			node.getStringEntry().apply(this);
+		}
+		outABibstreBibEntry(node);
+	}
 
-    public void outABibeBibEntry(ABibeBibEntry node)
-    {
-        defaultOut(node);
-    }
+	public void inABibeBibEntry(ABibeBibEntry node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseABibeBibEntry(ABibeBibEntry node)
-    {
-        inABibeBibEntry(node);
-        if(node.getEntry() != null)
-        {
-            node.getEntry().apply(this);
-        }
-        outABibeBibEntry(node);
-    }
+	public void outABibeBibEntry(ABibeBibEntry node) {
+		defaultOut(node);
+	}
 
-    public void inABibtaskBibEntry(ABibtaskBibEntry node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseABibeBibEntry(ABibeBibEntry node) {
+		inABibeBibEntry(node);
+		if (node.getEntry() != null) {
+			node.getEntry().apply(this);
+		}
+		outABibeBibEntry(node);
+	}
 
-    public void outABibtaskBibEntry(ABibtaskBibEntry node)
-    {
-        defaultOut(node);
-    }
+	public void inABibtaskBibEntry(ABibtaskBibEntry node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseABibtaskBibEntry(ABibtaskBibEntry node)
-    {
-        inABibtaskBibEntry(node);
-        if(node.getTaskcomment() != null)
-        {
-            node.getTaskcomment().apply(this);
-        }
-        outABibtaskBibEntry(node);
-    }
+	public void outABibtaskBibEntry(ABibtaskBibEntry node) {
+		defaultOut(node);
+	}
 
-    public void inAStrbraceStringEntry(AStrbraceStringEntry node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseABibtaskBibEntry(ABibtaskBibEntry node) {
+		inABibtaskBibEntry(node);
+		if (node.getTaskcomment() != null) {
+			node.getTaskcomment().apply(this);
+		}
+		outABibtaskBibEntry(node);
+	}
 
-    public void outAStrbraceStringEntry(AStrbraceStringEntry node)
-    {
-        defaultOut(node);
-    }
+	public void inAStrbraceStringEntry(AStrbraceStringEntry node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAStrbraceStringEntry(AStrbraceStringEntry node)
-    {
-        inAStrbraceStringEntry(node);
-        if(node.getIdentifier() != null)
-        {
-            node.getIdentifier().apply(this);
-        }
-        if(node.getStringLiteral() != null)
-        {
-            node.getStringLiteral().apply(this);
-        }
-        outAStrbraceStringEntry(node);
-    }
+	public void outAStrbraceStringEntry(AStrbraceStringEntry node) {
+		defaultOut(node);
+	}
 
-    public void inAStrparenStringEntry(AStrparenStringEntry node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAStrbraceStringEntry(AStrbraceStringEntry node) {
+		inAStrbraceStringEntry(node);
+		if (node.getIdentifier() != null) {
+			node.getIdentifier().apply(this);
+		}
+		if (node.getStringLiteral() != null) {
+			node.getStringLiteral().apply(this);
+		}
+		outAStrbraceStringEntry(node);
+	}
 
-    public void outAStrparenStringEntry(AStrparenStringEntry node)
-    {
-        defaultOut(node);
-    }
+	public void inAStrparenStringEntry(AStrparenStringEntry node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAStrparenStringEntry(AStrparenStringEntry node)
-    {
-        inAStrparenStringEntry(node);
-        if(node.getIdentifier() != null)
-        {
-            node.getIdentifier().apply(this);
-        }
-        if(node.getStringLiteral() != null)
-        {
-            node.getStringLiteral().apply(this);
-        }
-        outAStrparenStringEntry(node);
-    }
+	public void outAStrparenStringEntry(AStrparenStringEntry node) {
+		defaultOut(node);
+	}
 
-    public void inAEntrybraceEntry(AEntrybraceEntry node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAStrparenStringEntry(AStrparenStringEntry node) {
+		inAStrparenStringEntry(node);
+		if (node.getIdentifier() != null) {
+			node.getIdentifier().apply(this);
+		}
+		if (node.getStringLiteral() != null) {
+			node.getStringLiteral().apply(this);
+		}
+		outAStrparenStringEntry(node);
+	}
 
-    public void outAEntrybraceEntry(AEntrybraceEntry node)
-    {
-        defaultOut(node);
-    }
+	public void inAEntrybraceEntry(AEntrybraceEntry node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAEntrybraceEntry(AEntrybraceEntry node)
-    {
-        inAEntrybraceEntry(node);
-        if(node.getEntryDef() != null)
-        {
-            node.getEntryDef().apply(this);
-        }
-        if(node.getIdentifier() != null)
-        {
-            node.getIdentifier().apply(this);
-        }
-        {
-            List<PKeyvalDecl> copy = new ArrayList<PKeyvalDecl>(node.getKeyvalDecl());
-            for(PKeyvalDecl e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        if(node.getRBrace() != null)
-        {
-            node.getRBrace().apply(this);
-        }
-        outAEntrybraceEntry(node);
-    }
+	public void outAEntrybraceEntry(AEntrybraceEntry node) {
+		defaultOut(node);
+	}
 
-    public void inAEntryparenEntry(AEntryparenEntry node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAEntrybraceEntry(AEntrybraceEntry node) {
+		inAEntrybraceEntry(node);
+		if (node.getEntryDef() != null) {
+			node.getEntryDef().apply(this);
+		}
+		if (node.getIdentifier() != null) {
+			node.getIdentifier().apply(this);
+		}
+		{
+			List<PKeyvalDecl> copy = new ArrayList<PKeyvalDecl>(node.getKeyvalDecl());
+			for (PKeyvalDecl e : copy) {
+				e.apply(this);
+			}
+		}
+		if (node.getRBrace() != null) {
+			node.getRBrace().apply(this);
+		}
+		outAEntrybraceEntry(node);
+	}
 
-    public void outAEntryparenEntry(AEntryparenEntry node)
-    {
-        defaultOut(node);
-    }
+	public void inAEntryparenEntry(AEntryparenEntry node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAEntryparenEntry(AEntryparenEntry node)
-    {
-        inAEntryparenEntry(node);
-        if(node.getEntryDef() != null)
-        {
-            node.getEntryDef().apply(this);
-        }
-        if(node.getIdentifier() != null)
-        {
-            node.getIdentifier().apply(this);
-        }
-        {
-            List<PKeyvalDecl> copy = new ArrayList<PKeyvalDecl>(node.getKeyvalDecl());
-            for(PKeyvalDecl e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        if(node.getRParen() != null)
-        {
-            node.getRParen().apply(this);
-        }
-        outAEntryparenEntry(node);
-    }
+	public void outAEntryparenEntry(AEntryparenEntry node) {
+		defaultOut(node);
+	}
 
-    public void inAEntryDef(AEntryDef node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAEntryparenEntry(AEntryparenEntry node) {
+		inAEntryparenEntry(node);
+		if (node.getEntryDef() != null) {
+			node.getEntryDef().apply(this);
+		}
+		if (node.getIdentifier() != null) {
+			node.getIdentifier().apply(this);
+		}
+		{
+			List<PKeyvalDecl> copy = new ArrayList<PKeyvalDecl>(node.getKeyvalDecl());
+			for (PKeyvalDecl e : copy) {
+				e.apply(this);
+			}
+		}
+		if (node.getRParen() != null) {
+			node.getRParen().apply(this);
+		}
+		outAEntryparenEntry(node);
+	}
 
-    public void outAEntryDef(AEntryDef node)
-    {
-        defaultOut(node);
-    }
+	public void inAEntryDef(AEntryDef node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAEntryDef(AEntryDef node)
-    {
-        inAEntryDef(node);
-        if(node.getEntryName() != null)
-        {
-            node.getEntryName().apply(this);
-        }
-        outAEntryDef(node);
-    }
+	public void outAEntryDef(AEntryDef node) {
+		defaultOut(node);
+	}
 
-    public void inAKeyvalDecl(AKeyvalDecl node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAEntryDef(AEntryDef node) {
+		inAEntryDef(node);
+		if (node.getEntryName() != null) {
+			node.getEntryName().apply(this);
+		}
+		outAEntryDef(node);
+	}
 
-    public void outAKeyvalDecl(AKeyvalDecl node)
-    {
-        defaultOut(node);
-    }
+	public void inAKeyvalDecl(AKeyvalDecl node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAKeyvalDecl(AKeyvalDecl node)
-    {
-        inAKeyvalDecl(node);
-        if(node.getIdentifier() != null)
-        {
-            node.getIdentifier().apply(this);
-        }
-        if(node.getValOrSid() != null)
-        {
-            node.getValOrSid().apply(this);
-        }
-        {
-            List<PConcat> copy = new ArrayList<PConcat>(node.getConcat());
-            for(PConcat e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        outAKeyvalDecl(node);
-    }
+	public void outAKeyvalDecl(AKeyvalDecl node) {
+		defaultOut(node);
+	}
 
-    public void inAConcat(AConcat node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAKeyvalDecl(AKeyvalDecl node) {
+		inAKeyvalDecl(node);
+		if (node.getIdentifier() != null) {
+			node.getIdentifier().apply(this);
+		}
+		if (node.getValOrSid() != null) {
+			node.getValOrSid().apply(this);
+		}
+		{
+			List<PConcat> copy = new ArrayList<PConcat>(node.getConcat());
+			for (PConcat e : copy) {
+				e.apply(this);
+			}
+		}
+		outAKeyvalDecl(node);
+	}
 
-    public void outAConcat(AConcat node)
-    {
-        defaultOut(node);
-    }
+	public void inAConcat(AConcat node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAConcat(AConcat node)
-    {
-        inAConcat(node);
-        if(node.getValOrSid() != null)
-        {
-            node.getValOrSid().apply(this);
-        }
-        outAConcat(node);
-    }
+	public void outAConcat(AConcat node) {
+		defaultOut(node);
+	}
 
-    public void inAValueBValOrSid(AValueBValOrSid node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAConcat(AConcat node) {
+		inAConcat(node);
+		if (node.getValOrSid() != null) {
+			node.getValOrSid().apply(this);
+		}
+		outAConcat(node);
+	}
 
-    public void outAValueBValOrSid(AValueBValOrSid node)
-    {
-        defaultOut(node);
-    }
+	public void inAValueBValOrSid(AValueBValOrSid node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAValueBValOrSid(AValueBValOrSid node)
-    {
-        inAValueBValOrSid(node);
-        if(node.getStringLiteral() != null)
-        {
-            node.getStringLiteral().apply(this);
-        }
-        outAValueBValOrSid(node);
-    }
+	public void outAValueBValOrSid(AValueBValOrSid node) {
+		defaultOut(node);
+	}
 
-    public void inAValueQValOrSid(AValueQValOrSid node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAValueBValOrSid(AValueBValOrSid node) {
+		inAValueBValOrSid(node);
+		if (node.getStringLiteral() != null) {
+			node.getStringLiteral().apply(this);
+		}
+		outAValueBValOrSid(node);
+	}
 
-    public void outAValueQValOrSid(AValueQValOrSid node)
-    {
-        defaultOut(node);
-    }
+	public void inAValueQValOrSid(AValueQValOrSid node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAValueQValOrSid(AValueQValOrSid node)
-    {
-        inAValueQValOrSid(node);
-        if(node.getStringLiteral() != null)
-        {
-            node.getStringLiteral().apply(this);
-        }
-        outAValueQValOrSid(node);
-    }
+	public void outAValueQValOrSid(AValueQValOrSid node) {
+		defaultOut(node);
+	}
 
-    public void inANumValOrSid(ANumValOrSid node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseAValueQValOrSid(AValueQValOrSid node) {
+		inAValueQValOrSid(node);
+		if (node.getStringLiteral() != null) {
+			node.getStringLiteral().apply(this);
+		}
+		outAValueQValOrSid(node);
+	}
 
-    public void outANumValOrSid(ANumValOrSid node)
-    {
-        defaultOut(node);
-    }
+	public void inANumValOrSid(ANumValOrSid node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseANumValOrSid(ANumValOrSid node)
-    {
-        inANumValOrSid(node);
-        if(node.getNumber() != null)
-        {
-            node.getNumber().apply(this);
-        }
-        outANumValOrSid(node);
-    }
+	public void outANumValOrSid(ANumValOrSid node) {
+		defaultOut(node);
+	}
 
-    public void inAIdValOrSid(AIdValOrSid node)
-    {
-        defaultIn(node);
-    }
+	@Override
+	public void caseANumValOrSid(ANumValOrSid node) {
+		inANumValOrSid(node);
+		if (node.getNumber() != null) {
+			node.getNumber().apply(this);
+		}
+		outANumValOrSid(node);
+	}
 
-    public void outAIdValOrSid(AIdValOrSid node)
-    {
-        defaultOut(node);
-    }
+	public void inAIdValOrSid(AIdValOrSid node) {
+		defaultIn(node);
+	}
 
-    @Override
-    public void caseAIdValOrSid(AIdValOrSid node)
-    {
-        inAIdValOrSid(node);
-        if(node.getIdentifier() != null)
-        {
-            node.getIdentifier().apply(this);
-        }
-        outAIdValOrSid(node);
-    }
+	public void outAIdValOrSid(AIdValOrSid node) {
+		defaultOut(node);
+	}
+
+	@Override
+	public void caseAIdValOrSid(AIdValOrSid node) {
+		inAIdValOrSid(node);
+		if (node.getIdentifier() != null) {
+			node.getIdentifier().apply(this);
+		}
+		outAIdValOrSid(node);
+	}
 }

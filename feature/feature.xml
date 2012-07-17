@@ -2,10 +2,9 @@
 <feature
       id="net.sourceforge.texlipse"
       label="TeXlipse"
-      version="1.3.0"
+      version="1.5.0"
       provider-name="texlipse.sf.net"
-      plugin="net.sourceforge.texlipse"
-      primary="true">
+      plugin="net.sourceforge.texlipse">
    <install-handler/>
 
    <description>
@@ -277,6 +276,7 @@ resulting litigation.
       <import plugin="org.eclipse.ui.console"/>
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.forms"/>
    </requires>
 
    <plugin

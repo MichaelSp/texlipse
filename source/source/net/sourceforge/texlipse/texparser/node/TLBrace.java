@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TLBrace extends Token
-{
-    public TLBrace()
-    {
-        super.setText("{");
-    }
+public final class TLBrace extends Token {
+	public TLBrace() {
+		super.setText("{");
+	}
 
-    public TLBrace(int line, int pos)
-    {
-        super.setText("{");
-        setLine(line);
-        setPos(pos);
-    }
+	public TLBrace(int line, int pos) {
+		super.setText("{");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TLBrace(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TLBrace(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTLBrace(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTLBrace(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TLBrace text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TLBrace text.");
+	}
 }

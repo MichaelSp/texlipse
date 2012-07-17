@@ -2,229 +2,187 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import java.util.*;
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AEntryparenEntry extends PEntry
-{
-    private PEntryDef _entryDef_;
-    private TIdentifier _identifier_;
-    private final LinkedList<PKeyvalDecl> _keyvalDecl_ = new LinkedList<PKeyvalDecl>();
-    private TRParen _rParen_;
+public final class AEntryparenEntry extends PEntry {
+	private PEntryDef _entryDef_;
+	private TIdentifier _identifier_;
+	private final LinkedList<PKeyvalDecl> _keyvalDecl_ = new LinkedList<PKeyvalDecl>();
+	private TRParen _rParen_;
 
-    public AEntryparenEntry()
-    {
-        // Constructor
-    }
+	public AEntryparenEntry() {
+		// Constructor
+	}
 
-    public AEntryparenEntry(
-        @SuppressWarnings("hiding") PEntryDef _entryDef_,
-        @SuppressWarnings("hiding") TIdentifier _identifier_,
-        @SuppressWarnings("hiding") List<PKeyvalDecl> _keyvalDecl_,
-        @SuppressWarnings("hiding") TRParen _rParen_)
-    {
-        // Constructor
-        setEntryDef(_entryDef_);
+	public AEntryparenEntry( PEntryDef _entryDef_,
+			 TIdentifier _identifier_,
+			 List<PKeyvalDecl> _keyvalDecl_,  TRParen _rParen_) {
+		// Constructor
+		setEntryDef(_entryDef_);
 
-        setIdentifier(_identifier_);
+		setIdentifier(_identifier_);
 
-        setKeyvalDecl(_keyvalDecl_);
+		setKeyvalDecl(_keyvalDecl_);
 
-        setRParen(_rParen_);
+		setRParen(_rParen_);
 
-    }
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new AEntryparenEntry(
-            cloneNode(this._entryDef_),
-            cloneNode(this._identifier_),
-            cloneList(this._keyvalDecl_),
-            cloneNode(this._rParen_));
-    }
+	@Override
+	public Object clone() {
+		return new AEntryparenEntry(cloneNode(this._entryDef_), cloneNode(this._identifier_),
+				cloneList(this._keyvalDecl_), cloneNode(this._rParen_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseAEntryparenEntry(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseAEntryparenEntry(this);
+	}
 
-    public PEntryDef getEntryDef()
-    {
-        return this._entryDef_;
-    }
+	public PEntryDef getEntryDef() {
+		return this._entryDef_;
+	}
 
-    public void setEntryDef(PEntryDef node)
-    {
-        if(this._entryDef_ != null)
-        {
-            this._entryDef_.parent(null);
-        }
+	public void setEntryDef(PEntryDef node) {
+		if (this._entryDef_ != null) {
+			this._entryDef_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._entryDef_ = node;
-    }
+		this._entryDef_ = node;
+	}
 
-    public TIdentifier getIdentifier()
-    {
-        return this._identifier_;
-    }
+	public TIdentifier getIdentifier() {
+		return this._identifier_;
+	}
 
-    public void setIdentifier(TIdentifier node)
-    {
-        if(this._identifier_ != null)
-        {
-            this._identifier_.parent(null);
-        }
+	public void setIdentifier(TIdentifier node) {
+		if (this._identifier_ != null) {
+			this._identifier_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._identifier_ = node;
-    }
+		this._identifier_ = node;
+	}
 
-    public LinkedList<PKeyvalDecl> getKeyvalDecl()
-    {
-        return this._keyvalDecl_;
-    }
+	public LinkedList<PKeyvalDecl> getKeyvalDecl() {
+		return this._keyvalDecl_;
+	}
 
-    public void setKeyvalDecl(List<PKeyvalDecl> list)
-    {
-        this._keyvalDecl_.clear();
-        this._keyvalDecl_.addAll(list);
-        for(PKeyvalDecl e : list)
-        {
-            if(e.parent() != null)
-            {
-                e.parent().removeChild(e);
-            }
+	public void setKeyvalDecl(List<PKeyvalDecl> list) {
+		this._keyvalDecl_.clear();
+		this._keyvalDecl_.addAll(list);
+		for (PKeyvalDecl e : list) {
+			if (e.parent() != null) {
+				e.parent().removeChild(e);
+			}
 
-            e.parent(this);
-        }
-    }
+			e.parent(this);
+		}
+	}
 
-    public TRParen getRParen()
-    {
-        return this._rParen_;
-    }
+	public TRParen getRParen() {
+		return this._rParen_;
+	}
 
-    public void setRParen(TRParen node)
-    {
-        if(this._rParen_ != null)
-        {
-            this._rParen_.parent(null);
-        }
+	public void setRParen(TRParen node) {
+		if (this._rParen_ != null) {
+			this._rParen_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._rParen_ = node;
-    }
+		this._rParen_ = node;
+	}
 
-    @Override
-    public String toString()
-    {
-        return ""
-            + toString(this._entryDef_)
-            + toString(this._identifier_)
-            + toString(this._keyvalDecl_)
-            + toString(this._rParen_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._entryDef_) + toString(this._identifier_) + toString(this._keyvalDecl_)
+				+ toString(this._rParen_);
+	}
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
-        // Remove child
-        if(this._entryDef_ == child)
-        {
-            this._entryDef_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		// Remove child
+		if (this._entryDef_ == child) {
+			this._entryDef_ = null;
+			return;
+		}
 
-        if(this._identifier_ == child)
-        {
-            this._identifier_ = null;
-            return;
-        }
+		if (this._identifier_ == child) {
+			this._identifier_ = null;
+			return;
+		}
 
-        if(this._keyvalDecl_.remove(child))
-        {
-            return;
-        }
+		if (this._keyvalDecl_.remove(child)) {
+			return;
+		}
 
-        if(this._rParen_ == child)
-        {
-            this._rParen_ = null;
-            return;
-        }
+		if (this._rParen_ == child) {
+			this._rParen_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
-        // Replace child
-        if(this._entryDef_ == oldChild)
-        {
-            setEntryDef((PEntryDef) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		// Replace child
+		if (this._entryDef_ == oldChild) {
+			setEntryDef((PEntryDef) newChild);
+			return;
+		}
 
-        if(this._identifier_ == oldChild)
-        {
-            setIdentifier((TIdentifier) newChild);
-            return;
-        }
+		if (this._identifier_ == oldChild) {
+			setIdentifier((TIdentifier) newChild);
+			return;
+		}
 
-        for(ListIterator<PKeyvalDecl> i = this._keyvalDecl_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PKeyvalDecl) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
+		for (ListIterator<PKeyvalDecl> i = this._keyvalDecl_.listIterator(); i.hasNext();) {
+			if (i.next() == oldChild) {
+				if (newChild != null) {
+					i.set((PKeyvalDecl) newChild);
+					newChild.parent(this);
+					oldChild.parent(null);
+					return;
+				}
 
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
-        }
+				i.remove();
+				oldChild.parent(null);
+				return;
+			}
+		}
 
-        if(this._rParen_ == oldChild)
-        {
-            setRParen((TRParen) newChild);
-            return;
-        }
+		if (this._rParen_ == oldChild) {
+			setRParen((TRParen) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 }

@@ -26,98 +26,99 @@ import net.sourceforge.texlipse.bibparser.node.AValueBValOrSid;
 import net.sourceforge.texlipse.bibparser.node.AValueQValOrSid;
 import net.sourceforge.texlipse.model.ReferenceEntry;
 
-
 /**
  * Retrieves the BibTeX abbreviations (defined with @string{...}) from the AST.
  * 
- * This class is a visitor, that is applied on the AST that is a result of parsing a
- * BibTeX-file. See <a href="http://www.sablecc.org">http://www.sablecc.org</a> for
- * more information on the structure of the AST and the visitors.
+ * This class is a visitor, that is applied on the AST that is a result of
+ * parsing a BibTeX-file. See <a
+ * href="http://www.sablecc.org">http://www.sablecc.org</a> for more information
+ * on the structure of the AST and the visitors.
  * 
  * @author Oskar Ojala
  */
 public final class AbbrevRetriever extends DepthFirstAdapter {
 
-    private ArrayList<ReferenceEntry> abbrevs = new ArrayList<ReferenceEntry>(); //type: ReferenceEntry
-    
-    /**
-     * @return The abbreviations as a list of <code>ReferenceEntry</code>s
-     */
-    public ArrayList<ReferenceEntry> getAbbrevs() {
-        return abbrevs;
-    }
-    
-    public void inABibtex(ABibtex node) {
-    }
-    
-    public void outABibtex(ABibtex node) {
-    }
-    
-    public void inAStrbraceStringEntry(AStrbraceStringEntry node) {
-        abbrevs.add(new ReferenceEntry(node.getIdentifier().getText(), node.getStringLiteral().getText()));
-    }
-    
-    public void outAStrbraceStringEntry(AStrbraceStringEntry node) {
-    }
+	private ArrayList<ReferenceEntry> abbrevs = new ArrayList<ReferenceEntry>(); // type:
+																					// ReferenceEntry
 
-    public void inAStrparenStringEntry(AStrparenStringEntry node) {
-        abbrevs.add(new ReferenceEntry(node.getIdentifier().getText(), node.getStringLiteral().getText()));
-    }
+	/**
+	 * @return The abbreviations as a list of <code>ReferenceEntry</code>s
+	 */
+	public ArrayList<ReferenceEntry> getAbbrevs() {
+		return abbrevs;
+	}
 
-    public void outAStrparenStringEntry(AStrparenStringEntry node) {
-    }
+	public void inABibtex(ABibtex node) {
+	}
 
-    public void inAEntrybraceEntry(AEntrybraceEntry node) {
-    }
-    
-    public void outAEntrybraceEntry(AEntrybraceEntry node) {
-    }
+	public void outABibtex(ABibtex node) {
+	}
 
-    public void inAEntryparenEntry(AEntryparenEntry node) {
-    }
+	public void inAStrbraceStringEntry(AStrbraceStringEntry node) {
+		abbrevs.add(new ReferenceEntry(node.getIdentifier().getText(), node.getStringLiteral().getText()));
+	}
 
-    public void outAEntryparenEntry(AEntryparenEntry node) {
-    }
+	public void outAStrbraceStringEntry(AStrbraceStringEntry node) {
+	}
 
-    public void inAEntryDef(AEntryDef node) {
-    }
-    
-    public void outAEntryDef(AEntryDef node) {
-    }
-    
-    public void inAKeyvalDecl(AKeyvalDecl node) {
-    }
-    
-    public void outAKeyvalDecl(AKeyvalDecl node) {
-    }
-    
-    public void inAConcat(AConcat node) {
-    }
-    
-    public void outAConcat(AConcat node) {
-    }
-    
-    public void inAValueBValOrSid(AValueBValOrSid node) {
-    }
+	public void inAStrparenStringEntry(AStrparenStringEntry node) {
+		abbrevs.add(new ReferenceEntry(node.getIdentifier().getText(), node.getStringLiteral().getText()));
+	}
 
-    public void inAValueQValOrSid(AValueQValOrSid node) {
-    }
+	public void outAStrparenStringEntry(AStrparenStringEntry node) {
+	}
 
-    public void outAValueBValOrSid(AValueBValOrSid node) {
-    }
+	public void inAEntrybraceEntry(AEntrybraceEntry node) {
+	}
 
-    public void outAValueQValOrSid(AValueQValOrSid node) {
-    }
+	public void outAEntrybraceEntry(AEntrybraceEntry node) {
+	}
 
-    public void inANumValOrSid(ANumValOrSid node) {
-    }
-    
-    public void outANumValOrSid(ANumValOrSid node) {
-    }
-    
-    public void inAIdValOrSid(AIdValOrSid node) {
-    }
-    
-    public void outAIdValOrSid(AIdValOrSid node) {
-    }
+	public void inAEntryparenEntry(AEntryparenEntry node) {
+	}
+
+	public void outAEntryparenEntry(AEntryparenEntry node) {
+	}
+
+	public void inAEntryDef(AEntryDef node) {
+	}
+
+	public void outAEntryDef(AEntryDef node) {
+	}
+
+	public void inAKeyvalDecl(AKeyvalDecl node) {
+	}
+
+	public void outAKeyvalDecl(AKeyvalDecl node) {
+	}
+
+	public void inAConcat(AConcat node) {
+	}
+
+	public void outAConcat(AConcat node) {
+	}
+
+	public void inAValueBValOrSid(AValueBValOrSid node) {
+	}
+
+	public void inAValueQValOrSid(AValueQValOrSid node) {
+	}
+
+	public void outAValueBValOrSid(AValueBValOrSid node) {
+	}
+
+	public void outAValueQValOrSid(AValueQValOrSid node) {
+	}
+
+	public void inANumValOrSid(ANumValOrSid node) {
+	}
+
+	public void outANumValOrSid(ANumValOrSid node) {
+	}
+
+	public void inAIdValOrSid(AIdValOrSid node) {
+	}
+
+	public void outAIdValOrSid(AIdValOrSid node) {
+	}
 }

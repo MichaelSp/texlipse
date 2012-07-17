@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCrenew extends Token
-{
-    public TCrenew()
-    {
-        super.setText("\\renewcommand");
-    }
+public final class TCrenew extends Token {
+	public TCrenew() {
+		super.setText("\\renewcommand");
+	}
 
-    public TCrenew(int line, int pos)
-    {
-        super.setText("\\renewcommand");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCrenew(int line, int pos) {
+		super.setText("\\renewcommand");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCrenew(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCrenew(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCrenew(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCrenew(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCrenew text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCrenew text.");
+	}
 }

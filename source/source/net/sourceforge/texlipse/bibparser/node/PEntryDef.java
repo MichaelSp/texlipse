@@ -2,7 +2,6 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-public abstract class PEntryDef extends Node
-{
-    // Empty body
+public abstract class PEntryDef extends Node {
+	// Empty body
 }

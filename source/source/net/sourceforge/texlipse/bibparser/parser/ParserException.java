@@ -2,21 +2,18 @@
 
 package net.sourceforge.texlipse.bibparser.parser;
 
-import net.sourceforge.texlipse.bibparser.node.*;
+import net.sourceforge.texlipse.bibparser.node.Token;
 
 @SuppressWarnings("serial")
-public class ParserException extends Exception
-{
-    Token token;
+public class ParserException extends Exception {
+	Token token;
 
-    public ParserException(@SuppressWarnings("hiding") Token token, String  message)
-    {
-        super(message);
-        this.token = token;
-    }
+	public ParserException(Token token, String message) {
+		super(message);
+		this.token = token;
+	}
 
-    public Token getToken()
-    {
-        return this.token;
-    }
+	public Token getToken() {
+		return this.token;
+	}
 }

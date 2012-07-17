@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCpbib extends Token
-{
-    public TCpbib(String text)
-    {
-        setText(text);
-    }
+public final class TCpbib extends Token {
+	public TCpbib(String text) {
+		setText(text);
+	}
 
-    public TCpbib(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TCpbib(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCpbib(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCpbib(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCpbib(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCpbib(this);
+	}
 }

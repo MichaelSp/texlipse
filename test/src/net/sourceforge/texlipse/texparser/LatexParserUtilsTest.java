@@ -9,8 +9,20 @@
  */
 package net.sourceforge.texlipse.texparser;
 
-import static org.junit.Assert.*;
-import static net.sourceforge.texlipse.texparser.LatexParserUtils.*;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.LEFT;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.RIGHT;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.findCommand;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.findMatchingEndEnvironment;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.findPeerChar;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.getCommand;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.getCommandArgument;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.getStartofLine;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.isEscaped;
+import static net.sourceforge.texlipse.texparser.LatexParserUtils.isInsideComment;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;

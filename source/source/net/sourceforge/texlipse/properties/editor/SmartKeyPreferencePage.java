@@ -20,54 +20,60 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * The preference page for vim-latex -style smart key support, comes
- * under the Editor-menu 
+ * The preference page for vim-latex -style smart key support, comes under the
+ * Editor-menu
  * 
  * @author Oskar Ojala
  */
-public class SmartKeyPreferencePage extends FieldEditorPreferencePage implements
-        IWorkbenchPreferencePage {
+public class SmartKeyPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-    /**
-     * Creates a smart key preference page
-     */
-    public SmartKeyPreferencePage() {
-        super(GRID);
-        setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
-        setDescription(TexlipsePlugin.getResourceString("preferenceSmartKeyDescription"));
-    }
+	/**
+	 * Creates a smart key preference page
+	 */
+	public SmartKeyPreferencePage() {
+		super(GRID);
+		setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
+		setDescription(TexlipsePlugin.getResourceString("preferenceSmartKeyDescription"));
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
-     */
-    protected void createFieldEditors() {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors
+	 * ()
+	 */
+	protected void createFieldEditors() {
 
-        // Smart backspace
-        addField(new BooleanFieldEditor(TexlipseProperties.SMART_BACKSPACE,
-                TexlipsePlugin.getResourceString("preferenceSmartBackspace"), getFieldEditorParent()));
-        Label backspaceLabel = new Label(getFieldEditorParent(),SWT.LEFT | SWT.WRAP);
-        backspaceLabel.setText(TexlipsePlugin.getResourceString("preferenceSmartBackspaceText"));
-        
-        // Smart quotes
-        addField(new BooleanFieldEditor(TexlipseProperties.SMART_QUOTES,
-                TexlipsePlugin.getResourceString("preferenceSmartReplaceQuotes"), getFieldEditorParent()));
-        Label quotesLabel = new Label(getFieldEditorParent(),SWT.LEFT | SWT.WRAP);
-        quotesLabel.setText(TexlipsePlugin.getResourceString("preferenceSmartReplaceQuotesText"));
+		// Smart backspace
+		addField(new BooleanFieldEditor(TexlipseProperties.SMART_BACKSPACE,
+				TexlipsePlugin.getResourceString("preferenceSmartBackspace"), getFieldEditorParent()));
+		Label backspaceLabel = new Label(getFieldEditorParent(), SWT.LEFT | SWT.WRAP);
+		backspaceLabel.setText(TexlipsePlugin.getResourceString("preferenceSmartBackspaceText"));
 
-        // Smart parens
-        addField(new BooleanFieldEditor(TexlipseProperties.SMART_PARENS,
-                TexlipsePlugin.getResourceString("preferenceSmartBracketCompletion"), getFieldEditorParent()));
-        Label bracketLabel = new Label(getFieldEditorParent(),SWT.LEFT | SWT.WRAP);
-        bracketLabel.setText(TexlipsePlugin.getResourceString("preferenceSmartBracketCompletionText"));
+		// Smart quotes
+		addField(new BooleanFieldEditor(TexlipseProperties.SMART_QUOTES,
+				TexlipsePlugin.getResourceString("preferenceSmartReplaceQuotes"), getFieldEditorParent()));
+		Label quotesLabel = new Label(getFieldEditorParent(), SWT.LEFT | SWT.WRAP);
+		quotesLabel.setText(TexlipsePlugin.getResourceString("preferenceSmartReplaceQuotesText"));
 
-        // Smart \ldots
-        addField(new BooleanFieldEditor(TexlipseProperties.SMART_LDOTS,
-                TexlipsePlugin.getResourceString("preferenceSmartLdots"), getFieldEditorParent()));
-    }
+		// Smart parens
+		addField(new BooleanFieldEditor(TexlipseProperties.SMART_PARENS,
+				TexlipsePlugin.getResourceString("preferenceSmartBracketCompletion"), getFieldEditorParent()));
+		Label bracketLabel = new Label(getFieldEditorParent(), SWT.LEFT | SWT.WRAP);
+		bracketLabel.setText(TexlipsePlugin.getResourceString("preferenceSmartBracketCompletionText"));
 
-    /* (non-Javadoc)
-     * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
-     */
-    public void init(IWorkbench workbench) {
-    }
+		// Smart \ldots
+		addField(new BooleanFieldEditor(TexlipseProperties.SMART_LDOTS,
+				TexlipsePlugin.getResourceString("preferenceSmartLdots"), getFieldEditorParent()));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
+	public void init(IWorkbench workbench) {
+	}
 }

@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCommentline extends Token
-{
-    public TCommentline(String text)
-    {
-        setText(text);
-    }
+public final class TCommentline extends Token {
+	public TCommentline(String text) {
+		setText(text);
+	}
 
-    public TCommentline(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TCommentline(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCommentline(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCommentline(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCommentline(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCommentline(this);
+	}
 }

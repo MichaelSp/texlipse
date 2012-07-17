@@ -2,7 +2,6 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-public interface Switchable
-{
-    void apply(Switch sw);
+public interface Switchable {
+	void apply(Switch sw);
 }

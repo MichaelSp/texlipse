@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCsection extends Token
-{
-    public TCsection()
-    {
-        super.setText("\\section");
-    }
+public final class TCsection extends Token {
+	public TCsection() {
+		super.setText("\\section");
+	}
 
-    public TCsection(int line, int pos)
-    {
-        super.setText("\\section");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCsection(int line, int pos) {
+		super.setText("\\section");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCsection(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCsection(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCsection(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCsection(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCsection text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCsection text.");
+	}
 }

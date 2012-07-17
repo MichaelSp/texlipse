@@ -22,61 +22,63 @@ import org.eclipse.ui.IEditorPart;
  */
 public class GoToMatchingBracketAction implements IEditorActionDelegate {
 
-    private TexEditor targetEditor;
-    
-    public void selectionChanged(IAction action, ISelection selection) {
-    }
+	private TexEditor targetEditor;
 
-    public void run(IAction action) {
-        if (targetEditor == null) return;
-        ISourceViewer sourceViewer= targetEditor.getViewer();
-        IDocument document= sourceViewer.getDocument();
-        if (document == null)
-            return;
-        ITextSelection selection = (ITextSelection) targetEditor.getSelectionProvider().getSelection();
-        SubStatusLineManager slm = 
-            (SubStatusLineManager) targetEditor.getEditorSite().getActionBars().getStatusLineManager();
-        
-        int selectionLength= Math.abs(selection.getLength());
-        if (selectionLength > 1) {
-            slm.setErrorMessage(TexlipsePlugin.getResourceString("gotoMatchingBracketNotSelected"));
-            slm.setVisible(true);
-            sourceViewer.getTextWidget().getDisplay().beep();
-            return;
-        }
-        
-        int sourceCaretOffset= selection.getOffset() + selection.getLength();
+	public void selectionChanged(IAction action, ISelection selection) {
+	}
 
-        TexPairMatcher fBracketMatcher = new TexPairMatcher("{}[]()");
-        
-        IRegion region= fBracketMatcher.match(document, sourceCaretOffset);
-        if (region == null) {
-            slm.setErrorMessage(TexlipsePlugin.getResourceString("gotoMatchingBracketNotFound"));
-            slm.setVisible(true);            
-            sourceViewer.getTextWidget().getDisplay().beep();
-            return;
-        }
+	public void run(IAction action) {
+		if (targetEditor == null)
+			return;
+		ISourceViewer sourceViewer = targetEditor.getViewer();
+		IDocument document = sourceViewer.getDocument();
+		if (document == null)
+			return;
+		ITextSelection selection = (ITextSelection) targetEditor.getSelectionProvider().getSelection();
+		SubStatusLineManager slm = (SubStatusLineManager) targetEditor.getEditorSite().getActionBars()
+				.getStatusLineManager();
 
-        int offset= region.getOffset();
-        int length= region.getLength();
+		int selectionLength = Math.abs(selection.getLength());
+		if (selectionLength > 1) {
+			slm.setErrorMessage(TexlipsePlugin.getResourceString("gotoMatchingBracketNotSelected"));
+			slm.setVisible(true);
+			sourceViewer.getTextWidget().getDisplay().beep();
+			return;
+		}
 
-        if (length < 1) return;
+		int sourceCaretOffset = selection.getOffset() + selection.getLength();
 
-        int anchor = fBracketMatcher.getAnchor();
-        int targetOffset= (ICharacterPairMatcher.RIGHT == anchor) ? offset + 1: offset + length;
+		TexPairMatcher fBracketMatcher = new TexPairMatcher("{}[]()");
 
-        if (selection.getLength() < 0)
-            targetOffset -= selection.getLength();
+		IRegion region = fBracketMatcher.match(document, sourceCaretOffset);
+		if (region == null) {
+			slm.setErrorMessage(TexlipsePlugin.getResourceString("gotoMatchingBracketNotFound"));
+			slm.setVisible(true);
+			sourceViewer.getTextWidget().getDisplay().beep();
+			return;
+		}
 
-        sourceViewer.setSelectedRange(targetOffset, selection.getLength());
-        sourceViewer.revealRange(targetOffset, selection.getLength());
-    }
-    
-    public void setActiveEditor(IAction action, IEditorPart part) {
-        if (part instanceof TexEditor)
-            targetEditor = (TexEditor) part;
-        else
-            targetEditor = null;
-    }
+		int offset = region.getOffset();
+		int length = region.getLength();
+
+		if (length < 1)
+			return;
+
+		int anchor = fBracketMatcher.getAnchor();
+		int targetOffset = (ICharacterPairMatcher.RIGHT == anchor) ? offset + 1 : offset + length;
+
+		if (selection.getLength() < 0)
+			targetOffset -= selection.getLength();
+
+		sourceViewer.setSelectedRange(targetOffset, selection.getLength());
+		sourceViewer.revealRange(targetOffset, selection.getLength());
+	}
+
+	public void setActiveEditor(IAction action, IEditorPart part) {
+		if (part instanceof TexEditor)
+			targetEditor = (TexEditor) part;
+		else
+			targetEditor = null;
+	}
 
 }

@@ -52,232 +52,255 @@ import com.swabunga.spell.event.SpellChecker;
 import com.swabunga.spell.event.StringWordTokenizer;
 
 /**
- * The default spelling engine for LaTeX files. Uses Jazzy for spell
- * checking.
+ * The default spelling engine for LaTeX files. Uses Jazzy for spell checking.
+ * 
  * @author Boris von Loesch
- *
+ * 
  */
 public class TexSpellingEngine implements ISpellingEngine, SpellCheckListener {
 
-    public static class TexSpellingProblem extends SpellingProblem {
-        
-        private SpellCheckEvent fError;
-        private String fLang;
-        
-        private int fOffset;
-        
-        private final static Image fCorrectionImage = TexlipsePlugin.getImage("correction_change");
-        private final static String CHANGE_TO = TexlipsePlugin.getResourceString("spellCheckerChangeWord");
-        private final static String MESSAGE = TexlipsePlugin.getResourceString("spellMarkerMessage");
-        
-        public TexSpellingProblem(SpellCheckEvent error, int roffset, String lang) {
-            this.fError = error;
-            this.fOffset = roffset + fError.getWordContextPosition();
-            fLang = lang;
-        }
-        
-        @Override
-        public ICompletionProposal[] getProposals() {
-            return getProposals(null);
-        }
-        
-        @SuppressWarnings("unchecked")
-        @Override
-        public ICompletionProposal[] getProposals(IQuickAssistInvocationContext context) {
-            List<Word> sugg = fError.getSuggestions();
-            int length = fError.getInvalidWord().length();
-            ICompletionProposal[] props = new ICompletionProposal[sugg.size() + 2];
-            for (int i=0; i < sugg.size(); i++) {
-                String suggestion = sugg.get(i).toString();
-                String s = MessageFormat.format(CHANGE_TO,
-                        new Object[] { suggestion });
-                props[i] = new CompletionProposal(suggestion, 
-                        fOffset, length, suggestion.length(), fCorrectionImage, s, null, null);
-            }
-            props[props.length - 2] = new IgnoreProposal(ignore, fError.getInvalidWord(), context.getSourceViewer());
-            props[props.length - 1] = new AddToDictProposal(fError, fLang, context.getSourceViewer());
-            return props;
-        }
+	public static class TexSpellingProblem extends SpellingProblem {
 
-        /**
-         * Updates the offset of the spelling error
-         * @param offset
-         */
-        public void setOffset(int offset) {
-            fOffset = offset;
-        }
-        
-        @Override
-        public int getOffset() {
-            return fOffset;
-        }
+		private SpellCheckEvent fError;
+		private String fLang;
 
-        @Override
-        public String getMessage() {
-            return MessageFormat.format(MESSAGE, new Object[] { fError.getInvalidWord() });
-        }
+		private int fOffset;
 
-        @Override
-        public int getLength() {
-            return fError.getInvalidWord().length();
-        }
+		private final static Image fCorrectionImage = TexlipsePlugin.getImage("correction_change");
+		private final static String CHANGE_TO = TexlipsePlugin.getResourceString("spellCheckerChangeWord");
+		private final static String MESSAGE = TexlipsePlugin.getResourceString("spellMarkerMessage");
 
-    }
-    
-    private final static String DEFAULT_DICT_PATH = "/dict/";
-    private final static String DEFAULT_LANG = "en";
-    
-    private static SpellChecker spellCheck;
-    private static TexSpellDictionary dict;
-    private static String currentLang;
-    private static Set<String> ignore;
-    
-    private List<SpellCheckEvent> errors;
-    
-    /**
-     * Returns a SpellChecker that checks the language of the current project
-     * @param project
-     * @return null, if no dictionary for the current language was found
-     */
-    private static SpellChecker getSpellChecker(String lang) {
-        //Return null, when no language is set
-        if (lang == null) return null;
-        
-        if (lang.equals(currentLang)) return spellCheck;
-                
-        //Get dictionary path from preferences and check if it exists
-        String dictPathSt = TexlipsePlugin.getPreference(TexlipseProperties.SPELLCHECKER_DICT_DIR);
-        if (dictPathSt == null || "".equals(dictPathSt.trim())) return null;
-        File dictPath = new File(dictPathSt);
-        if (!dictPath.exists() || !dictPath.isDirectory()) return null;
+		public TexSpellingProblem(SpellCheckEvent error, int roffset, String lang) {
+			this.fError = error;
+			this.fOffset = roffset + fError.getWordContextPosition();
+			fLang = lang;
+		}
 
-        File f = new File(dictPath.getAbsolutePath() + File.separator + lang + ".dict");
-        if (!f.exists() || !f.canRead()) return null;
-        
-        //Set spellCheck to null to allow the GC to trash the current dictionary
-        spellCheck = null;
-        dict = null;
-        currentLang = lang;
+		@Override
+		public ICompletionProposal[] getProposals() {
+			return getProposals(null);
+		}
 
-        try {
-            FileInputStream input = new FileInputStream(f);
-            Reader r = new BufferedReader(new InputStreamReader(input, "UTF-8"));
-            dict = new TexSpellDictionary(r);
-            r.close();
+		@SuppressWarnings("unchecked")
+		@Override
+		public ICompletionProposal[] getProposals(IQuickAssistInvocationContext context) {
+			List<Word> sugg = fError.getSuggestions();
+			int length = fError.getInvalidWord().length();
+			ICompletionProposal[] props = new ICompletionProposal[sugg.size() + 2];
+			for (int i = 0; i < sugg.size(); i++) {
+				String suggestion = sugg.get(i).toString();
+				String s = MessageFormat.format(CHANGE_TO, new Object[] { suggestion });
+				props[i] = new CompletionProposal(suggestion, fOffset, length, suggestion.length(), fCorrectionImage,
+						s, null, null);
+			}
+			props[props.length - 2] = new IgnoreProposal(ignore, fError.getInvalidWord(), context.getSourceViewer());
+			props[props.length - 1] = new AddToDictProposal(fError, fLang, context.getSourceViewer());
+			return props;
+		}
 
-            String customDictPath = TexlipsePlugin.getPreference(TexlipseProperties.SPELLCHECKER_CUSTOM_DICT_DIR);
-            if (customDictPath != null && !"".equals(customDictPath.trim())) {
-                dict.setUserDict(new File (customDictPath + File.separator + lang + "_user.dict"));
-            }
-            spellCheck = new SpellChecker(dict);
-            return spellCheck;
-        } catch (IOException e) {
-            TexlipsePlugin.log("Error while loading dictionary", e);
-        }
-        return null;
-    }
-    
-    /**
-     * <p>Returns the dictionary for that language, or the default dictionary if no
-     * exists.</p> 
-     * <p><b>Beware:</b> Only use local references for the dictionary, otherwise
-     * it can not be trashed by the GC and we get memory problems.
-     * @param lang Language of the file
-     * @return The dictionary
-     */
-    public static TexSpellDictionary getDict(String lang) {
-        getSpellChecker(lang);
-        return dict;
-    }
-    
-    
-    /**
-     * Returns the project that belongs to the given document.
-     * Thanks to Nitin Dahyabhai for the tip.
-     * 
-     * @param document
-     * @return the project or <code>null</code> if no project was found
-     */
-    private static IProject getProject(IDocument document) {
-        ITextFileBufferManager fileBufferMgr = FileBuffers.getTextFileBufferManager();
-        ITextFileBuffer fileBuffer = fileBufferMgr.getTextFileBuffer(document);
-        
-        if (fileBuffer != null) {
-            IWorkspace workspace = ResourcesPlugin.getWorkspace();
-            IResource res = workspace.getRoot().findMember(fileBuffer.getLocation());
-            if (res != null) return res.getProject();        	
-        }
-        return null;
-    }
-    
-    public void check(IDocument document, IRegion[] regions, SpellingContext context, 
-            ISpellingProblemCollector collector, IProgressMonitor monitor) {
-        
-        if (ignore == null) {
-            ignore = new HashSet<String>();
-        }
+		/**
+		 * Updates the offset of the spelling error
+		 * 
+		 * @param offset
+		 */
+		public void setOffset(int offset) {
+			fOffset = offset;
+		}
 
-        IProject project = getProject(document);
+		@Override
+		public int getOffset() {
+			return fOffset;
+		}
 
-        String lang = DEFAULT_LANG;
-        if (project != null) {
-            lang = TexlipseProperties.getProjectProperty(project, TexlipseProperties.LANGUAGE_PROPERTY);
-        }
-        //Get spellchecker for the correct language
-        SpellChecker spellCheck = getSpellChecker(lang);
-        if (spellCheck == null) return;
-        
-        if (collector instanceof TeXSpellingProblemCollector) {
-            ((TeXSpellingProblemCollector) collector).setRegions(regions);
-        }
-        
-        try {
-            spellCheck.addSpellCheckListener(this);
-            for (final IRegion r : regions) {
-                errors = new LinkedList<SpellCheckEvent>();
-                int roffset = r.getOffset();
-                
-                //Create a new wordfinder and initialize it
-                TexlipseWordFinder wf = new TexlipseWordFinder();
-                wf.setIgnoreComments(TexlipsePlugin.getDefault().getPreferenceStore().getBoolean(TexlipseProperties.SPELLCHECKER_IGNORE_COMMENTS));
-                wf.setIgnoreMath(TexlipsePlugin.getDefault().getPreferenceStore().getBoolean(TexlipseProperties.SPELLCHECKER_IGNORE_MATH));
-                
-                spellCheck.checkSpelling(new StringWordTokenizer(
-                        document.get(roffset, r.getLength()), wf));
-                
-                for (SpellCheckEvent error : errors) {
-                    SpellingProblem p = new TexSpellingProblem(error, roffset, lang);
-                    collector.accept(p);
-                }
-            }
-            spellCheck.removeSpellCheckListener(this);                
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-    }
+		@Override
+		public String getMessage() {
+			return MessageFormat.format(MESSAGE, new Object[] { fError.getInvalidWord() });
+		}
 
-    /**
-     * Checks if the input string contains upper case letters after the first letter
-     * @param word
-     * @return
-     */
-    public static boolean isMixedCase(String word) {
-        for (int i = 1; i < word.length(); i++) {
-            if (Character.isUpperCase(word.charAt(i))) return true;
-        }
-        return false;
-    }
-    
-    public void spellingError(SpellCheckEvent event) {
-        String invWord = event.getInvalidWord();
-        if (invWord.length() < 3) return;
-        if (invWord.indexOf('_') > -1) return;
-        if (invWord.indexOf('^') > -1) return;
-        if (ignore.contains(invWord)) return;
-        if (TexlipsePlugin.getDefault().getPreferenceStore().getBoolean(TexlipseProperties.SPELLCHECKER_IGNORE_MIXED_CASE)) {
-            if (isMixedCase(invWord)) return;
-        }
-        
-        errors.add(event);
-      }
+		@Override
+		public int getLength() {
+			return fError.getInvalidWord().length();
+		}
+
+	}
+
+	private final static String DEFAULT_DICT_PATH = "/dict/";
+	private final static String DEFAULT_LANG = "en";
+
+	private static SpellChecker spellCheck;
+	private static TexSpellDictionary dict;
+	private static String currentLang;
+	private static Set<String> ignore;
+
+	private List<SpellCheckEvent> errors;
+
+	/**
+	 * Returns a SpellChecker that checks the language of the current project
+	 * 
+	 * @param project
+	 * @return null, if no dictionary for the current language was found
+	 */
+	private static SpellChecker getSpellChecker(String lang) {
+		// Return null, when no language is set
+		if (lang == null)
+			return null;
+
+		if (lang.equals(currentLang))
+			return spellCheck;
+
+		// Get dictionary path from preferences and check if it exists
+		String dictPathSt = TexlipsePlugin.getPreference(TexlipseProperties.SPELLCHECKER_DICT_DIR);
+		if (dictPathSt == null || "".equals(dictPathSt.trim()))
+			return null;
+		File dictPath = new File(dictPathSt);
+		if (!dictPath.exists() || !dictPath.isDirectory())
+			return null;
+
+		File f = new File(dictPath.getAbsolutePath() + File.separator + lang + ".dict");
+		if (!f.exists() || !f.canRead())
+			return null;
+
+		// Set spellCheck to null to allow the GC to trash the current
+		// dictionary
+		spellCheck = null;
+		dict = null;
+		currentLang = lang;
+
+		try {
+			FileInputStream input = new FileInputStream(f);
+			Reader r = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+			dict = new TexSpellDictionary(r);
+			r.close();
+
+			String customDictPath = TexlipsePlugin.getPreference(TexlipseProperties.SPELLCHECKER_CUSTOM_DICT_DIR);
+			if (customDictPath != null && !"".equals(customDictPath.trim())) {
+				dict.setUserDict(new File(customDictPath + File.separator + lang + "_user.dict"));
+			}
+			spellCheck = new SpellChecker(dict);
+			return spellCheck;
+		} catch (IOException e) {
+			TexlipsePlugin.log("Error while loading dictionary", e);
+		}
+		return null;
+	}
+
+	/**
+	 * <p>
+	 * Returns the dictionary for that language, or the default dictionary if no
+	 * exists.
+	 * </p>
+	 * <p>
+	 * <b>Beware:</b> Only use local references for the dictionary, otherwise it
+	 * can not be trashed by the GC and we get memory problems.
+	 * 
+	 * @param lang
+	 *            Language of the file
+	 * @return The dictionary
+	 */
+	public static TexSpellDictionary getDict(String lang) {
+		getSpellChecker(lang);
+		return dict;
+	}
+
+	/**
+	 * Returns the project that belongs to the given document. Thanks to Nitin
+	 * Dahyabhai for the tip.
+	 * 
+	 * @param document
+	 * @return the project or <code>null</code> if no project was found
+	 */
+	private static IProject getProject(IDocument document) {
+		ITextFileBufferManager fileBufferMgr = FileBuffers.getTextFileBufferManager();
+		ITextFileBuffer fileBuffer = fileBufferMgr.getTextFileBuffer(document);
+
+		if (fileBuffer != null) {
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IResource res = workspace.getRoot().findMember(fileBuffer.getLocation());
+			if (res != null)
+				return res.getProject();
+		}
+		return null;
+	}
+
+	public void check(IDocument document, IRegion[] regions, SpellingContext context,
+			ISpellingProblemCollector collector, IProgressMonitor monitor) {
+
+		if (ignore == null) {
+			ignore = new HashSet<String>();
+		}
+
+		IProject project = getProject(document);
+
+		String lang = DEFAULT_LANG;
+		if (project != null) {
+			lang = TexlipseProperties.getProjectProperty(project, TexlipseProperties.LANGUAGE_PROPERTY);
+		}
+		// Get spellchecker for the correct language
+		SpellChecker spellCheck = getSpellChecker(lang);
+		if (spellCheck == null)
+			return;
+
+		if (collector instanceof TeXSpellingProblemCollector) {
+			((TeXSpellingProblemCollector) collector).setRegions(regions);
+		}
+
+		try {
+			spellCheck.addSpellCheckListener(this);
+			for (final IRegion r : regions) {
+				errors = new LinkedList<SpellCheckEvent>();
+				int roffset = r.getOffset();
+
+				// Create a new wordfinder and initialize it
+				TexlipseWordFinder wf = new TexlipseWordFinder();
+				wf.setIgnoreComments(TexlipsePlugin.getDefault().getPreferenceStore()
+						.getBoolean(TexlipseProperties.SPELLCHECKER_IGNORE_COMMENTS));
+				wf.setIgnoreMath(TexlipsePlugin.getDefault().getPreferenceStore()
+						.getBoolean(TexlipseProperties.SPELLCHECKER_IGNORE_MATH));
+
+				spellCheck.checkSpelling(new StringWordTokenizer(document.get(roffset, r.getLength()), wf));
+
+				for (SpellCheckEvent error : errors) {
+					SpellingProblem p = new TexSpellingProblem(error, roffset, lang);
+					collector.accept(p);
+				}
+			}
+			spellCheck.removeSpellCheckListener(this);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Checks if the input string contains upper case letters after the first
+	 * letter
+	 * 
+	 * @param word
+	 * @return
+	 */
+	public static boolean isMixedCase(String word) {
+		for (int i = 1; i < word.length(); i++) {
+			if (Character.isUpperCase(word.charAt(i)))
+				return true;
+		}
+		return false;
+	}
+
+	public void spellingError(SpellCheckEvent event) {
+		String invWord = event.getInvalidWord();
+		if (invWord.length() < 3)
+			return;
+		if (invWord.indexOf('_') > -1)
+			return;
+		if (invWord.indexOf('^') > -1)
+			return;
+		if (ignore.contains(invWord))
+			return;
+		if (TexlipsePlugin.getDefault().getPreferenceStore()
+				.getBoolean(TexlipseProperties.SPELLCHECKER_IGNORE_MIXED_CASE)) {
+			if (isMixedCase(invWord))
+				return;
+		}
+
+		errors.add(event);
+	}
 }

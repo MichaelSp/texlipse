@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCinput extends Token
-{
-    public TCinput()
-    {
-        super.setText("\\input");
-    }
+public final class TCinput extends Token {
+	public TCinput() {
+		super.setText("\\input");
+	}
 
-    public TCinput(int line, int pos)
-    {
-        super.setText("\\input");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCinput(int line, int pos) {
+		super.setText("\\input");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCinput(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCinput(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCinput(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCinput(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCinput text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCinput text.");
+	}
 }

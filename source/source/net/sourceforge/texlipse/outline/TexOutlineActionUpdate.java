@@ -13,24 +13,23 @@ import net.sourceforge.texlipse.TexlipsePlugin;
 
 import org.eclipse.jface.action.Action;
 
-
 /**
- * The outline update (refresh) action. 
+ * The outline update (refresh) action.
  * 
  * @author Taavi Hupponen
  */
 public class TexOutlineActionUpdate extends Action {
-	
+
 	private TexOutlinePage outline;
-	
+
 	public TexOutlineActionUpdate(TexOutlinePage outline) {
 		super("Update");
 		setToolTipText("Update");
-		
+
 		setImageDescriptor(TexlipsePlugin.getImageDescriptor("refresh"));
 		this.outline = outline;
 	}
-	
+
 	public void run() {
 		if (outline.isModelDirty()) {
 			outline.getEditor().updateModelNow();

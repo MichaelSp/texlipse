@@ -54,8 +54,7 @@ import org.eclipse.ui.texteditor.HippieProposalProcessor;
  */
 public class TexCompletionProcessor implements IContentAssistProcessor {
 
-	private TexTemplateCompletion templatesCompletion = new TexTemplateCompletion(
-			TexContextType.TEX_CONTEXT_TYPE);
+	private TexTemplateCompletion templatesCompletion = new TexTemplateCompletion(TexContextType.TEX_CONTEXT_TYPE);
 
 	private TexDocumentModel model;
 	private ReferenceManager refManager;
@@ -70,8 +69,7 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 * A regexp pattern for resolving the command used for referencing (in the
 	 * 1st group)
 	 */
-	private static final Pattern comCapt = Pattern
-			.compile("([a-zA-Z]+)\\s*(?:\\[.*?\\]\\s*)?");
+	private static final Pattern comCapt = Pattern.compile("([a-zA-Z]+)\\s*(?:\\[.*?\\]\\s*)?");
 
 	/**
 	 * Receives the document model from the editor (one model/editor view) and
@@ -91,8 +89,7 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 * @seeorg.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
 	 */
-	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
-			int offset) {
+	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		if (refManager == null)
 			this.refManager = this.model.getRefMana();
 
@@ -111,40 +108,31 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 
 		// if not, proceed to templates and "regular" completions
 		try {
-			int lineStartOffset = doc
-					.getLineOffset(doc.getLineOfOffset(offset));
-			String lineStart = doc.get(lineStartOffset, offset
-					- lineStartOffset);
+			int lineStartOffset = doc.getLineOffset(doc.getLineOfOffset(offset));
+			String lineStart = doc.get(lineStartOffset, offset - lineStartOffset);
 
 			ICompletionProposal[] proposals = null;
-			ICompletionProposal[] templateProposals = computeTemplateCompletions(
-					offset, lineStart, viewer);
+			ICompletionProposal[] templateProposals = computeTemplateCompletions(offset, lineStart, viewer);
 
-			if (!(lineStart.length() >= 2 && lineStart.endsWith("\\\\"))
-					&& (lineStart.length() > 0)) {
+			if (!(lineStart.length() >= 2 && lineStart.endsWith("\\\\")) && (lineStart.length() > 0)) {
 
-				int seqStartIdx = resolveCompletionStart(lineStart, lineStart
-						.length() - 1);
+				int seqStartIdx = resolveCompletionStart(lineStart, lineStart.length() - 1);
 				String seqStart = lineStart.substring(seqStartIdx);
 
 				if (seqStart.startsWith("\\")) {
 					String replacement = seqStart.substring(1);
-					proposals = computeCommandCompletions(offset, replacement
-							.length(), replacement);
+					proposals = computeCommandCompletions(offset, replacement.length(), replacement);
 				} else if (seqStart.startsWith("{")) {
-					proposals = resolveReferenceCompletions(lineStart, offset,
-							seqStart);
+					proposals = resolveReferenceCompletions(lineStart, offset, seqStart);
 					if (proposals == null) {
 						// Maybe there is a wrong spelled word here (e.g.
 						// \section{Wroang ...})
-						proposals = SpellChecker.getSpellingProposal(offset,
-								fviewer);
+						proposals = SpellChecker.getSpellingProposal(offset, fviewer);
 						if (proposals != null && proposals.length > 0) {
 							return proposals;
 						} else {
 							// Hippie!!
-							proposals = hippie.computeCompletionProposals(
-									fviewer, offset);
+							proposals = hippie.computeCompletionProposals(fviewer, offset);
 						}
 
 					}
@@ -152,31 +140,25 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 					// ---------------------spell-checking-code-starts----------------------
 					// spell checking can't help with words not starting with a
 					// letter...
-					proposals = SpellChecker.getSpellingProposal(offset,
-							fviewer);
+					proposals = SpellChecker.getSpellingProposal(offset, fviewer);
 					if (proposals != null && proposals.length > 0) {
 						return proposals;
 					}
 					// if there is no spelling corrections, use the
 					// HippieProposal
-					proposals = hippie.computeCompletionProposals(fviewer,
-							offset);
+					proposals = hippie.computeCompletionProposals(fviewer, offset);
 				}
 			}
 
 			// Concatenate the lists if necessary
 			if (proposals != null) {
-				ICompletionProposal[] value = new ICompletionProposal[proposals.length
-						+ templateProposals.length];
-				System.arraycopy(templateProposals, 0, value, 0,
-						templateProposals.length);
-				System.arraycopy(proposals, 0, value, templateProposals.length,
-						proposals.length);
+				ICompletionProposal[] value = new ICompletionProposal[proposals.length + templateProposals.length];
+				System.arraycopy(templateProposals, 0, value, 0, templateProposals.length);
+				System.arraycopy(proposals, 0, value, templateProposals.length, proposals.length);
 				return value;
 			} else {
 				if (templateProposals.length == 0) {
-					model
-							.setStatusLineErrorMessage(" No completions available.");
+					model.setStatusLineErrorMessage(" No completions available.");
 				}
 				return templateProposals;
 			}
@@ -192,8 +174,7 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 * @seeorg.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * computeContextInformation(org.eclipse.jface.text.ITextViewer, int)
 	 */
-	public IContextInformation[] computeContextInformation(ITextViewer viewer,
-			int offset) {
+	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
 
 		// FIXME -- for testing
 		// Retrieve selected range
@@ -263,8 +244,7 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 */
 	private int resolveCompletionStart(String doc, int offset) {
 		while (offset > 0) {
-			if (Character.isWhitespace(doc.charAt(offset))
-					|| doc.charAt(offset) == '}' || doc.charAt(offset) == '{'
+			if (Character.isWhitespace(doc.charAt(offset)) || doc.charAt(offset) == '}' || doc.charAt(offset) == '{'
 					|| doc.charAt(offset) == '\\')
 				break;
 			offset--;
@@ -285,30 +265,26 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 *            The last part of the line, containing the partial match
 	 * @return The completion proposals
 	 */
-	private ICompletionProposal[] resolveReferenceCompletions(String line,
-			int offset, String lineEnd) {
+	private ICompletionProposal[] resolveReferenceCompletions(String line, int offset, String lineEnd) {
 		int lastIndex = line.lastIndexOf('\\');
 		if (lastIndex == -1) {
 			return null;
 		}
-		String fullCommand = line.substring(lastIndex + 1, line.length()
-				- lineEnd.length());
+		String fullCommand = line.substring(lastIndex + 1, line.length() - lineEnd.length());
 		Matcher m = comCapt.matcher(fullCommand);
 		if (!m.matches()) {
 			return null;
 		}
 		String command = m.group(1);
 
-		String replacement = lineEnd.lastIndexOf(',') != -1 ? lineEnd
-				.substring(lineEnd.lastIndexOf(',') + 1) : lineEnd.substring(1);
+		String replacement = lineEnd.lastIndexOf(',') != -1 ? lineEnd.substring(lineEnd.lastIndexOf(',') + 1) : lineEnd
+				.substring(1);
 
 		ICompletionProposal[] proposals = null;
 		if (command.indexOf("cite") > -1) {
-			proposals = computeBibCompletions(offset, replacement.length(),
-					replacement);
+			proposals = computeBibCompletions(offset, replacement.length(), replacement);
 		} else if (command.indexOf("ref") > -1) {
-			proposals = computeRefCompletions(offset, replacement.length(),
-					replacement);
+			proposals = computeRefCompletions(offset, replacement.length(), replacement);
 		}
 		return proposals;
 	}
@@ -324,48 +300,41 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 *            The already typed prefix of the entry to assist with
 	 * @return An array of completion proposals to use directly or null
 	 */
-	private ICompletionProposal[] computeBibCompletions(int offset,
-			int replacementLength, String prefix) {
+	private ICompletionProposal[] computeBibCompletions(int offset, int replacementLength, String prefix) {
 
 		List<ICompletionProposal> resultAsList = new ArrayList<ICompletionProposal>();
 		List<ReferenceEntry> bibEntries = refManager.getCompletionsBib(prefix);
-		//add the entries of the .bib file(s) to the results
+		// add the entries of the .bib file(s) to the results
 		if (bibEntries != null) {
 			for (int i = 0; i < bibEntries.size(); i++) {
 				ReferenceEntry bib = bibEntries.get(i);
-				String infoText = bib.info.length() > assistLineLength ? wrapString(
-						bib.info, assistLineLength)
+				String infoText = bib.info.length() > assistLineLength ? wrapString(bib.info, assistLineLength)
 						: bib.info;
-						resultAsList.add(new CompletionProposal(bib.key, offset
-								- replacementLength, replacementLength, bib.key.length(),
-								null, bib.key, null, infoText));
+				resultAsList.add(new CompletionProposal(bib.key, offset - replacementLength, replacementLength, bib.key
+						.length(), null, bib.key, null, infoText));
 			}
 		}
-		//the extension points
-		IConfigurationElement[] configuration = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						"net.sourceforge.texlipse.CiteAutocompleteExtension");
+		// the extension points
+		IConfigurationElement[] configuration = Platform.getExtensionRegistry().getConfigurationElementsFor(
+				"net.sourceforge.texlipse.CiteAutocompleteExtension");
 		if (configuration.length > 0) {
 			for (IConfigurationElement elem : configuration) {
 				try {
-					//fetches the BibProvider and updates the result
-					BibProvider prov = (BibProvider) elem
-							.createExecutableExtension("class");
-					resultAsList = prov.getCompletions(offset, replacementLength,
-							prefix, refManager.getBibContainer());
+					// fetches the BibProvider and updates the result
+					BibProvider prov = (BibProvider) elem.createExecutableExtension("class");
+					resultAsList = prov.getCompletions(offset, replacementLength, prefix, refManager.getBibContainer());
 
 				} catch (CoreException e) {
 					// e.printStackTrace();
-					//log
+					// log
 				}
 			}
 		}
 
-		//if there are no entries, return null
+		// if there are no entries, return null
 		if (resultAsList == null || resultAsList.size() == 0)
 			return null;
-		ICompletionProposal[] result = new ICompletionProposal[resultAsList
-				.size()];
+		ICompletionProposal[] result = new ICompletionProposal[resultAsList.size()];
 		return resultAsList.toArray(result);
 	}
 
@@ -380,14 +349,12 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 *            The already typed prefix of the entry to assist with
 	 * @return An array of completion proposals to use directly or null
 	 */
-	private ICompletionProposal[] computeRefCompletions(int offset,
-			int replacementLength, String prefix) {
+	private ICompletionProposal[] computeRefCompletions(int offset, int replacementLength, String prefix) {
 		List<ReferenceEntry> refEntries = refManager.getCompletionsRef(prefix);
 		if (refEntries == null)
 			return null;
 
-		ICompletionProposal[] result = new ICompletionProposal[refEntries
-				.size()];
+		ICompletionProposal[] result = new ICompletionProposal[refEntries.size()];
 
 		for (int i = 0; i < refEntries.size(); i++) {
 
@@ -395,13 +362,11 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 			ReferenceEntry ref = refEntries.get(i);
 
 			if (ref.info != null) {
-				infoText = (ref.info.length() > assistLineLength) ? wrapString(
-						ref.info, assistLineLength) : ref.info;
+				infoText = (ref.info.length() > assistLineLength) ? wrapString(ref.info, assistLineLength) : ref.info;
 			}
 
-			result[i] = new CompletionProposal(ref.key, offset
-					- replacementLength, replacementLength, ref.key.length(),
-					null, ref.key, null, infoText);
+			result[i] = new CompletionProposal(ref.key, offset - replacementLength, replacementLength,
+					ref.key.length(), null, ref.key, null, infoText);
 		}
 		return result;
 	}
@@ -421,16 +386,12 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 		while ((o = doc.lastIndexOf("\\begin", o)) >= 0) {
 			IRegion r = LatexParserUtils.getCommand(doc, o + 1);
 			if (r != null) {
-				String command = doc.substring(r.getOffset(), r.getOffset()
-						+ r.getLength());
+				String command = doc.substring(r.getOffset(), r.getOffset() + r.getLength());
 				if ("\\begin".equals(command)) {
 					IRegion r2 = LatexParserUtils.getCommandArgument(doc, o);
 					if (r2 != null) {
-						String envName = doc.substring(r2.getOffset(), r2
-								.getOffset()
-								+ r2.getLength());
-						if (TexAutoIndentStrategy.needsEnd(envName, doc, r
-								.getOffset())) {
+						String envName = doc.substring(r2.getOffset(), r2.getOffset() + r2.getLength());
+						if (TexAutoIndentStrategy.needsEnd(envName, doc, r.getOffset())) {
 							return "end{" + envName + "}";
 						}
 					}
@@ -452,21 +413,17 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 *            The already typed prefix of the entry to assist with
 	 * @return An array of completion proposals to use directly or null
 	 */
-	private ICompletionProposal[] computeCommandCompletions(int offset,
-			int replacementLength, String prefix) {
-		List<TexCommandEntry> comEntries = refManager.getCompletionsCom(prefix,
-				TexCommandEntry.NORMAL_CONTEXT);
+	private ICompletionProposal[] computeCommandCompletions(int offset, int replacementLength, String prefix) {
+		List<TexCommandEntry> comEntries = refManager.getCompletionsCom(prefix, TexCommandEntry.NORMAL_CONTEXT);
 		if (comEntries == null)
 			return null;
 
 		CompletionProposal cp = null;
 		if ("\\".equals(prefix) || "end".startsWith(prefix)) {
-			String endString = environmentEnd(fviewer.getDocument().get(),
-					offset);
+			String endString = environmentEnd(fviewer.getDocument().get(), offset);
 			if (endString != null) {
-				cp = new CompletionProposal(endString, offset
-						- replacementLength, replacementLength, endString
-						.length());
+				cp = new CompletionProposal(endString, offset - replacementLength, replacementLength,
+						endString.length());
 			}
 		}
 
@@ -482,8 +439,8 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 		}
 
 		for (int i = 0; i < comEntries.size(); i++) {
-			result[i + start] = new TexCompletionProposal(comEntries.get(i),
-					offset - replacementLength, replacementLength, fviewer);
+			result[i + start] = new TexCompletionProposal(comEntries.get(i), offset - replacementLength,
+					replacementLength, fviewer);
 		}
 		return result;
 	}
@@ -499,17 +456,15 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	 *            The text viewer of this document
 	 * @return An array of completion proposals to use directly
 	 */
-	private ICompletionProposal[] computeTemplateCompletions(int offset,
-			String lineStart, ITextViewer viewer) {
+	private ICompletionProposal[] computeTemplateCompletions(int offset, String lineStart, ITextViewer viewer) {
 		int t = lineStart.lastIndexOf(' ');
 		if (t < lineStart.lastIndexOf('\t'))
 			t = lineStart.lastIndexOf('\t');
 		String replacement = lineStart.substring(t + 1);
 
-		List<ICompletionProposal> returnProposals = templatesCompletion
-				.addTemplateProposals(viewer, offset, replacement);
-		ICompletionProposal[] proposals = new ICompletionProposal[returnProposals
-				.size()];
+		List<ICompletionProposal> returnProposals = templatesCompletion.addTemplateProposals(viewer, offset,
+				replacement);
+		ICompletionProposal[] proposals = new ICompletionProposal[returnProposals.size()];
 
 		returnProposals.toArray(proposals);
 		return proposals;
@@ -570,8 +525,7 @@ public class TexCompletionProcessor implements IContentAssistProcessor {
 	// "huge", "Huge"
 	// };
 
-	private ICompletionProposal[] computeStyleProposals(String selectedText,
-			Point selectedRange) {
+	private ICompletionProposal[] computeStyleProposals(String selectedText, Point selectedRange) {
 		if (styleManager == null) {
 			styleManager = TexStyleCompletionManager.getInstance();
 		}

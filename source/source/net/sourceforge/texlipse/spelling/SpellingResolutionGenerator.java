@@ -26,62 +26,64 @@ import org.eclipse.ui.texteditor.ITextEditor;
  */
 public class SpellingResolutionGenerator implements IMarkerResolutionGenerator2 {
 
-    /**
-     * Empty constructor.
-     */
-    public SpellingResolutionGenerator() {
-    }
+	/**
+	 * Empty constructor.
+	 */
+	public SpellingResolutionGenerator() {
+	}
 
-    /**
-     * Generate resolutions for the given error marker.
-     * Marker type must be SpellChecker.SPELLING_ERROR_MARKER_TYPE.
-     * 
-     * @param marker marker for the error
-     * @return an array of resolutions for the given marker
-     *         or null if an error occurs or the marker is of wrong type
-     */
-    public IMarkerResolution[] getResolutions(IMarker marker) {
-        
-        try {
-            if (!SpellChecker.SPELLING_ERROR_MARKER_TYPE.equals(marker.getType())) {
-                return null;
-            }
-        } catch (CoreException e) {
-            return null;
-        }
-        
-        String[] proposals = SpellChecker.getProposals(marker);
-        if (proposals == null || proposals.length == 0) {
-            return null;
-        }
-        
-        IDocument doc = getProviderDocument();
-        
-        IMarkerResolution[] res = new IMarkerResolution[proposals.length];
-        for (int i = 0; i < res.length; i++) {
-            res[i] = new SpellingMarkerResolution(proposals[i], doc);
-        }
-        return res;
-    }
+	/**
+	 * Generate resolutions for the given error marker. Marker type must be
+	 * SpellChecker.SPELLING_ERROR_MARKER_TYPE.
+	 * 
+	 * @param marker
+	 *            marker for the error
+	 * @return an array of resolutions for the given marker or null if an error
+	 *         occurs or the marker is of wrong type
+	 */
+	public IMarkerResolution[] getResolutions(IMarker marker) {
 
-    /**
-     * @param marker spelling error marker
-     * @return true, if the marker has resolutions
-     */
-    public boolean hasResolutions(IMarker marker) {
-        String[] proposals = SpellChecker.getProposals(marker);
-        return (proposals != null && proposals.length > 0);
-    }
+		try {
+			if (!SpellChecker.SPELLING_ERROR_MARKER_TYPE.equals(marker.getType())) {
+				return null;
+			}
+		} catch (CoreException e) {
+			return null;
+		}
 
-    /**
-     * @return
-     */
-    protected IDocument getProviderDocument() {
-        IEditorPart editor = TexlipsePlugin.getCurrentWorkbenchPage().getActiveEditor();
-        if (editor instanceof ITextEditor) {
-            ITextEditor textEditor = (ITextEditor) editor;
-            return textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
-        }
-        return null;
-    }
+		String[] proposals = SpellChecker.getProposals(marker);
+		if (proposals == null || proposals.length == 0) {
+			return null;
+		}
+
+		IDocument doc = getProviderDocument();
+
+		IMarkerResolution[] res = new IMarkerResolution[proposals.length];
+		for (int i = 0; i < res.length; i++) {
+			res[i] = new SpellingMarkerResolution(proposals[i], doc);
+		}
+		return res;
+	}
+
+	/**
+	 * @param marker
+	 *            spelling error marker
+	 * @return true, if the marker has resolutions
+	 */
+	public boolean hasResolutions(IMarker marker) {
+		String[] proposals = SpellChecker.getProposals(marker);
+		return (proposals != null && proposals.length > 0);
+	}
+
+	/**
+	 * @return
+	 */
+	protected IDocument getProviderDocument() {
+		IEditorPart editor = TexlipsePlugin.getCurrentWorkbenchPage().getActiveEditor();
+		if (editor instanceof ITextEditor) {
+			ITextEditor textEditor = (ITextEditor) editor;
+			return textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
+		}
+		return null;
+	}
 }

@@ -8,11 +8,10 @@ public class ReferenceLabelProvider extends LabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof ReferenceEntry){
+		if (element instanceof ReferenceEntry) {
 			ReferenceEntry ref = (ReferenceEntry) element;
 			return ref.author + ", " + ref.year;
-		}
-		else
+		} else
 			return super.getText(null);
 	}
 }

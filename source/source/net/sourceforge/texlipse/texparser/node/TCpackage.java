@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCpackage extends Token
-{
-    public TCpackage()
-    {
-        super.setText("\\usepackage");
-    }
+public final class TCpackage extends Token {
+	public TCpackage() {
+		super.setText("\\usepackage");
+	}
 
-    public TCpackage(int line, int pos)
-    {
-        super.setText("\\usepackage");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCpackage(int line, int pos) {
+		super.setText("\\usepackage");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCpackage(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCpackage(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCpackage(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCpackage(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCpackage text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCpackage text.");
+	}
 }

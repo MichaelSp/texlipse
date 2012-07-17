@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCchapter extends Token
-{
-    public TCchapter()
-    {
-        super.setText("\\chapter");
-    }
+public final class TCchapter extends Token {
+	public TCchapter() {
+		super.setText("\\chapter");
+	}
 
-    public TCchapter(int line, int pos)
-    {
-        super.setText("\\chapter");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCchapter(int line, int pos) {
+		super.setText("\\chapter");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCchapter(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCchapter(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCchapter(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCchapter(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCchapter text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCchapter text.");
+	}
 }

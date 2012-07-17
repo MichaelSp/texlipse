@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class EOF extends Token
-{
-    public EOF()
-    {
-        setText("");
-    }
+public final class EOF extends Token {
+	public EOF() {
+		setText("");
+	}
 
-    public EOF(int line, int pos)
-    {
-        setText("");
-        setLine(line);
-        setPos(pos);
-    }
+	public EOF(int line, int pos) {
+		setText("");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new EOF(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new EOF(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseEOF(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseEOF(this);
+	}
 }

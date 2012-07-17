@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TEquals extends Token
-{
-    public TEquals()
-    {
-        super.setText("=");
-    }
+public final class TEquals extends Token {
+	public TEquals() {
+		super.setText("=");
+	}
 
-    public TEquals(int line, int pos)
-    {
-        super.setText("=");
-        setLine(line);
-        setPos(pos);
-    }
+	public TEquals(int line, int pos) {
+		super.setText("=");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TEquals(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TEquals(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTEquals(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTEquals(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TEquals text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TEquals text.");
+	}
 }

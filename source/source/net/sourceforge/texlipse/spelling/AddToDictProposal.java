@@ -25,49 +25,48 @@ import org.eclipse.ui.texteditor.spelling.SpellingProblem;
 
 import com.swabunga.spell.event.SpellCheckEvent;
 
-
 /**
  * Add a word to user dictionary proposal
+ * 
  * @author Boris von Loesch
- *
+ * 
  */
 public class AddToDictProposal implements ICompletionProposal {
 
-    private SpellCheckEvent ferror;
-    private String fLang;
-    private ISourceViewer fviewer;
-    
-    public AddToDictProposal(SpellCheckEvent error, String lang, 
-            ISourceViewer viewer) {
-        ferror = error;
-        fLang = lang;
-        fviewer = viewer;
-    }
-    
-    public void apply(IDocument document) {
-        TexSpellDictionary dict = TexSpellingEngine.getDict(fLang);
-        dict.addWord(ferror.getInvalidWord());
-        SpellingProblem.removeAll(fviewer, ferror.getInvalidWord());
-    }
+	private SpellCheckEvent ferror;
+	private String fLang;
+	private ISourceViewer fviewer;
 
-    public String getAdditionalProposalInfo() {
-        return null;
-    }
+	public AddToDictProposal(SpellCheckEvent error, String lang, ISourceViewer viewer) {
+		ferror = error;
+		fLang = lang;
+		fviewer = viewer;
+	}
 
-    public IContextInformation getContextInformation() {
-        return null;
-    }
+	public void apply(IDocument document) {
+		TexSpellDictionary dict = TexSpellingEngine.getDict(fLang);
+		dict.addWord(ferror.getInvalidWord());
+		SpellingProblem.removeAll(fviewer, ferror.getInvalidWord());
+	}
 
-    public String getDisplayString() {
-        return MessageFormat.format(TexlipsePlugin.getResourceString("spellCheckerAddToUserDict"),
-                new Object[] { ferror.getInvalidWord() });
-    }
+	public String getAdditionalProposalInfo() {
+		return null;
+	}
 
-    public Image getImage() {
-        return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD);
-    }
+	public IContextInformation getContextInformation() {
+		return null;
+	}
 
-    public Point getSelection(IDocument document) {
-        return null;
-    }
+	public String getDisplayString() {
+		return MessageFormat.format(TexlipsePlugin.getResourceString("spellCheckerAddToUserDict"),
+				new Object[] { ferror.getInvalidWord() });
+	}
+
+	public Image getImage() {
+		return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD);
+	}
+
+	public Point getSelection(IDocument document) {
+		return null;
+	}
 }

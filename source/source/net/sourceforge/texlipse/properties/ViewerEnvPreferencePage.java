@@ -15,35 +15,33 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-
 /**
  * The page to set viewer environment variables.
  * 
  * @author Kimmo Karlsson
  */
-public class ViewerEnvPreferencePage
-    extends FieldEditorPreferencePage
-    implements IWorkbenchPreferencePage {
+public class ViewerEnvPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-    /**
-     * Creates an instance of the preference page.
-     */
-    public ViewerEnvPreferencePage() {
-        super(GRID);
-        setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
-        setDescription(TexlipsePlugin.getResourceString("preferenceViewerEnvPageDescription"));
-    }
+	/**
+	 * Creates an instance of the preference page.
+	 */
+	public ViewerEnvPreferencePage() {
+		super(GRID);
+		setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
+		setDescription(TexlipsePlugin.getResourceString("preferenceViewerEnvPageDescription"));
+	}
 
-    /**
-     * Creates the property editing UI components of this page.
-     */
-    protected void createFieldEditors() {
-        addField(new KeyValueListFieldEditor(TexlipseProperties.VIEWER_ENV_SETTINGS, TexlipsePlugin.getResourceString("preferenceViewerEnvLabel"), getFieldEditorParent()));
-    }
-    
-    /**
-     * Nothing to do.
-     */
-    public void init(IWorkbench workbench) {
-    }
+	/**
+	 * Creates the property editing UI components of this page.
+	 */
+	protected void createFieldEditors() {
+		addField(new KeyValueListFieldEditor(TexlipseProperties.VIEWER_ENV_SETTINGS,
+				TexlipsePlugin.getResourceString("preferenceViewerEnvLabel"), getFieldEditorParent()));
+	}
+
+	/**
+	 * Nothing to do.
+	 */
+	public void init(IWorkbench workbench) {
+	}
 }

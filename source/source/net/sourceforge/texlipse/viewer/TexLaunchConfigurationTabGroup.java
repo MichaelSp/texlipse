@@ -20,21 +20,21 @@ import org.eclipse.debug.ui.ILaunchConfigurationTab;
  */
 public class TexLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup {
 
-    /**
-     * Creates the tabs contained in this tab group for the specified
-     * launch mode. The tabs control's are not created. This is the
-     * first method called in the lifecycle of a tab group.
-     * 
-     * @param dialog the launch configuration dialog this tab group
-     *  is contained in
-     * @param mode the mode the launch configuration dialog was
-     *  opened in
-     */
-    public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
-        
-        fTabs = new ILaunchConfigurationTab[3];
-        fTabs[0] = new TexLaunchConfigurationTab();
-        fTabs[1] = new EnvironmentTab();
-        fTabs[2] = new CommonTab();
-    }
+	/**
+	 * Creates the tabs contained in this tab group for the specified launch
+	 * mode. The tabs control's are not created. This is the first method called
+	 * in the lifecycle of a tab group.
+	 * 
+	 * @param dialog
+	 *            the launch configuration dialog this tab group is contained in
+	 * @param mode
+	 *            the mode the launch configuration dialog was opened in
+	 */
+	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
+
+		fTabs = new ILaunchConfigurationTab[3];
+		fTabs[0] = new TexLaunchConfigurationTab();
+		fTabs[1] = new EnvironmentTab();
+		fTabs[2] = new CommonTab();
+	}
 }

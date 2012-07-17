@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TClabel extends Token
-{
-    public TClabel()
-    {
-        super.setText("\\label");
-    }
+public final class TClabel extends Token {
+	public TClabel() {
+		super.setText("\\label");
+	}
 
-    public TClabel(int line, int pos)
-    {
-        super.setText("\\label");
-        setLine(line);
-        setPos(pos);
-    }
+	public TClabel(int line, int pos) {
+		super.setText("\\label");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TClabel(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TClabel(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTClabel(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTClabel(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TClabel text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TClabel text.");
+	}
 }

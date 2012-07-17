@@ -2,93 +2,75 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ABibstreBibEntry extends PBibEntry
-{
-    private PStringEntry _stringEntry_;
+public final class ABibstreBibEntry extends PBibEntry {
+	private PStringEntry _stringEntry_;
 
-    public ABibstreBibEntry()
-    {
-        // Constructor
-    }
+	public ABibstreBibEntry() {
+		// Constructor
+	}
 
-    public ABibstreBibEntry(
-        @SuppressWarnings("hiding") PStringEntry _stringEntry_)
-    {
-        // Constructor
-        setStringEntry(_stringEntry_);
+	public ABibstreBibEntry( PStringEntry _stringEntry_) {
+		// Constructor
+		setStringEntry(_stringEntry_);
 
-    }
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new ABibstreBibEntry(
-            cloneNode(this._stringEntry_));
-    }
+	@Override
+	public Object clone() {
+		return new ABibstreBibEntry(cloneNode(this._stringEntry_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseABibstreBibEntry(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseABibstreBibEntry(this);
+	}
 
-    public PStringEntry getStringEntry()
-    {
-        return this._stringEntry_;
-    }
+	public PStringEntry getStringEntry() {
+		return this._stringEntry_;
+	}
 
-    public void setStringEntry(PStringEntry node)
-    {
-        if(this._stringEntry_ != null)
-        {
-            this._stringEntry_.parent(null);
-        }
+	public void setStringEntry(PStringEntry node) {
+		if (this._stringEntry_ != null) {
+			this._stringEntry_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._stringEntry_ = node;
-    }
+		this._stringEntry_ = node;
+	}
 
-    @Override
-    public String toString()
-    {
-        return ""
-            + toString(this._stringEntry_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._stringEntry_);
+	}
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
-        // Remove child
-        if(this._stringEntry_ == child)
-        {
-            this._stringEntry_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		// Remove child
+		if (this._stringEntry_ == child) {
+			this._stringEntry_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
-        // Replace child
-        if(this._stringEntry_ == oldChild)
-        {
-            setStringEntry((PStringEntry) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		// Replace child
+		if (this._stringEntry_ == oldChild) {
+			setStringEntry((PStringEntry) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 }

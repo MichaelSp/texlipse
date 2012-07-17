@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCsymbol extends Token
-{
-    public TCsymbol(String text)
-    {
-        setText(text);
-    }
+public final class TCsymbol extends Token {
+	public TCsymbol(String text) {
+		setText(text);
+	}
 
-    public TCsymbol(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TCsymbol(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCsymbol(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCsymbol(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCsymbol(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCsymbol(this);
+	}
 }

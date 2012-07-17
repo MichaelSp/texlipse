@@ -14,7 +14,6 @@ import net.sourceforge.texlipse.properties.TexlipseProperties;
 import org.eclipse.jface.text.templates.GlobalTemplateVariables;
 import org.eclipse.jface.text.templates.TemplateContextType;
 
-
 /**
  * Simple class for representing TeX content type.
  * 
@@ -22,27 +21,27 @@ import org.eclipse.jface.text.templates.TemplateContextType;
  * @author Oskar Ojala
  */
 public class TexContextType extends TemplateContextType {
-    public static final String TEX_CONTEXT_TYPE = TexlipseProperties.PACKAGE_NAME + ".templates.tex";
-    public static final String MATH_CONTEXT_TYPE = TexlipseProperties.PACKAGE_NAME + ".templates.math";
-    
-    /**
-     * Constructor
-     */
-    public TexContextType() {
-        addGlobalResolvers();
-    }
-    
-    /*
-     * All default solvers provided by eclipse are enabled
-     */
-    private void addGlobalResolvers() {
-        addResolver(new GlobalTemplateVariables.Cursor());
-        addResolver(new GlobalTemplateVariables.WordSelection());
-        addResolver(new GlobalTemplateVariables.LineSelection());
-        addResolver(new GlobalTemplateVariables.Dollar());
-        addResolver(new GlobalTemplateVariables.Date());
-        addResolver(new GlobalTemplateVariables.Year());
-        addResolver(new GlobalTemplateVariables.Time());
-        addResolver(new GlobalTemplateVariables.User());
-    }
+	public static final String TEX_CONTEXT_TYPE = TexlipseProperties.PACKAGE_NAME + ".templates.tex";
+	public static final String MATH_CONTEXT_TYPE = TexlipseProperties.PACKAGE_NAME + ".templates.math";
+
+	/**
+	 * Constructor
+	 */
+	public TexContextType() {
+		addGlobalResolvers();
+	}
+
+	/*
+	 * All default solvers provided by eclipse are enabled
+	 */
+	private void addGlobalResolvers() {
+		addResolver(new GlobalTemplateVariables.Cursor());
+		addResolver(new GlobalTemplateVariables.WordSelection());
+		addResolver(new GlobalTemplateVariables.LineSelection());
+		addResolver(new GlobalTemplateVariables.Dollar());
+		addResolver(new GlobalTemplateVariables.Date());
+		addResolver(new GlobalTemplateVariables.Year());
+		addResolver(new GlobalTemplateVariables.Time());
+		addResolver(new GlobalTemplateVariables.User());
+	}
 }

@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TStar extends Token
-{
-    public TStar()
-    {
-        super.setText("*");
-    }
+public final class TStar extends Token {
+	public TStar() {
+		super.setText("*");
+	}
 
-    public TStar(int line, int pos)
-    {
-        super.setText("*");
-        setLine(line);
-        setPos(pos);
-    }
+	public TStar(int line, int pos) {
+		super.setText("*");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TStar(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TStar(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTStar(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTStar(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TStar text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TStar text.");
+	}
 }

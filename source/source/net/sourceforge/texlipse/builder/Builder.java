@@ -19,53 +19,61 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * @author Kimmo Karlsson
  */
 public interface Builder {
-    /**
-     * Check to see if this builder is valid.
-     * @return true, if this builder is ready for operation
-     */
-    public boolean isValid();
+	/**
+	 * Check to see if this builder is valid.
+	 * 
+	 * @return true, if this builder is ready for operation
+	 */
+	public boolean isValid();
 
-    /**
-     * @return id number for the registry
-     */
-    public int getId();
-    
-    /**
-     * Resets the builder to be ready for a new build.
-     */
-    public void reset(final IProgressMonitor mon);
+	/**
+	 * @return id number for the registry
+	 */
+	public int getId();
 
-    /**
-     * @return the name of the format this builder outputs
-     */
-    public String getOutputFormat();
+	/**
+	 * Resets the builder to be ready for a new build.
+	 */
+	public void reset(final IProgressMonitor mon);
 
-    /**
-     * @return the build sequence for the user interface, e.g. "latex+dvips+ps2pdf"
-     */
-    public String getSequence();
-    
-    /**
-     * Stops the execution of the whole building process.
-     */
-    public void stopBuild();
+	/**
+	 * @return the name of the format this builder outputs
+	 */
+	public String getOutputFormat();
 
-    /**
-     * Starts the exceution of the whole build process.
-     * 
-     * @param resource the input file to build
-     * @throws CoreException if the build fails
-     */
-    public void build(IResource resource) throws CoreException;
+	/**
+	 * @return the build sequence for the user interface, e.g.
+	 *         "latex+dvips+ps2pdf"
+	 */
+	public String getSequence();
 
-    /**
-     * Starts the execution of the program runner sequence, but not the progress monitor listener.
-     * @param resource the project main file
-     */
-    public void buildResource(IResource resource) throws CoreException;
+	/**
+	 * Stops the execution of the whole building process.
+	 */
+	public void stopBuild();
 
-    /**
-     * Stops the execution of the program runners, but not the progress monitor listener.
-     */
-    public void stopRunners();
+	/**
+	 * Starts the exceution of the whole build process.
+	 * 
+	 * @param resource
+	 *            the input file to build
+	 * @throws CoreException
+	 *             if the build fails
+	 */
+	public void build(IResource resource) throws CoreException;
+
+	/**
+	 * Starts the execution of the program runner sequence, but not the progress
+	 * monitor listener.
+	 * 
+	 * @param resource
+	 *            the project main file
+	 */
+	public void buildResource(IResource resource) throws CoreException;
+
+	/**
+	 * Stops the execution of the program runners, but not the progress monitor
+	 * listener.
+	 */
+	public void stopRunners();
 }

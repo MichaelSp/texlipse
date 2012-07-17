@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCword extends Token
-{
-    public TCword(String text)
-    {
-        setText(text);
-    }
+public final class TCword extends Token {
+	public TCword(String text) {
+		setText(text);
+	}
 
-    public TCword(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TCword(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCword(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCword(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCword(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCword(this);
+	}
 }

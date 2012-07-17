@@ -14,7 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class is really little more than a tuple for returning the processed results of kpsewhich
+ * This class is really little more than a tuple for returning the processed
+ * results of kpsewhich
  * 
  * @author Christopher Hoskin
  */
@@ -22,27 +23,26 @@ public class Kpath {
 	public File path;
 	public boolean searchChildren;
 	public boolean lsR;
-	
+
 	/**
-	 * @param kpath - Search path as returned by kpsewhich
-	 * 				  [!!]/path/[/]
-	 * 				  !! = search ls-R rather than file system
-	 * 				  /  = search subfolders
+	 * @param kpath
+	 *            - Search path as returned by kpsewhich [!!]/path/[/] !! =
+	 *            search ls-R rather than file system / = search subfolders
 	 */
 	public Kpath(String kpath) {
-		
+
 		Pattern pattern = Pattern.compile("^(!!)?(.*?)(//)?$");
-        Matcher matcher = pattern.matcher(kpath);
-        
-        matcher.find();
+		Matcher matcher = pattern.matcher(kpath);
 
-        if (matcher.groupCount()!=3)
-        	throw new IllegalArgumentException("Invalid path");
+		matcher.find();
 
-        lsR = (matcher.group(1)!=null);
-        searchChildren = (matcher.group(3)!=null);
-        
-        path = new File(matcher.group(2));
+		if (matcher.groupCount() != 3)
+			throw new IllegalArgumentException("Invalid path");
+
+		lsR = (matcher.group(1) != null);
+		searchChildren = (matcher.group(3) != null);
+
+		path = new File(matcher.group(2));
 	}
 
 	@Override

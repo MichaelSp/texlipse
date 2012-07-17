@@ -45,7 +45,7 @@ public class BibViewEditor extends FormPage {
 	public final static String ID = "net.sourceforge.texlipse.bibeditor.BibEditor";
 	private static final String VALUE_PROVIDER = "ValueProvider";
 	private static final String MODIFY_LISTENER = "ModifyListener";
-	private FormEditor bibEditor;
+	private final FormEditor bibEditor;
 	private Section referencesSection;
 	private GridData referencesSectionData;
 	private ListEditorComposite<ReferenceEntry> propertiesEditor;
@@ -65,12 +65,13 @@ public class BibViewEditor extends FormPage {
 		bibEditor = editor;
 	}
 
+	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
 		form.setText(getTitle());
 
-		Composite body = createBody(toolkit, form);		
+		Composite body = createBody(toolkit, form);
 		Composite leftComposite = createComposite(toolkit, body);
 		Composite rightComposite = createComposite(toolkit, body);
 
@@ -104,6 +105,7 @@ public class BibViewEditor extends FormPage {
 		detailSection.setText(Messages.BibViewEditor_section_detail);
 		detailSection.setData("name", "detailSection"); //$NON-NLS-1$ //$NON-NLS-2$
 		detailSection.addExpansionListener(new ExpansionAdapter() {
+			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				detailSectionData.grabExcessVerticalSpace = e.getState();
 				detailSection.getParent().layout();
@@ -118,33 +120,34 @@ public class BibViewEditor extends FormPage {
 
 		Hyperlink urlLabel = toolkit.createHyperlink(projectComposite, Messages.DetailPage_lblUrl, SWT.NONE);
 		urlLabel.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				openHyperlink(referenceUrlText.getText());
 			}
 		});
 
-		referenceUrlText = createTextElement(toolkit, projectComposite, "");		
+		referenceUrlText = createTextElement(toolkit, projectComposite, "");
 		yearText = createTextElement(toolkit, projectComposite, Messages.DetailPage_lblYear);
-		authorsText = createTextElement(toolkit, projectComposite, Messages.DetailPage_lblAuthors);		
+		authorsText = createTextElement(toolkit, projectComposite, Messages.DetailPage_lblAuthors);
 		jornalText = createTextElement(toolkit, projectComposite, Messages.DetailPage_lblJurnal);
 
 		toolkit.paintBordersFor(projectComposite);
-		projectComposite.setTabList(new Control[] {bibkeyText, referenceUrlText, yearText});
+		projectComposite.setTabList(new Control[] { bibkeyText, referenceUrlText, yearText });
 
 	}
 
 	protected void openHyperlink(String url) {
-		if(!url.isEmpty() && (url.startsWith("http://") || url.startsWith("https://"))) {
+		if (!url.isEmpty() && (url.startsWith("http://") || url.startsWith("https://"))) {
 			url = url.trim();
 			try {
 				IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench().getBrowserSupport();
 				IWebBrowser browser = browserSupport.createBrowser(IWorkbenchBrowserSupport.NAVIGATION_BAR
 						| IWorkbenchBrowserSupport.LOCATION_BAR, url, url, url);
 				browser.openURL(new URL(url));
-			} catch(PartInitException ex) {
-				//TODO: log.error(ex.getMessage(), ex);
-			} catch(MalformedURLException ex) {
-				//TODO: log.error("Malformed url " + url, ex);
+			} catch (PartInitException ex) {
+				// TODO: log.error(ex.getMessage(), ex);
+			} catch (MalformedURLException ex) {
+				// TODO: log.error("Malformed url " + url, ex);
 			}
 		}
 	}
@@ -170,19 +173,6 @@ public class BibViewEditor extends FormPage {
 		Assert.isTrue(control instanceof CCombo || control instanceof Text || control instanceof Combo);
 
 		ModifyListener ml = new ModifyListener() {
-			String getText(Control control) {
-				if (control instanceof Text) {
-					return ((Text)control).getText(); 
-				}
-				if (control instanceof Combo) {
-					return ((Combo)control).getText();
-				}
-				if (control instanceof CCombo) {
-					return ((CCombo)control).getText();
-				}
-				throw new IllegalStateException();
-			}
-
 			public void modifyText(ModifyEvent e) {
 				final ElementValueProvider provider = (ElementValueProvider) control.getData(VALUE_PROVIDER);
 				if (provider == null) {
@@ -193,7 +183,6 @@ public class BibViewEditor extends FormPage {
 		control.setData(MODIFY_LISTENER, ml);
 	}
 
-
 	private void createReferencesSection(FormToolkit toolkit, Composite composite) {
 		referencesSection = toolkit.createSection(composite, defaultSectionStyle());
 		referencesSectionData = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -201,6 +190,7 @@ public class BibViewEditor extends FormPage {
 		referencesSection.setText(Messages.BibViewEditor_section_references);
 		referencesSection.setData("name", "section"); //$NON-NLS-1$ //$NON-NLS-2$
 		referencesSection.addExpansionListener(new ExpansionAdapter() {
+			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				referencesSectionData.grabExcessVerticalSpace = e.getState();
 				referencesSection.getParent().layout();
@@ -219,11 +209,13 @@ public class BibViewEditor extends FormPage {
 		entryEditor.setLabelProvider(new ReferenceLabelProvider());
 
 		entryEditor.setCreateButtonListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				createNewReference();
 			}
 		});
 		entryEditor.setRemoveButtonListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deleteReference(entryEditor.getSelection());
 			}
@@ -232,9 +224,9 @@ public class BibViewEditor extends FormPage {
 			public void doubleClick(DoubleClickEvent event) {
 				editReference(entryEditor.getSelection());
 			}
-		}) ;
+		});
 
-		if (entrys !=null)
+		if (entrys != null)
 			entryEditor.setInput(entrys);
 
 		toolkit.paintBordersFor(entryEditor);
@@ -271,9 +263,8 @@ public class BibViewEditor extends FormPage {
 		entrys = bibDocumentModel.getReferenceList();
 		if (entryEditor == null) {
 			return;
-		}
-		else
-			entryEditor.setInput( entrys );
+		} else
+			entryEditor.setInput(entrys);
 	}
 
 }

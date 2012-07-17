@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TVtext extends Token
-{
-    public TVtext(String text)
-    {
-        setText(text);
-    }
+public final class TVtext extends Token {
+	public TVtext(String text) {
+		setText(text);
+	}
 
-    public TVtext(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TVtext(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TVtext(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TVtext(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTVtext(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTVtext(this);
+	}
 }

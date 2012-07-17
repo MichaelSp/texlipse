@@ -19,7 +19,7 @@ import org.eclipse.jface.text.rules.FastPartitioner;
 
 /**
  * @author Antti Pirinen
- *
+ * 
  */
 public class TexDocumentSetupParticipant implements IDocumentSetupParticipant {
 
@@ -28,23 +28,25 @@ public class TexDocumentSetupParticipant implements IDocumentSetupParticipant {
 	 */
 	public TexDocumentSetupParticipant() {
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.filebuffers.IDocumentSetupParticipant#setup(org.eclipse.jface.text.IDocument)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.filebuffers.IDocumentSetupParticipant#setup(org.eclipse
+	 * .jface.text.IDocument)
 	 */
 	public void setup(IDocument document) {
 		if (document instanceof IDocumentExtension3) {
-			IDocumentExtension3 extension3= (IDocumentExtension3) document;
+			IDocumentExtension3 extension3 = (IDocumentExtension3) document;
 
-			IDocumentPartitioner partitioner = 
-			    new FastPartitioner(
-			            new FastLaTeXPartitionScanner(), 
-			            FastLaTeXPartitionScanner.TEX_PARTITION_TYPES);
+			IDocumentPartitioner partitioner = new FastPartitioner(new FastLaTeXPartitionScanner(),
+					FastLaTeXPartitionScanner.TEX_PARTITION_TYPES);
 
 			extension3.setDocumentPartitioner(TexEditor.TEX_PARTITIONING, partitioner);
-	        
+
 			partitioner.connect(document);
-			
-		}	
+
+		}
 	}
 }

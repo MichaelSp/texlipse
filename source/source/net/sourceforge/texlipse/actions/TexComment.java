@@ -18,31 +18,36 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-
 /**
  * @author Laura Takkinen
- *
- * Listens comment actions.
+ * 
+ *         Listens comment actions.
  */
 public class TexComment implements IEditorActionDelegate {
 	private IEditorPart targetEditor;
 	private static TexSelections selection;
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface
+	 * .action.IAction, org.eclipse.ui.IEditorPart)
 	 */
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
 		this.targetEditor = targetEditor;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	public void run(IAction action) {
 		selection = new TexSelections(getTextEditor());
 		comment();
 	}
-	
+
 	/**
 	 * This function returns the text editor.
 	 */
@@ -50,7 +55,7 @@ public class TexComment implements IEditorActionDelegate {
 		if (targetEditor instanceof ITextEditor) {
 			return (ITextEditor) targetEditor;
 		} else {
-			throw new RuntimeException("Expecting text editor. Found:"+targetEditor.getClass().getName());
+			throw new RuntimeException("Expecting text editor. Found:" + targetEditor.getClass().getName());
 		}
 	}
 
@@ -70,20 +75,25 @@ public class TexComment implements IEditorActionDelegate {
 			strbuf.append("% " + selection.getLine(selection.getEndLineIndex()));
 
 			// Replace the text with the modified information
-			selection.getDocument().replace(selection.getStartLine().getOffset(), selection.getSelLength(), strbuf.toString());
+			selection.getDocument().replace(selection.getStartLine().getOffset(), selection.getSelLength(),
+					strbuf.toString());
 		} catch (Exception e) {
 			TexlipsePlugin.log("TexComment.comment(): ", e);
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		if (selection instanceof TextSelection) {
 			action.setEnabled(true);
 			return;
 		}
-		action.setEnabled( targetEditor instanceof ITextEditor);
+		action.setEnabled(targetEditor instanceof ITextEditor);
 	}
 }

@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TRParen extends Token
-{
-    public TRParen()
-    {
-        super.setText(")");
-    }
+public final class TRParen extends Token {
+	public TRParen() {
+		super.setText(")");
+	}
 
-    public TRParen(int line, int pos)
-    {
-        super.setText(")");
-        setLine(line);
-        setPos(pos);
-    }
+	public TRParen(int line, int pos) {
+		super.setText(")");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TRParen(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TRParen(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTRParen(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTRParen(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TRParen text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TRParen text.");
+	}
 }

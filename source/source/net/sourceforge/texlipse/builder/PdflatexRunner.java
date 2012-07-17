@@ -18,36 +18,36 @@ import net.sourceforge.texlipse.properties.TexlipseProperties;
  */
 public class PdflatexRunner extends LatexRunner {
 
-    /**
-     * Create a new ProgramRunner.
-     */
-    public PdflatexRunner() {
-        super();
-    }
-    
-    protected String getWindowsProgramName() {
-        return "pdflatex.exe";
-    }
-    
-    protected String getUnixProgramName() {
-        return "pdflatex";
-    }
-    
-    public String getDescription() {
-        return "PdfLatex program";
-    }
-    
-    /**
-     * Enable SyncTeX
-     */
-    public String getDefaultArguments() {
-        return "-synctex=1 "+super.getDefaultArguments();
-    }
+	/**
+	 * Create a new ProgramRunner.
+	 */
+	public PdflatexRunner() {
+		super();
+	}
 
-    /**
-     * @return output file format (pdf)
-     */
-    public String getOutputFormat() {
-        return TexlipseProperties.OUTPUT_FORMAT_PDF;
-    }
+	protected String getWindowsProgramName() {
+		return "pdflatex.exe";
+	}
+
+	protected String getUnixProgramName() {
+		return "pdflatex";
+	}
+
+	public String getDescription() {
+		return "PdfLatex program";
+	}
+
+	/**
+	 * Enable SyncTeX
+	 */
+	public String getDefaultArguments() {
+		return "-synctex=1 " + super.getDefaultArguments();
+	}
+
+	/**
+	 * @return output file format (pdf)
+	 */
+	public String getOutputFormat() {
+		return TexlipseProperties.OUTPUT_FORMAT_PDF;
+	}
 }

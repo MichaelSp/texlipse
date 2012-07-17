@@ -2,93 +2,75 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AValueBValOrSid extends PValOrSid
-{
-    private TStringLiteral _stringLiteral_;
+public final class AValueBValOrSid extends PValOrSid {
+	private TStringLiteral _stringLiteral_;
 
-    public AValueBValOrSid()
-    {
-        // Constructor
-    }
+	public AValueBValOrSid() {
+		// Constructor
+	}
 
-    public AValueBValOrSid(
-        @SuppressWarnings("hiding") TStringLiteral _stringLiteral_)
-    {
-        // Constructor
-        setStringLiteral(_stringLiteral_);
+	public AValueBValOrSid( TStringLiteral _stringLiteral_) {
+		// Constructor
+		setStringLiteral(_stringLiteral_);
 
-    }
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new AValueBValOrSid(
-            cloneNode(this._stringLiteral_));
-    }
+	@Override
+	public Object clone() {
+		return new AValueBValOrSid(cloneNode(this._stringLiteral_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseAValueBValOrSid(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseAValueBValOrSid(this);
+	}
 
-    public TStringLiteral getStringLiteral()
-    {
-        return this._stringLiteral_;
-    }
+	public TStringLiteral getStringLiteral() {
+		return this._stringLiteral_;
+	}
 
-    public void setStringLiteral(TStringLiteral node)
-    {
-        if(this._stringLiteral_ != null)
-        {
-            this._stringLiteral_.parent(null);
-        }
+	public void setStringLiteral(TStringLiteral node) {
+		if (this._stringLiteral_ != null) {
+			this._stringLiteral_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._stringLiteral_ = node;
-    }
+		this._stringLiteral_ = node;
+	}
 
-    @Override
-    public String toString()
-    {
-        return ""
-            + toString(this._stringLiteral_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._stringLiteral_);
+	}
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
-        // Remove child
-        if(this._stringLiteral_ == child)
-        {
-            this._stringLiteral_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		// Remove child
+		if (this._stringLiteral_ == child) {
+			this._stringLiteral_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
-        // Replace child
-        if(this._stringLiteral_ == oldChild)
-        {
-            setStringLiteral((TStringLiteral) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		// Replace child
+		if (this._stringLiteral_ == oldChild) {
+			setStringLiteral((TStringLiteral) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 }

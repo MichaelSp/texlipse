@@ -14,41 +14,41 @@ import net.sourceforge.texlipse.TexlipsePlugin;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.texteditor.templates.TemplatePreferencePage;
 
-
 /**
  * @author Esa Seuranen
  * 
- * Class for the TeX editor's preference page for templates.
+ *         Class for the TeX editor's preference page for templates.
  */
-public class TexTemplatePreferencesPage
-extends TemplatePreferencePage
-implements IWorkbenchPreferencePage {
-    
-    /**
-     * Constructor
-     */
-    public TexTemplatePreferencesPage() {
-        setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
-        setTemplateStore(TexlipsePlugin.getDefault().getTexTemplateStore());
-        setContextTypeRegistry(TexlipsePlugin.getDefault().getTexContextTypeRegistry());
-    }
-    
-    /* (non-Javadoc)
-     * @see org.eclipse.ui.texteditor.templates.TemplatePreferencePage#isShowFormatterSetting()
-     */
-    protected boolean isShowFormatterSetting() {
-        return true;
-    }
-    
-    /**
-     * @see org.eclipse.jface.preference.IPreferencePage#performOk()
-     */
-    public boolean performOk() {
-        boolean ok = super.performOk();
-        
-        if (ok)
-            TexlipsePlugin.getDefault().savePluginPreferences();
-        
-        return ok;
-    }	
+public class TexTemplatePreferencesPage extends TemplatePreferencePage implements IWorkbenchPreferencePage {
+
+	/**
+	 * Constructor
+	 */
+	public TexTemplatePreferencesPage() {
+		setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
+		setTemplateStore(TexlipsePlugin.getDefault().getTexTemplateStore());
+		setContextTypeRegistry(TexlipsePlugin.getDefault().getTexContextTypeRegistry());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.texteditor.templates.TemplatePreferencePage#
+	 * isShowFormatterSetting()
+	 */
+	protected boolean isShowFormatterSetting() {
+		return true;
+	}
+
+	/**
+	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
+	 */
+	public boolean performOk() {
+		boolean ok = super.performOk();
+
+		if (ok)
+			TexlipsePlugin.getDefault().savePluginPreferences();
+
+		return ok;
+	}
 }

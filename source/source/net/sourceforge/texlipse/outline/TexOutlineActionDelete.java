@@ -14,25 +14,26 @@ import net.sourceforge.texlipse.TexlipsePlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.ISharedImages;
 
-
 /**
- * The outline delete action. 
+ * The outline delete action.
  * 
  * @author Taavi Hupponen
  */
 public class TexOutlineActionDelete extends Action {
-	
+
 	private TexOutlinePage outline;
-	
+
 	public TexOutlineActionDelete(TexOutlinePage outline) {
 		super("Delete");
 		setToolTipText("Delete");
-		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
-		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
-	
+		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
+		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
+
 		this.outline = outline;
 	}
-	
+
 	public void run() {
 		if (outline.isModelDirty()) {
 			return;

@@ -1,6 +1,5 @@
 package net.sourceforge.texlipse.bibeditor;
 
-
 public class Messages {
 
 	public static final String ListEditorComposite_btnAdd = "Add";

@@ -26,44 +26,44 @@ import org.eclipse.ui.texteditor.spelling.SpellingProblem;
 
 /**
  * Ignore a word for the rest of the session proposal
+ * 
  * @author Boris von Loesch
- *
+ * 
  */
 public class IgnoreProposal implements ICompletionProposal {
-    private Set<String> fIgnore;
-    private String fWord;
-    private ISourceViewer fViewer;
-    
-    public IgnoreProposal(Set<String> ignore, String word, ISourceViewer viewer) {
-        fIgnore = ignore;
-        fWord = word;
-        fViewer = viewer;
-    }
-    
-    public void apply(IDocument document) {
-        fIgnore.add(fWord);
-        SpellingProblem.removeAll(fViewer, fWord);
-    }
+	private Set<String> fIgnore;
+	private String fWord;
+	private ISourceViewer fViewer;
 
-    public String getAdditionalProposalInfo() {
-        return null;
-    }
+	public IgnoreProposal(Set<String> ignore, String word, ISourceViewer viewer) {
+		fIgnore = ignore;
+		fWord = word;
+		fViewer = viewer;
+	}
 
-    public IContextInformation getContextInformation() {
-        return null;
-    }
+	public void apply(IDocument document) {
+		fIgnore.add(fWord);
+		SpellingProblem.removeAll(fViewer, fWord);
+	}
 
-    public String getDisplayString() {
-        return MessageFormat.format(TexlipsePlugin.getResourceString("spellCheckerIgnoreWord"),
-                new Object[] { fWord });
-    }
+	public String getAdditionalProposalInfo() {
+		return null;
+	}
 
-    public Image getImage() {
-        return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_REMOVE);
-    }
+	public IContextInformation getContextInformation() {
+		return null;
+	}
 
-    public Point getSelection(IDocument document) {
-        return null;
-    }
+	public String getDisplayString() {
+		return MessageFormat.format(TexlipsePlugin.getResourceString("spellCheckerIgnoreWord"), new Object[] { fWord });
+	}
+
+	public Image getImage() {
+		return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_REMOVE);
+	}
+
+	public Point getSelection(IDocument document) {
+		return null;
+	}
 
 }

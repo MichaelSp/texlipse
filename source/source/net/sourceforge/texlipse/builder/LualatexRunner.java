@@ -9,37 +9,37 @@ import net.sourceforge.texlipse.properties.TexlipseProperties;
  */
 public class LualatexRunner extends LatexRunner {
 
-    /**
-     * Create a new ProgramRunner.
-     */
-    public LualatexRunner() {
-        super();
-    }
-    
-    protected String getWindowsProgramName() {
-        return "lualatex.exe";
-    }
-    
-    protected String getUnixProgramName() {
-        return "lualatex";
-    }
-    
-    public String getDescription() {
-        return "LuaLatex program";
-    }
-    
-    /**
-     * Enable SyncTeX
-     */
-    public String getDefaultArguments() {
-        return "-synctex=1 "+super.getDefaultArguments();
-    }
+	/**
+	 * Create a new ProgramRunner.
+	 */
+	public LualatexRunner() {
+		super();
+	}
 
-    /**
-     * @return output file format (pdf)
-     */
-    public String getOutputFormat() {
-        return TexlipseProperties.OUTPUT_FORMAT_PDF;
-    }
+	protected String getWindowsProgramName() {
+		return "lualatex.exe";
+	}
+
+	protected String getUnixProgramName() {
+		return "lualatex";
+	}
+
+	public String getDescription() {
+		return "LuaLatex program";
+	}
+
+	/**
+	 * Enable SyncTeX
+	 */
+	public String getDefaultArguments() {
+		return "-synctex=1 " + super.getDefaultArguments();
+	}
+
+	/**
+	 * @return output file format (pdf)
+	 */
+	public String getOutputFormat() {
+		return TexlipseProperties.OUTPUT_FORMAT_PDF;
+	}
 
 }

@@ -20,27 +20,29 @@ import org.eclipse.ui.IEditorPart;
 
 /**
  * Simple action to force a BibTex run on next build
+ * 
  * @author Boris von Loesch
- *
+ * 
  */
 public class RunBibTeXOnNextBuildAction implements IEditorActionDelegate {
 
-    private IEditorPart editor;
+	private IEditorPart editor;
 
-    public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-        editor = targetEditor;
-    }
+	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		editor = targetEditor;
+	}
 
-    public void run(IAction action) {
-        IResource res = (IResource) editor.getEditorInput().getAdapter(IResource.class);
-        if (res == null) return;
-        
-        IProject project = res.getProject();
-        TexlipseProperties.setSessionProperty(project, TexlipseProperties.BIBFILES_CHANGED, true);
-    }
+	public void run(IAction action) {
+		IResource res = (IResource) editor.getEditorInput().getAdapter(IResource.class);
+		if (res == null)
+			return;
 
-    public void selectionChanged(IAction action, ISelection selection) {
-        //Nothing to do
-    }
+		IProject project = res.getProject();
+		TexlipseProperties.setSessionProperty(project, TexlipseProperties.BIBFILES_CHANGED, true);
+	}
+
+	public void selectionChanged(IAction action, ISelection selection) {
+		// Nothing to do
+	}
 
 }

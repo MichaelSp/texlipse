@@ -2,93 +2,75 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ABibeBibEntry extends PBibEntry
-{
-    private PEntry _entry_;
+public final class ABibeBibEntry extends PBibEntry {
+	private PEntry _entry_;
 
-    public ABibeBibEntry()
-    {
-        // Constructor
-    }
+	public ABibeBibEntry() {
+		// Constructor
+	}
 
-    public ABibeBibEntry(
-        @SuppressWarnings("hiding") PEntry _entry_)
-    {
-        // Constructor
-        setEntry(_entry_);
+	public ABibeBibEntry(PEntry _entry_) {
+		// Constructor
+		setEntry(_entry_);
 
-    }
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new ABibeBibEntry(
-            cloneNode(this._entry_));
-    }
+	@Override
+	public Object clone() {
+		return new ABibeBibEntry(cloneNode(this._entry_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseABibeBibEntry(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseABibeBibEntry(this);
+	}
 
-    public PEntry getEntry()
-    {
-        return this._entry_;
-    }
+	public PEntry getEntry() {
+		return this._entry_;
+	}
 
-    public void setEntry(PEntry node)
-    {
-        if(this._entry_ != null)
-        {
-            this._entry_.parent(null);
-        }
+	public void setEntry(PEntry node) {
+		if (this._entry_ != null) {
+			this._entry_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._entry_ = node;
-    }
+		this._entry_ = node;
+	}
 
-    @Override
-    public String toString()
-    {
-        return ""
-            + toString(this._entry_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._entry_);
+	}
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
-        // Remove child
-        if(this._entry_ == child)
-        {
-            this._entry_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		// Remove child
+		if (this._entry_ == child) {
+			this._entry_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
-        // Replace child
-        if(this._entry_ == oldChild)
-        {
-            setEntry((PEntry) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		// Replace child
+		if (this._entry_ == oldChild) {
+			setEntry((PEntry) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 }

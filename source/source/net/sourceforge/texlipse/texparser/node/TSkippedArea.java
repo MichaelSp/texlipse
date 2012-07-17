@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TSkippedArea extends Token
-{
-    public TSkippedArea(String text)
-    {
-        setText(text);
-    }
+public final class TSkippedArea extends Token {
+	public TSkippedArea(String text) {
+		setText(text);
+	}
 
-    public TSkippedArea(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TSkippedArea(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TSkippedArea(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TSkippedArea(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTSkippedArea(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTSkippedArea(this);
+	}
 }

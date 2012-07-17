@@ -15,35 +15,33 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-
 /**
  * The page to set builder environment variables.
  * 
  * @author Kimmo Karlsson
  */
-public class BuilderEnvPreferencePage
-    extends FieldEditorPreferencePage
-    implements IWorkbenchPreferencePage {
+public class BuilderEnvPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-    /**
-     * Creates an instance of the preference page.
-     */
-    public BuilderEnvPreferencePage() {
-        super(GRID);
-        setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
-        setDescription(TexlipsePlugin.getResourceString("preferenceBuilderEnvPageDescription"));
-    }
+	/**
+	 * Creates an instance of the preference page.
+	 */
+	public BuilderEnvPreferencePage() {
+		super(GRID);
+		setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
+		setDescription(TexlipsePlugin.getResourceString("preferenceBuilderEnvPageDescription"));
+	}
 
-    /**
-     * Creates the property editing UI components of this page.
-     */
-    protected void createFieldEditors() {
-        addField(new KeyValueListFieldEditor(TexlipseProperties.BUILD_ENV_SETTINGS, TexlipsePlugin.getResourceString("preferenceBuilderEnvLabel"), getFieldEditorParent()));
-    }
-    
-    /**
-     * Nothing to do.
-     */
-    public void init(IWorkbench workbench) {
-    }
+	/**
+	 * Creates the property editing UI components of this page.
+	 */
+	protected void createFieldEditors() {
+		addField(new KeyValueListFieldEditor(TexlipseProperties.BUILD_ENV_SETTINGS,
+				TexlipsePlugin.getResourceString("preferenceBuilderEnvLabel"), getFieldEditorParent()));
+	}
+
+	/**
+	 * Nothing to do.
+	 */
+	public void init(IWorkbench workbench) {
+	}
 }

@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCend extends Token
-{
-    public TCend()
-    {
-        super.setText("\\end");
-    }
+public final class TCend extends Token {
+	public TCend() {
+		super.setText("\\end");
+	}
 
-    public TCend(int line, int pos)
-    {
-        super.setText("\\end");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCend(int line, int pos) {
+		super.setText("\\end");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCend(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCend(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCend(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCend(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCend text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCend text.");
+	}
 }

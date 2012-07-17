@@ -17,151 +17,159 @@ import com.swabunga.spell.event.Word;
 import com.swabunga.spell.event.WordNotFoundException;
 
 /**
- * Finds the non TeX words in a given text. Ignores arguments 
- * of some special commands like \ref, \label, \begin,...
+ * Finds the non TeX words in a given text. Ignores arguments of some special
+ * commands like \ref, \label, \begin,...
  * 
  * @author Boris von Loesch
- *
+ * 
  */
 public class TexlipseWordFinder extends AbstractWordFinder {
 
-    private final static Pattern MAND_ARG = Pattern.compile("\\A\\s*\\{[^\\}]+\\}");
-    private final static Pattern OPT_MAND_ARG = Pattern.compile("\\A\\s*(\\[[^\\]]+\\])?\\s*\\{[^\\}]+\\}");
-    
-    private boolean IGNORE_COMMENTS = true;
-    private boolean IGNORE_MATH = true;
-    
+	private final static Pattern MAND_ARG = Pattern.compile("\\A\\s*\\{[^\\}]+\\}");
+	private final static Pattern OPT_MAND_ARG = Pattern.compile("\\A\\s*(\\[[^\\]]+\\])?\\s*\\{[^\\}]+\\}");
 
-    public TexlipseWordFinder(String st) {
-        super(st);
-    }
-    
-    public TexlipseWordFinder() {
-        super();
-    }
+	private boolean IGNORE_COMMENTS = true;
+	private boolean IGNORE_MATH = true;
 
-    /**
-     * This method scans the text from the end of the last word, and returns a
-     * new Word object corresponding to the next word.
-     *
-     * @return the next word.
-     * @throws WordNotFoundException search string contains no more words.
-     */
-    @Override
-    public Word next() {
+	public TexlipseWordFinder(String st) {
+		super(st);
+	}
 
-        if (!hasNext())
-            throw new WordNotFoundException("No more words found.");
+	public TexlipseWordFinder() {
+		super();
+	}
 
-        currentWord.copy(nextWord);
-        setSentenceIterator(currentWord);
+	/**
+	 * This method scans the text from the end of the last word, and returns a
+	 * new Word object corresponding to the next word.
+	 * 
+	 * @return the next word.
+	 * @throws WordNotFoundException
+	 *             search string contains no more words.
+	 */
+	@Override
+	public Word next() {
 
+		if (!hasNext())
+			throw new WordNotFoundException("No more words found.");
 
-        int i = currentWord.getEnd();
-        boolean finished = false;
-        boolean started = false;
+		currentWord.copy(nextWord);
+		setSentenceIterator(currentWord);
 
-        while (i < text.length() && !finished) {
+		int i = currentWord.getEnd();
+		boolean finished = false;
+		boolean started = false;
 
-            if (!started && isWordChar(i)) {
-                nextWord.setStart(i++);
-                started = true;
-                continue;
-            } else if (started) {
-                if (isWordChar(i)) {
-                    i++;
-                    continue;
-                } else {
-                    nextWord.setText(text.substring(nextWord.getStart(), i));
-                    finished = true;
-                    break;
-                }
-            } 
+		while (i < text.length() && !finished) {
 
-            // Ignores should be in order of importance and then specificity.
-            int j = i;
-            if (IGNORE_COMMENTS) j = ignore(j, '%', '\n');
+			if (!started && isWordChar(i)) {
+				nextWord.setStart(i++);
+				started = true;
+				continue;
+			} else if (started) {
+				if (isWordChar(i)) {
+					i++;
+					continue;
+				} else {
+					nextWord.setText(text.substring(nextWord.getStart(), i));
+					finished = true;
+					break;
+				}
+			}
 
-            if (IGNORE_MATH) {
-                //FIXME: Is not working correctly when parsing just a single line
-                //j = ignore(j, '$', '$');
-            }
+			// Ignores should be in order of importance and then specificity.
+			int j = i;
+			if (IGNORE_COMMENTS)
+				j = ignore(j, '%', '\n');
 
-            if (j < text.length() && text.charAt(j) == '\\') { 
-                // Ignore certain command parameters.
-                j = ignore(j, "\\documentclass", OPT_MAND_ARG);
-                j = ignore(j, "\\usepackage", OPT_MAND_ARG);
-                j = ignore(j, "\\newcounter", MAND_ARG);
-                j = ignore(j, "\\setcounter", MAND_ARG);
-                j = ignore(j, "\\addtocounter", MAND_ARG);
-                j = ignore(j, "\\value", MAND_ARG);
-                j = ignore(j, "\\arabic", MAND_ARG);
-                j = ignore(j, "\\stepcounter", MAND_ARG);
-                j = ignore(j, "\\newenvironment", MAND_ARG);
-                j = ignore(j, "\\renewenvironment", MAND_ARG);
-                j = ignore(j, "\\ref", MAND_ARG);
-                j = ignore(j, "\\vref", MAND_ARG);
-                j = ignore(j, "\\eqref", MAND_ARG);
-                j = ignore(j, "\\pageref", MAND_ARG);
-                j = ignore(j, "\\label", MAND_ARG);
-                j = ignore(j, "\\cite", OPT_MAND_ARG);
-                j = ignore(j, "\\tag", MAND_ARG);
+			if (IGNORE_MATH) {
+				// FIXME: Is not working correctly when parsing just a single
+				// line
+				// j = ignore(j, '$', '$');
+			}
 
-                // Ignore environment names.
-                j = ignore(j, "\\begin", MAND_ARG);
-                j = ignore(j, "\\end", MAND_ARG);        
+			if (j < text.length() && text.charAt(j) == '\\') {
+				// Ignore certain command parameters.
+				j = ignore(j, "\\documentclass", OPT_MAND_ARG);
+				j = ignore(j, "\\usepackage", OPT_MAND_ARG);
+				j = ignore(j, "\\newcounter", MAND_ARG);
+				j = ignore(j, "\\setcounter", MAND_ARG);
+				j = ignore(j, "\\addtocounter", MAND_ARG);
+				j = ignore(j, "\\value", MAND_ARG);
+				j = ignore(j, "\\arabic", MAND_ARG);
+				j = ignore(j, "\\stepcounter", MAND_ARG);
+				j = ignore(j, "\\newenvironment", MAND_ARG);
+				j = ignore(j, "\\renewenvironment", MAND_ARG);
+				j = ignore(j, "\\ref", MAND_ARG);
+				j = ignore(j, "\\vref", MAND_ARG);
+				j = ignore(j, "\\eqref", MAND_ARG);
+				j = ignore(j, "\\pageref", MAND_ARG);
+				j = ignore(j, "\\label", MAND_ARG);
+				j = ignore(j, "\\cite", OPT_MAND_ARG);
+				j = ignore(j, "\\tag", MAND_ARG);
 
-                // Ignore commands.
-                j = ignore(j, '\\');
-            }
-            
-            if (i != j){
-                i = j;
-                continue;
-            }
-            i++;
-        }
+				// Ignore environment names.
+				j = ignore(j, "\\begin", MAND_ARG);
+				j = ignore(j, "\\end", MAND_ARG);
 
-        if (!started) {
-            nextWord = null;
-        } else if (!finished) {
-            nextWord.setText(text.substring(nextWord.getStart(), i));
-        }
+				// Ignore commands.
+				j = ignore(j, '\\');
+			}
 
-        return currentWord;
-    }
+			if (i != j) {
+				i = j;
+				continue;
+			}
+			i++;
+		}
 
-    /**
-     * Define if comments contents are ignored during spell checking
-     * @param ignore an indication if comments content is to be ignored
-     */
-    public void setIgnoreComments(boolean ignore) {
-        IGNORE_COMMENTS = ignore;
-    }
+		if (!started) {
+			nextWord = null;
+		} else if (!finished) {
+			nextWord.setText(text.substring(nextWord.getStart(), i));
+		}
 
-    public void setIgnoreMath(boolean ignore) {
-        IGNORE_MATH = ignore;
-    }
-    
-    /**
-     * Ignores a command string
-     * @param index 
-     * @param command The command with leading backslash
-     * @param p Regexp pattern for the command arguments
-     * @return new index
-     */
-    public int ignore(int index, String command, Pattern p) {
-        int i = 0;
-        //Is this the right command
-        while (i < command.length()) {
-            if (index + i >= text.length()) return index;
-            if (command.charAt(i) != text.charAt(i + index)) return index;
-            i++;
-        }
-        i = i + index;
-        Matcher m = p.matcher(text.substring(i));
-        if (m.find()) 
-            return i + m.end() - 1;
-        return index;
-    }
+		return currentWord;
+	}
+
+	/**
+	 * Define if comments contents are ignored during spell checking
+	 * 
+	 * @param ignore
+	 *            an indication if comments content is to be ignored
+	 */
+	public void setIgnoreComments(boolean ignore) {
+		IGNORE_COMMENTS = ignore;
+	}
+
+	public void setIgnoreMath(boolean ignore) {
+		IGNORE_MATH = ignore;
+	}
+
+	/**
+	 * Ignores a command string
+	 * 
+	 * @param index
+	 * @param command
+	 *            The command with leading backslash
+	 * @param p
+	 *            Regexp pattern for the command arguments
+	 * @return new index
+	 */
+	public int ignore(int index, String command, Pattern p) {
+		int i = 0;
+		// Is this the right command
+		while (i < command.length()) {
+			if (index + i >= text.length())
+				return index;
+			if (command.charAt(i) != text.charAt(i + index))
+				return index;
+			i++;
+		}
+		i = i + index;
+		Matcher m = p.matcher(text.substring(i));
+		if (m.find())
+			return i + m.end() - 1;
+		return index;
+	}
 }

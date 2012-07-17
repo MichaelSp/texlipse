@@ -16,32 +16,33 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 
-
 /**
- * The outline cut action. 
+ * The outline cut action.
  * 
  * @author Taavi Hupponen
  */
 public class TexOutlineActionCut extends Action {
-	
+
 	private TexOutlinePage outline;
-	
+
 	public TexOutlineActionCut(TexOutlinePage outline) {
 		super("Cut");
 		setToolTipText("Cut");
-		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
-	
+		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
+		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
+
 		this.outline = outline;
 	}
-	
+
 	public void run() {
 		if (outline.isModelDirty()) {
 			return;
 		}
 		String text = outline.getSelectedText();
 		if (text != null) {
-			outline.getClipboard().setContents(new Object[] {text}, new Transfer[] {TextTransfer.getInstance()});
+			outline.getClipboard().setContents(new Object[] { text }, new Transfer[] { TextTransfer.getInstance() });
 			outline.removeSelectedText();
 		}
 	}

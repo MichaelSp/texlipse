@@ -15,21 +15,18 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 /**
  * @author Esa Seuranen
- *
- * A comparator class for ICompletition proposals, so that
- * proposals can be sorted.
+ * 
+ *         A comparator class for ICompletition proposals, so that proposals can
+ *         be sorted.
  */
-public class ProposalsComparator implements Comparator {
-    
-    /**
-     * Compares two ICompletionProposals according to their display Strings
-     * 
-     * @return same as String.compareToIgnoreCase()
-     */
-    public int compare(Object o1, Object o2) {
-        ICompletionProposal p1 = (ICompletionProposal) o1;
-        ICompletionProposal p2 = (ICompletionProposal) o2;
-        
-        return p1.getDisplayString().compareToIgnoreCase(p2.getDisplayString());
-    }
+public class ProposalsComparator implements Comparator<ICompletionProposal> {
+
+	/**
+	 * Compares two ICompletionProposals according to their display Strings
+	 * 
+	 * @return same as String.compareToIgnoreCase()
+	 */
+	public int compare(ICompletionProposal o1, ICompletionProposal o2) {
+		return o1.getDisplayString().compareToIgnoreCase(o2.getDisplayString());
+	}
 }

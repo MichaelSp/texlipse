@@ -6,5 +6,4 @@ public class ElementValueProvider {
 		// TODO Auto-generated constructor stub
 	}
 
-
 }

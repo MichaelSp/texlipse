@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TEverbatim extends Token
-{
-    public TEverbatim(String text)
-    {
-        setText(text);
-    }
+public final class TEverbatim extends Token {
+	public TEverbatim(String text) {
+		setText(text);
+	}
 
-    public TEverbatim(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TEverbatim(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TEverbatim(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TEverbatim(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTEverbatim(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTEverbatim(this);
+	}
 }

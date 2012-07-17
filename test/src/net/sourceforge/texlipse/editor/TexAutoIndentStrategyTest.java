@@ -25,12 +25,14 @@ public class TexAutoIndentStrategyTest {
     
     @Before
     public void setUp() throws Exception {
-    	IPreferenceStore fPreferenceStore = TexlipsePlugin.getDefault().getPreferenceStore();
-    	fPreferenceStore.setValue(TexlipseProperties.TEX_ITEM_COMPLETION, true);
-    	fPreferenceStore.setValue(TexlipseProperties.INDENTATION_LEVEL, 2);
-    	fPreferenceStore.setValue(TexlipseProperties.INDENTATION_TABS, false);
-    	fPreferenceStore.setValue(TexlipseProperties.INDENTATION, true);
-    	fPreferenceStore.setValue(TexlipseProperties.INDENTATION_ENVS, "itemize,indent,description");
+    	IPreferenceStore preferenceStore = TexlipsePlugin.getDefault().getPreferenceStore();
+    	if (preferenceStore == null)
+    		throw new NullPointerException();
+    	preferenceStore.setValue(TexlipseProperties.TEX_ITEM_COMPLETION, true);
+    	preferenceStore.setValue(TexlipseProperties.INDENTATION_LEVEL, 2);
+    	preferenceStore.setValue(TexlipseProperties.INDENTATION_TABS, false);
+    	preferenceStore.setValue(TexlipseProperties.INDENTATION, true);
+    	preferenceStore.setValue(TexlipseProperties.INDENTATION_ENVS, "itemize,indent,description");
         autoIndent = new TexAutoIndentStrategy();
     }
     
@@ -52,7 +54,7 @@ public class TexAutoIndentStrategyTest {
     }
     
     @Parameters
-    public static Collection testAutoIndentValues() {
+    public static Collection<Object[]> testAutoIndentValues() {
     	return Arrays.asList(new Object[] [] {
     			//{Document text, insert position, ins. text, result, cursor position}
     			{"aa", 2, "\n", "aa\n", 3},

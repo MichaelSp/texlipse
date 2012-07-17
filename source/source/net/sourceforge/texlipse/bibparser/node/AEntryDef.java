@@ -2,93 +2,75 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AEntryDef extends PEntryDef
-{
-    private TEntryName _entryName_;
+public final class AEntryDef extends PEntryDef {
+	private TEntryName _entryName_;
 
-    public AEntryDef()
-    {
-        // Constructor
-    }
+	public AEntryDef() {
+		// Constructor
+	}
 
-    public AEntryDef(
-        @SuppressWarnings("hiding") TEntryName _entryName_)
-    {
-        // Constructor
-        setEntryName(_entryName_);
+	public AEntryDef( TEntryName _entryName_) {
+		// Constructor
+		setEntryName(_entryName_);
 
-    }
+	}
 
-    @Override
-    public Object clone()
-    {
-        return new AEntryDef(
-            cloneNode(this._entryName_));
-    }
+	@Override
+	public Object clone() {
+		return new AEntryDef(cloneNode(this._entryName_));
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseAEntryDef(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseAEntryDef(this);
+	}
 
-    public TEntryName getEntryName()
-    {
-        return this._entryName_;
-    }
+	public TEntryName getEntryName() {
+		return this._entryName_;
+	}
 
-    public void setEntryName(TEntryName node)
-    {
-        if(this._entryName_ != null)
-        {
-            this._entryName_.parent(null);
-        }
+	public void setEntryName(TEntryName node) {
+		if (this._entryName_ != null) {
+			this._entryName_.parent(null);
+		}
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
+		if (node != null) {
+			if (node.parent() != null) {
+				node.parent().removeChild(node);
+			}
 
-            node.parent(this);
-        }
+			node.parent(this);
+		}
 
-        this._entryName_ = node;
-    }
+		this._entryName_ = node;
+	}
 
-    @Override
-    public String toString()
-    {
-        return ""
-            + toString(this._entryName_);
-    }
+	@Override
+	public String toString() {
+		return "" + toString(this._entryName_);
+	}
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
-        // Remove child
-        if(this._entryName_ == child)
-        {
-            this._entryName_ = null;
-            return;
-        }
+	@Override
+	void removeChild(Node child) {
+		// Remove child
+		if (this._entryName_ == child) {
+			this._entryName_ = null;
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
-        // Replace child
-        if(this._entryName_ == oldChild)
-        {
-            setEntryName((TEntryName) newChild);
-            return;
-        }
+	@Override
+	void replaceChild(Node oldChild, Node newChild) {
+		// Replace child
+		if (this._entryName_ == oldChild) {
+			setEntryName((TEntryName) newChild);
+			return;
+		}
 
-        throw new RuntimeException("Not a child.");
-    }
+		throw new RuntimeException("Not a child.");
+	}
 }

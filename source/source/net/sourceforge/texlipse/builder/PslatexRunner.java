@@ -18,29 +18,29 @@ import net.sourceforge.texlipse.properties.TexlipseProperties;
  */
 public class PslatexRunner extends LatexRunner {
 
-    /**
-     * Create a new ProgramRunner.
-     */
-    public PslatexRunner() {
-        super();
-    }
-    
-    protected String getWindowsProgramName() {
-        return "pslatex.exe";
-    }
-    
-    protected String getUnixProgramName() {
-        return "pslatex";
-    }
-    
-    public String getDescription() {
-        return "PsLatex program";
-    }
-    
-    /**
-     * @return output file format (ps)
-     */
-    public String getOutputFormat() {
-        return TexlipseProperties.OUTPUT_FORMAT_PS;
-    }
+	/**
+	 * Create a new ProgramRunner.
+	 */
+	public PslatexRunner() {
+		super();
+	}
+
+	protected String getWindowsProgramName() {
+		return "pslatex.exe";
+	}
+
+	protected String getUnixProgramName() {
+		return "pslatex";
+	}
+
+	public String getDescription() {
+		return "PsLatex program";
+	}
+
+	/**
+	 * @return output file format (ps)
+	 */
+	public String getOutputFormat() {
+		return TexlipseProperties.OUTPUT_FORMAT_PS;
+	}
 }

@@ -15,31 +15,32 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.ui.ISharedImages;
 
-
 /**
- * The outline paste action. 
+ * The outline paste action.
  * 
  * @author Taavi Hupponen
  */
 public class TexOutlineActionPaste extends Action {
-	
+
 	private TexOutlinePage outline;
-	
+
 	public TexOutlineActionPaste(TexOutlinePage outline) {
 		super("Paste");
 		setToolTipText("Paste");
-		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
+		setImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+		setDisabledImageDescriptor(TexlipsePlugin.getDefault().getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
 
 		this.outline = outline;
 	}
-	
+
 	public void run() {
 		if (outline.isModelDirty()) {
 			return;
 		}
 
-		String text = (String)outline.getClipboard().getContents(TextTransfer.getInstance());
+		String text = (String) outline.getClipboard().getContents(TextTransfer.getInstance());
 		if (text == null) {
 			return;
 		}

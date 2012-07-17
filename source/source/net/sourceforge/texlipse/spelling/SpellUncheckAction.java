@@ -18,56 +18,63 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-
 /**
  * Clear the spelling errors.
  * 
  * @author Kimmo Karlsson
  */
 public class SpellUncheckAction implements IEditorActionDelegate {
-    
+
 	private IEditorPart targetEditor;
 
-    /**
-     * Clear the spelling error markers.
-     * @param action the action
+	/**
+	 * Clear the spelling error markers.
+	 * 
+	 * @param action
+	 *            the action
 	 */
 	public void run(IAction action) {
-        
-        if (targetEditor == null) {
-            return;
-        }
-        if (!(targetEditor instanceof ITextEditor)) {
-            return;
-        }
-        
-        ITextEditor textEditor = (ITextEditor) targetEditor;
-        IEditorInput input = textEditor.getEditorInput();
-        
-        if (input instanceof FileEditorInput) {
-            SpellChecker.clearMarkers(((FileEditorInput)input).getFile());
-        }
+
+		if (targetEditor == null) {
+			return;
+		}
+		if (!(targetEditor instanceof ITextEditor)) {
+			return;
+		}
+
+		ITextEditor textEditor = (ITextEditor) targetEditor;
+		IEditorInput input = textEditor.getEditorInput();
+
+		if (input instanceof FileEditorInput) {
+			SpellChecker.clearMarkers(((FileEditorInput) input).getFile());
+		}
 	}
 
 	/**
-     * Change the active selection.
-     * @param action the action
-     * @param selection the selection on the currently edited document
+	 * Change the active selection.
+	 * 
+	 * @param action
+	 *            the action
+	 * @param selection
+	 *            the selection on the currently edited document
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-        if (selection instanceof TextSelection) {
-            action.setEnabled(true);
-            return;
-        }
-        action.setEnabled(targetEditor instanceof ITextEditor);
+		if (selection instanceof TextSelection) {
+			action.setEnabled(true);
+			return;
+		}
+		action.setEnabled(targetEditor instanceof ITextEditor);
 	}
 
-    /**
-     * Change the active editor.
-     * @param action the action
-     * @param targetEditor the new active editor
-     */
-    public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-        this.targetEditor = targetEditor;
-    }
+	/**
+	 * Change the active editor.
+	 * 
+	 * @param action
+	 *            the action
+	 * @param targetEditor
+	 *            the new active editor
+	 */
+	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		this.targetEditor = targetEditor;
+	}
 }

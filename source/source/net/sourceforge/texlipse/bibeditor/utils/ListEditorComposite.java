@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-
 /**
  * List editor composite
  * 
@@ -50,226 +49,230 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  */
 public class ListEditorComposite<T> extends Composite {
 
+	TableViewer viewer;
 
-  TableViewer viewer;
-  
-  protected Map<String, Button> buttons = new HashMap<String, Button>(5);
-  
-  /*
-   * Default button keys
-   */
-  private static final String ADD = "ADD"; //$NON-NLS-1$
-  private static final String CREATE = "CREATE"; //$NON-NLS-1$
-  private static final String REMOVE = "REMOVE"; //$NON-NLS-1$
+	protected Map<String, Button> buttons = new HashMap<String, Button>(5);
 
-  boolean readOnly = false;
+	/*
+	 * Default button keys
+	 */
+	private static final String ADD = "ADD"; //$NON-NLS-1$
+	private static final String CREATE = "CREATE"; //$NON-NLS-1$
+	private static final String REMOVE = "REMOVE"; //$NON-NLS-1$
 
-  protected FormToolkit toolkit;
+	boolean readOnly = false;
 
-  private TableViewerColumn column;
+	protected FormToolkit toolkit;
 
-  public ListEditorComposite(Composite parent, int style, boolean includeSearch) {
-    super(parent, style);
-    toolkit = new FormToolkit(parent.getDisplay());
+	private TableViewerColumn column;
 
-    GridLayout gridLayout = new GridLayout(2, false);
-    gridLayout.marginWidth = 1;
-    gridLayout.marginHeight = 1;
-    gridLayout.verticalSpacing = 1;
-    setLayout(gridLayout);
+	public ListEditorComposite(Composite parent, int style, boolean includeSearch) {
+		super(parent, style);
+		toolkit = new FormToolkit(parent.getDisplay());
 
-    final Table table = toolkit.createTable(this, SWT.FLAT | SWT.MULTI);
-    table.setData("name", "list-editor-composite-table"); //$NON-NLS-1$ //$NON-NLS-2$
+		GridLayout gridLayout = new GridLayout(2, false);
+		gridLayout.marginWidth = 1;
+		gridLayout.marginHeight = 1;
+		gridLayout.verticalSpacing = 1;
+		setLayout(gridLayout);
 
-    viewer = new TableViewer(table);
-    column = new TableViewerColumn(viewer, SWT.LEFT);
-    //mkleint: TODO this is sort of suboptimal, as the horizontal scrollbar gets never shown and we hide information
-    // if the viewable are is not enough. No idea what to replace it with just yet.
-    table.addControlListener(new ControlAdapter() {
-      public void controlResized(ControlEvent e) {
-        column.getColumn().setWidth(table.getClientArea().width);
-      }
-    });
+		final Table table = toolkit.createTable(this, SWT.FLAT | SWT.MULTI);
+		table.setData("name", "list-editor-composite-table"); //$NON-NLS-1$ //$NON-NLS-2$
 
-    createButtons(includeSearch);
-    
-    int vSpan = buttons.size();
-    GridData viewerData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, vSpan);
-    viewerData.widthHint = 100;
-    viewerData.heightHint = includeSearch ? 125 : 50;
-    viewerData.minimumHeight = includeSearch ? 125 : 50;
-    table.setLayoutData(viewerData);
-    viewer.setData(FormToolkit.KEY_DRAW_BORDER, Boolean.TRUE);
+		viewer = new TableViewer(table);
+		column = new TableViewerColumn(viewer, SWT.LEFT);
+		// mkleint: TODO this is sort of suboptimal, as the horizontal scrollbar
+		// gets never shown and we hide information
+		// if the viewable are is not enough. No idea what to replace it with
+		// just yet.
+		table.addControlListener(new ControlAdapter() {
+			public void controlResized(ControlEvent e) {
+				column.getColumn().setWidth(table.getClientArea().width);
+			}
+		});
 
-    viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-      public void selectionChanged(SelectionChangedEvent event) {
-        viewerSelectionChanged();
-      }
-    });
+		createButtons(includeSearch);
 
-    toolkit.paintBordersFor(this);
-  }
+		int vSpan = buttons.size();
+		GridData viewerData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, vSpan);
+		viewerData.widthHint = 100;
+		viewerData.heightHint = includeSearch ? 125 : 50;
+		viewerData.minimumHeight = includeSearch ? 125 : 50;
+		table.setLayoutData(viewerData);
+		viewer.setData(FormToolkit.KEY_DRAW_BORDER, Boolean.TRUE);
 
-  public ListEditorComposite(Composite parent, int style) {
-    this(parent, style, false);
-  }
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				viewerSelectionChanged();
+			}
+		});
 
-  public void setLabelProvider(ILabelProvider labelProvider) {
-    viewer.setLabelProvider(labelProvider);
-  }
-  
-  public void setCellLabelProvider(CellLabelProvider cell) {
-    column.setLabelProvider(cell);
-  }
+		toolkit.paintBordersFor(this);
+	}
 
-  public void setContentProvider(ListEditorContentProvider<T> contentProvider) {
-    viewer.setContentProvider(contentProvider);
-  }
+	public ListEditorComposite(Composite parent, int style) {
+		this(parent, style, false);
+	}
 
-  public void setInput(List<T> input) {
-    viewer.setInput(input);
-    viewer.setSelection(new StructuredSelection());
-  }
+	public void setLabelProvider(ILabelProvider labelProvider) {
+		viewer.setLabelProvider(labelProvider);
+	}
 
-  public Object getInput() {
-    return viewer.getInput();
-  }
+	public void setCellLabelProvider(CellLabelProvider cell) {
+		column.setLabelProvider(cell);
+	}
 
-  public void setOpenListener(IOpenListener listener) {
-    viewer.addOpenListener(listener);
-  }
+	public void setContentProvider(ListEditorContentProvider<T> contentProvider) {
+		viewer.setContentProvider(contentProvider);
+	}
 
-  public void addSelectionListener(ISelectionChangedListener listener) {
-    viewer.addSelectionChangedListener(listener);
-  }
+	public void setInput(List<T> input) {
+		viewer.setInput(input);
+		viewer.setSelection(new StructuredSelection());
+	}
 
-  public void setAddButtonListener(SelectionListener listener) {
-    if(getAddButton() != null) {
-      getAddButton().addSelectionListener(listener);
-      getAddButton().setEnabled(true);
-    }
-  }
-  
-  protected Button getCreateButton() {
-    return buttons.get(CREATE);
-  }
-  
-  protected Button getRemoveButton() {
-    return buttons.get(REMOVE);
-  }
+	public Object getInput() {
+		return viewer.getInput();
+	}
 
-  protected Button getAddButton() {
-    return buttons.get(ADD);
-  }
+	public void setOpenListener(IOpenListener listener) {
+		viewer.addOpenListener(listener);
+	}
 
-  public void setCreateButtonListener(SelectionListener listener) {
-    getCreateButton().addSelectionListener(listener);
-    getCreateButton().setEnabled(true);
-  }
+	public void addSelectionListener(ISelectionChangedListener listener) {
+		viewer.addSelectionChangedListener(listener);
+	}
 
-  public void setRemoveButtonListener(SelectionListener listener) {
-    getRemoveButton().addSelectionListener(listener);
-  }
+	public void setAddButtonListener(SelectionListener listener) {
+		if (getAddButton() != null) {
+			getAddButton().addSelectionListener(listener);
+			getAddButton().setEnabled(true);
+		}
+	}
 
-  public TableViewer getViewer() {
-    return viewer;
-  }
+	protected Button getCreateButton() {
+		return buttons.get(CREATE);
+	}
 
-  public int getSelectionIndex() {
-    return viewer.getTable().getSelectionIndex();
-  }
+	protected Button getRemoveButton() {
+		return buttons.get(REMOVE);
+	}
 
-  public void setSelectionIndex(int n) {
-    viewer.getTable().setSelection(n);
-  }
+	protected Button getAddButton() {
+		return buttons.get(ADD);
+	}
 
-  @SuppressWarnings("unchecked")
-  public List<T> getSelection() {
-    IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-    return selection == null ? Collections.emptyList() : selection.toList();
-  }
+	public void setCreateButtonListener(SelectionListener listener) {
+		getCreateButton().addSelectionListener(listener);
+		getCreateButton().setEnabled(true);
+	}
 
-  public void setSelection(List<T> selection) {
-    viewer.setSelection(new StructuredSelection(selection), true);
-  }
+	public void setRemoveButtonListener(SelectionListener listener) {
+		getRemoveButton().addSelectionListener(listener);
+	}
 
-  public void setReadOnly(boolean readOnly) {
-    this.readOnly = readOnly;
-    for (Map.Entry<String, Button> entry : buttons.entrySet()) {
-      if (entry.getKey().equals(REMOVE)) {
-        //Special case, as it makes no sense to enable if it there's nothing selected.
-        updateRemoveButton();
-      } else {
-        //TODO: mkleint this is fairly dangerous thing to do, each button shall be handled individually based on context.
-        entry.getValue().setEnabled(!readOnly);
-      }
-    }
-  }
+	public TableViewer getViewer() {
+		return viewer;
+	}
 
-  protected void viewerSelectionChanged() {
-    updateRemoveButton();
-  }
-  
-  protected void updateRemoveButton() {
-    getRemoveButton().setEnabled(!readOnly && !viewer.getSelection().isEmpty());
-  }
+	public int getSelectionIndex() {
+		return viewer.getTable().getSelectionIndex();
+	}
 
-  public void refresh() {
-    if(!viewer.getTable().isDisposed()) {
-      viewer.refresh(true);
-      column.getColumn().setWidth(viewer.getTable().getClientArea().width);
-    }
-  }
+	public void setSelectionIndex(int n) {
+		viewer.getTable().setSelection(n);
+	}
 
-  public void setCellModifier(ICellModifier cellModifier) {
-    viewer.setColumnProperties(new String[] {"?"}); //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
+	public List<T> getSelection() {
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		return selection == null ? Collections.emptyList() : selection.toList();
+	}
 
-    TextCellEditor editor = new TextCellEditor(viewer.getTable());
-    viewer.setCellEditors(new CellEditor[] {editor});
-    viewer.setCellModifier(cellModifier);
-  }
+	public void setSelection(List<T> selection) {
+		viewer.setSelection(new StructuredSelection(selection), true);
+	}
 
-  public void setDoubleClickListener(IDoubleClickListener listener) {
-    viewer.addDoubleClickListener(listener);
-  }
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+		for (Map.Entry<String, Button> entry : buttons.entrySet()) {
+			if (entry.getKey().equals(REMOVE)) {
+				// Special case, as it makes no sense to enable if it there's
+				// nothing selected.
+				updateRemoveButton();
+			} else {
+				// TODO: mkleint this is fairly dangerous thing to do, each
+				// button shall be handled individually based on context.
+				entry.getValue().setEnabled(!readOnly);
+			}
+		}
+	}
 
-  /**
-   * Create the buttons that populate the column to the right of the ListViewer.
-   * Subclasses must call the helper method addButton to add each button to the
-   * composite.
-   * 
-   * @param includeSearch true if the search button should be created
-   */
-  protected void createButtons(boolean includeSearch) {
-    if(includeSearch) {
-      createAddButton();
-    }
-    createCreateButton();
-    createRemoveButton();
-  }
-  
-  protected void addButton(String key, Button button) {
-    buttons.put(key, button);
-  }
+	protected void viewerSelectionChanged() {
+		updateRemoveButton();
+	}
 
-  protected void createAddButton() {
-    addButton(ADD, createButton(Messages.ListEditorComposite_btnAdd));
-  }
+	protected void updateRemoveButton() {
+		getRemoveButton().setEnabled(!readOnly && !viewer.getSelection().isEmpty());
+	}
 
-  protected void createCreateButton() {
-    addButton(CREATE, createButton(Messages.ListEditorComposite_btnCreate));
-  }
+	public void refresh() {
+		if (!viewer.getTable().isDisposed()) {
+			viewer.refresh(true);
+			column.getColumn().setWidth(viewer.getTable().getClientArea().width);
+		}
+	}
 
-  protected void createRemoveButton() {
-    addButton(REMOVE, createButton(Messages.ListEditorComposite_btnRemove));
-  }
+	public void setCellModifier(ICellModifier cellModifier) {
+		viewer.setColumnProperties(new String[] { "?" }); //$NON-NLS-1$
 
-  protected Button createButton(String text) {
-    Button button = toolkit.createButton(this, text, SWT.FLAT);
-    GridData gd = new GridData(SWT.FILL, SWT.TOP, false, false);
-    gd.verticalIndent = 0;
-    button.setLayoutData(gd);
-    button.setEnabled(false);
-    return button;
-  }
+		TextCellEditor editor = new TextCellEditor(viewer.getTable());
+		viewer.setCellEditors(new CellEditor[] { editor });
+		viewer.setCellModifier(cellModifier);
+	}
+
+	public void setDoubleClickListener(IDoubleClickListener listener) {
+		viewer.addDoubleClickListener(listener);
+	}
+
+	/**
+	 * Create the buttons that populate the column to the right of the
+	 * ListViewer. Subclasses must call the helper method addButton to add each
+	 * button to the composite.
+	 * 
+	 * @param includeSearch
+	 *            true if the search button should be created
+	 */
+	protected void createButtons(boolean includeSearch) {
+		if (includeSearch) {
+			createAddButton();
+		}
+		createCreateButton();
+		createRemoveButton();
+	}
+
+	protected void addButton(String key, Button button) {
+		buttons.put(key, button);
+	}
+
+	protected void createAddButton() {
+		addButton(ADD, createButton(Messages.ListEditorComposite_btnAdd));
+	}
+
+	protected void createCreateButton() {
+		addButton(CREATE, createButton(Messages.ListEditorComposite_btnCreate));
+	}
+
+	protected void createRemoveButton() {
+		addButton(REMOVE, createButton(Messages.ListEditorComposite_btnRemove));
+	}
+
+	protected Button createButton(String text) {
+		Button button = toolkit.createButton(this, text, SWT.FLAT);
+		GridData gd = new GridData(SWT.FILL, SWT.TOP, false, false);
+		gd.verticalIndent = 0;
+		button.setLayoutData(gd);
+		button.setEnabled(false);
+		return button;
+	}
 }

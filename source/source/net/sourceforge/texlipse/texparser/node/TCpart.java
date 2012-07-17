@@ -2,37 +2,31 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-import net.sourceforge.texlipse.texparser.analysis.*;
+import net.sourceforge.texlipse.texparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCpart extends Token
-{
-    public TCpart()
-    {
-        super.setText("\\part");
-    }
+public final class TCpart extends Token {
+	public TCpart() {
+		super.setText("\\part");
+	}
 
-    public TCpart(int line, int pos)
-    {
-        super.setText("\\part");
-        setLine(line);
-        setPos(pos);
-    }
+	public TCpart(int line, int pos) {
+		super.setText("\\part");
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TCpart(getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TCpart(getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTCpart(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTCpart(this);
+	}
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TCpart text.");
-    }
+	@Override
+	public void setText(String text) {
+		throw new RuntimeException("Cannot change TCpart text.");
+	}
 }

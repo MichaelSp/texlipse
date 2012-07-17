@@ -9,16 +9,16 @@ public class BibEditor extends FormEditor {
 	public final static String ID = "net.sourceforge.texlipse.bibeditor.BibEditor";
 	private BibViewEditor viewEditor;
 	private BibTextEditor textEditor;
-	
+
 	public BibEditor() {
 		textEditor = new BibTextEditor(this);
-		viewEditor = new BibViewEditor(this,Messages.BibEditor_id, Messages.BibViewEditor_title);
+		viewEditor = new BibViewEditor(this, Messages.BibEditor_id, Messages.BibViewEditor_title);
 	}
 
 	@Override
 	protected void addPages() {
 		try {
-			addPage(0,viewEditor);
+			addPage(0, viewEditor);
 			int pageIndex = addPage(textEditor, getEditorInput());
 			setPageText(pageIndex, Messages.BibSourceEditor_title);
 		} catch (PartInitException e) {

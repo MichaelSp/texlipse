@@ -18,25 +18,25 @@ import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
-
 /**
- * TexCommentScanner is used for "__tex_commentPartition" -content type. 
- * It uses predefined rules to detect sequences and it returns the
- * specified token that satisfies the rule. The token defines how the
- * characters are presented.
+ * TexCommentScanner is used for "__tex_commentPartition" -content type. It uses
+ * predefined rules to detect sequences and it returns the specified token that
+ * satisfies the rule. The token defines how the characters are presented.
+ * 
  * @see net.sourceforge.texlipse.editor.partitioner.FastLaTeXPartitionScanner
- * @author Antti Pirinen 
- */ 
+ * @author Antti Pirinen
+ */
 public class TexCommentScanner extends RuleBasedScanner {
-    /**
-     * A default constructor. 
-     * @param manager
-     */
-    public TexCommentScanner(ColorManager manager) {					
-        List<IRule> rules = new ArrayList<IRule>();
-        rules.add(new WhitespaceRule(new WhitespaceDetector()));		
-        IRule[] result = new IRule[rules.size()];
-        rules.toArray(result);
-        setRules(result);		
-    }
+	/**
+	 * A default constructor.
+	 * 
+	 * @param manager
+	 */
+	public TexCommentScanner(ColorManager manager) {
+		List<IRule> rules = new ArrayList<IRule>();
+		rules.add(new WhitespaceRule(new WhitespaceDetector()));
+		IRule[] result = new IRule[rules.size()];
+		rules.toArray(result);
+		setRules(result);
+	}
 }

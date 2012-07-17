@@ -16,28 +16,32 @@ import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.rules.FastPartitioner;
 
 /**
- * A document setup participant for the BibTeX editor. 
+ * A document setup participant for the BibTeX editor.
  * 
  * @author Oskar Ojala
  */
 public class BibSetupParticipant implements IDocumentSetupParticipant {
 
-    /**
-     * Creates a new document setup participant.
-     */
-    public BibSetupParticipant() {
-    }
+	/**
+	 * Creates a new document setup participant.
+	 */
+	public BibSetupParticipant() {
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.core.filebuffers.IDocumentSetupParticipant#setup(org.eclipse.jface.text.IDocument)
-     */
-    public void setup(IDocument document) {
-        if (document instanceof IDocumentExtension3) {
-            IDocumentExtension3 extension3 = (IDocumentExtension3) document;
-            IDocumentPartitioner partitioner = 
-                new FastPartitioner(new BibPartitionScanner(), BibPartitionScanner.BIB_PARTITION_TYPES);
-            extension3.setDocumentPartitioner(BibTextEditor.BIB_PARTITIONING, partitioner);
-            partitioner.connect(document);
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.filebuffers.IDocumentSetupParticipant#setup(org.eclipse
+	 * .jface.text.IDocument)
+	 */
+	public void setup(IDocument document) {
+		if (document instanceof IDocumentExtension3) {
+			IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+			IDocumentPartitioner partitioner = new FastPartitioner(new BibPartitionScanner(),
+					BibPartitionScanner.BIB_PARTITION_TYPES);
+			extension3.setDocumentPartitioner(BibTextEditor.BIB_PARTITIONING, partitioner);
+			partitioner.connect(document);
+		}
+	}
 }

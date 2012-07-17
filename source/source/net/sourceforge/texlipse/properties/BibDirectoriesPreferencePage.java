@@ -17,40 +17,38 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-
 /**
  * The page to set bib file directories.
  * 
  * @author kimmo
  */
-public class BibDirectoriesPreferencePage
-    extends FieldEditorPreferencePage
-    implements IWorkbenchPreferencePage {
+public class BibDirectoriesPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-    /**
-     * Creates an instance of the "bib directories" -preference page.
-     */
-    public BibDirectoriesPreferencePage() {
-        super(GRID);
-        setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
-        setDescription(TexlipsePlugin.getResourceString("preferenceBibDirPageDescription"));
-    }
+	/**
+	 * Creates an instance of the "bib directories" -preference page.
+	 */
+	public BibDirectoriesPreferencePage() {
+		super(GRID);
+		setPreferenceStore(TexlipsePlugin.getDefault().getPreferenceStore());
+		setDescription(TexlipsePlugin.getResourceString("preferenceBibDirPageDescription"));
+	}
 
-    /**
-     * Creates the property editing UI components of this page.
-     */
-    protected void createFieldEditors() {
-        Composite parent = getFieldEditorParent();
-        PathEditor dir = new PathEditor(TexlipseProperties.BIB_DIR, TexlipsePlugin.getResourceString("preferenceBibDirLabel"), "", parent);
-        addField(dir);
-        dir.getButtonBoxControl(parent).setToolTipText(TexlipsePlugin.getResourceString("preferenceBibDirTooltip"));
-        dir.getLabelControl(parent).setToolTipText(TexlipsePlugin.getResourceString("preferenceBibDirTooltip"));
-        dir.getListControl(parent).setToolTipText(TexlipsePlugin.getResourceString("preferenceBibDirTooltip"));
-    }
-    
-    /**
-     * Nothing to do.
-     */
-    public void init(IWorkbench workbench) {
-    }
+	/**
+	 * Creates the property editing UI components of this page.
+	 */
+	protected void createFieldEditors() {
+		Composite parent = getFieldEditorParent();
+		PathEditor dir = new PathEditor(TexlipseProperties.BIB_DIR,
+				TexlipsePlugin.getResourceString("preferenceBibDirLabel"), "", parent);
+		addField(dir);
+		dir.getButtonBoxControl(parent).setToolTipText(TexlipsePlugin.getResourceString("preferenceBibDirTooltip"));
+		dir.getLabelControl(parent).setToolTipText(TexlipsePlugin.getResourceString("preferenceBibDirTooltip"));
+		dir.getListControl(parent).setToolTipText(TexlipsePlugin.getResourceString("preferenceBibDirTooltip"));
+	}
+
+	/**
+	 * Nothing to do.
+	 */
+	public void init(IWorkbench workbench) {
+	}
 }

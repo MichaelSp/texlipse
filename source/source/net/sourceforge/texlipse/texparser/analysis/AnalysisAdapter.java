@@ -2,270 +2,255 @@
 
 package net.sourceforge.texlipse.texparser.analysis;
 
-import java.util.*;
-import net.sourceforge.texlipse.texparser.node.*;
+import java.util.Hashtable;
 
-public class AnalysisAdapter implements Analysis
-{
-    private Hashtable<Node,Object> in;
-    private Hashtable<Node,Object> out;
+import net.sourceforge.texlipse.texparser.node.EOF;
+import net.sourceforge.texlipse.texparser.node.Node;
+import net.sourceforge.texlipse.texparser.node.TArgument;
+import net.sourceforge.texlipse.texparser.node.TBverbatim;
+import net.sourceforge.texlipse.texparser.node.TCbegin;
+import net.sourceforge.texlipse.texparser.node.TCbib;
+import net.sourceforge.texlipse.texparser.node.TCbibstyle;
+import net.sourceforge.texlipse.texparser.node.TCchapter;
+import net.sourceforge.texlipse.texparser.node.TCcite;
+import net.sourceforge.texlipse.texparser.node.TCend;
+import net.sourceforge.texlipse.texparser.node.TCinclude;
+import net.sourceforge.texlipse.texparser.node.TCinput;
+import net.sourceforge.texlipse.texparser.node.TClabel;
+import net.sourceforge.texlipse.texparser.node.TCnew;
+import net.sourceforge.texlipse.texparser.node.TCommentline;
+import net.sourceforge.texlipse.texparser.node.TCpackage;
+import net.sourceforge.texlipse.texparser.node.TCparagraph;
+import net.sourceforge.texlipse.texparser.node.TCpart;
+import net.sourceforge.texlipse.texparser.node.TCpbib;
+import net.sourceforge.texlipse.texparser.node.TCpindex;
+import net.sourceforge.texlipse.texparser.node.TCref;
+import net.sourceforge.texlipse.texparser.node.TCrenew;
+import net.sourceforge.texlipse.texparser.node.TCsection;
+import net.sourceforge.texlipse.texparser.node.TCspace;
+import net.sourceforge.texlipse.texparser.node.TCssection;
+import net.sourceforge.texlipse.texparser.node.TCsssection;
+import net.sourceforge.texlipse.texparser.node.TCsymbol;
+import net.sourceforge.texlipse.texparser.node.TCverb;
+import net.sourceforge.texlipse.texparser.node.TCword;
+import net.sourceforge.texlipse.texparser.node.TEverbatim;
+import net.sourceforge.texlipse.texparser.node.TLBrace;
+import net.sourceforge.texlipse.texparser.node.TLBracket;
+import net.sourceforge.texlipse.texparser.node.TOptargument;
+import net.sourceforge.texlipse.texparser.node.TRBrace;
+import net.sourceforge.texlipse.texparser.node.TRBracket;
+import net.sourceforge.texlipse.texparser.node.TSkippedArea;
+import net.sourceforge.texlipse.texparser.node.TStar;
+import net.sourceforge.texlipse.texparser.node.TTaskcomment;
+import net.sourceforge.texlipse.texparser.node.TVtext;
+import net.sourceforge.texlipse.texparser.node.TWhitespace;
+import net.sourceforge.texlipse.texparser.node.TWord;
 
-    public Object getIn(Node node)
-    {
-        if(this.in == null)
-        {
-            return null;
-        }
+public class AnalysisAdapter implements Analysis {
+	private Hashtable<Node, Object> in;
+	private Hashtable<Node, Object> out;
 
-        return this.in.get(node);
-    }
+	public Object getIn(Node node) {
+		if (this.in == null) {
+			return null;
+		}
 
-    public void setIn(Node node, Object o)
-    {
-        if(this.in == null)
-        {
-            this.in = new Hashtable<Node,Object>(1);
-        }
+		return this.in.get(node);
+	}
 
-        if(o != null)
-        {
-            this.in.put(node, o);
-        }
-        else
-        {
-            this.in.remove(node);
-        }
-    }
+	public void setIn(Node node, Object o) {
+		if (this.in == null) {
+			this.in = new Hashtable<Node, Object>(1);
+		}
 
-    public Object getOut(Node node)
-    {
-        if(this.out == null)
-        {
-            return null;
-        }
+		if (o != null) {
+			this.in.put(node, o);
+		} else {
+			this.in.remove(node);
+		}
+	}
 
-        return this.out.get(node);
-    }
+	public Object getOut(Node node) {
+		if (this.out == null) {
+			return null;
+		}
 
-    public void setOut(Node node, Object o)
-    {
-        if(this.out == null)
-        {
-            this.out = new Hashtable<Node,Object>(1);
-        }
+		return this.out.get(node);
+	}
 
-        if(o != null)
-        {
-            this.out.put(node, o);
-        }
-        else
-        {
-            this.out.remove(node);
-        }
-    }
+	public void setOut(Node node, Object o) {
+		if (this.out == null) {
+			this.out = new Hashtable<Node, Object>(1);
+		}
 
-    public void caseTWhitespace(TWhitespace node)
-    {
-        defaultCase(node);
-    }
+		if (o != null) {
+			this.out.put(node, o);
+		} else {
+			this.out.remove(node);
+		}
+	}
 
-    public void caseTCpart(TCpart node)
-    {
-        defaultCase(node);
-    }
+	public void caseTWhitespace(TWhitespace node) {
+		defaultCase(node);
+	}
 
-    public void caseTCchapter(TCchapter node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCpart(TCpart node) {
+		defaultCase(node);
+	}
 
-    public void caseTCsection(TCsection node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCchapter(TCchapter node) {
+		defaultCase(node);
+	}
 
-    public void caseTCssection(TCssection node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCsection(TCsection node) {
+		defaultCase(node);
+	}
 
-    public void caseTCsssection(TCsssection node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCssection(TCssection node) {
+		defaultCase(node);
+	}
 
-    public void caseTCparagraph(TCparagraph node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCsssection(TCsssection node) {
+		defaultCase(node);
+	}
 
-    public void caseTCbib(TCbib node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCparagraph(TCparagraph node) {
+		defaultCase(node);
+	}
 
-    public void caseTCbibstyle(TCbibstyle node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCbib(TCbib node) {
+		defaultCase(node);
+	}
 
-    public void caseTClabel(TClabel node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCbibstyle(TCbibstyle node) {
+		defaultCase(node);
+	}
 
-    public void caseTCref(TCref node)
-    {
-        defaultCase(node);
-    }
+	public void caseTClabel(TClabel node) {
+		defaultCase(node);
+	}
 
-    public void caseTCcite(TCcite node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCref(TCref node) {
+		defaultCase(node);
+	}
 
-    public void caseTCbegin(TCbegin node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCcite(TCcite node) {
+		defaultCase(node);
+	}
 
-    public void caseTCend(TCend node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCbegin(TCbegin node) {
+		defaultCase(node);
+	}
 
-    public void caseTCinput(TCinput node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCend(TCend node) {
+		defaultCase(node);
+	}
 
-    public void caseTCinclude(TCinclude node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCinput(TCinput node) {
+		defaultCase(node);
+	}
 
-    public void caseTCnew(TCnew node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCinclude(TCinclude node) {
+		defaultCase(node);
+	}
 
-    public void caseTCrenew(TCrenew node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCnew(TCnew node) {
+		defaultCase(node);
+	}
 
-    public void caseTCpackage(TCpackage node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCrenew(TCrenew node) {
+		defaultCase(node);
+	}
 
-    public void caseTCpindex(TCpindex node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCpackage(TCpackage node) {
+		defaultCase(node);
+	}
 
-    public void caseTCpbib(TCpbib node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCpindex(TCpindex node) {
+		defaultCase(node);
+	}
 
-    public void caseTBverbatim(TBverbatim node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCpbib(TCpbib node) {
+		defaultCase(node);
+	}
 
-    public void caseTEverbatim(TEverbatim node)
-    {
-        defaultCase(node);
-    }
+	public void caseTBverbatim(TBverbatim node) {
+		defaultCase(node);
+	}
 
-    public void caseTVtext(TVtext node)
-    {
-        defaultCase(node);
-    }
+	public void caseTEverbatim(TEverbatim node) {
+		defaultCase(node);
+	}
 
-    public void caseTCverb(TCverb node)
-    {
-        defaultCase(node);
-    }
+	public void caseTVtext(TVtext node) {
+		defaultCase(node);
+	}
 
-    public void caseTArgument(TArgument node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCverb(TCverb node) {
+		defaultCase(node);
+	}
 
-    public void caseTOptargument(TOptargument node)
-    {
-        defaultCase(node);
-    }
+	public void caseTArgument(TArgument node) {
+		defaultCase(node);
+	}
 
-    public void caseTStar(TStar node)
-    {
-        defaultCase(node);
-    }
+	public void caseTOptargument(TOptargument node) {
+		defaultCase(node);
+	}
 
-    public void caseTLBrace(TLBrace node)
-    {
-        defaultCase(node);
-    }
+	public void caseTStar(TStar node) {
+		defaultCase(node);
+	}
 
-    public void caseTRBrace(TRBrace node)
-    {
-        defaultCase(node);
-    }
+	public void caseTLBrace(TLBrace node) {
+		defaultCase(node);
+	}
 
-    public void caseTLBracket(TLBracket node)
-    {
-        defaultCase(node);
-    }
+	public void caseTRBrace(TRBrace node) {
+		defaultCase(node);
+	}
 
-    public void caseTRBracket(TRBracket node)
-    {
-        defaultCase(node);
-    }
+	public void caseTLBracket(TLBracket node) {
+		defaultCase(node);
+	}
 
-    public void caseTCword(TCword node)
-    {
-        defaultCase(node);
-    }
+	public void caseTRBracket(TRBracket node) {
+		defaultCase(node);
+	}
 
-    public void caseTCsymbol(TCsymbol node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCword(TCword node) {
+		defaultCase(node);
+	}
 
-    public void caseTCspace(TCspace node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCsymbol(TCsymbol node) {
+		defaultCase(node);
+	}
 
-    public void caseTWord(TWord node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCspace(TCspace node) {
+		defaultCase(node);
+	}
 
-    public void caseTSkippedArea(TSkippedArea node)
-    {
-        defaultCase(node);
-    }
+	public void caseTWord(TWord node) {
+		defaultCase(node);
+	}
 
-    public void caseTTaskcomment(TTaskcomment node)
-    {
-        defaultCase(node);
-    }
+	public void caseTSkippedArea(TSkippedArea node) {
+		defaultCase(node);
+	}
 
-    public void caseTCommentline(TCommentline node)
-    {
-        defaultCase(node);
-    }
+	public void caseTTaskcomment(TTaskcomment node) {
+		defaultCase(node);
+	}
 
-    public void caseEOF(EOF node)
-    {
-        defaultCase(node);
-    }
+	public void caseTCommentline(TCommentline node) {
+		defaultCase(node);
+	}
 
-    public void defaultCase(@SuppressWarnings("unused") Node node)
-    {
-        // do nothing
-    }
+	public void caseEOF(EOF node) {
+		defaultCase(node);
+	}
+
+	public void defaultCase(Node node) {
+		// do nothing
+	}
 }

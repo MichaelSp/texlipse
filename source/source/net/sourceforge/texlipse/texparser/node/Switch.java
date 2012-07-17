@@ -2,7 +2,6 @@
 
 package net.sourceforge.texlipse.texparser.node;
 
-public interface Switch
-{
-        // Empty body
+public interface Switch {
+	// Empty body
 }

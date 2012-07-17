@@ -18,7 +18,7 @@ public class TexlipseNewTexFileWizard extends Wizard implements INewWizard {
 	private TexlipseNewTexFileWizardPage page;
 	private IStructuredSelection selection;
 	private IWorkbench workbench;
-	
+
 	/**
 	 * Constructor for TexlipseNewTexFileWizard.
 	 */
@@ -26,34 +26,33 @@ public class TexlipseNewTexFileWizard extends Wizard implements INewWizard {
 		super();
 		setWindowTitle("New LaTeX file");
 	}
-	
+
 	/**
 	 * Adding the page to the wizard.
 	 */
 
 	public void addPages() {
-	    page = new TexlipseNewTexFileWizardPage(selection);
-	    addPage(page);
+		page = new TexlipseNewTexFileWizardPage(selection);
+		addPage(page);
 	}
 
 	@Override
 	public boolean performFinish() {
-	    IFile file = page.createNewFile();
-	    if (file != null) {
-	        try {
-                IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), file);
-            } catch (PartInitException ex) {
-                TexlipsePlugin.log("Error while opening file", ex);
-            }
-	        return true;
-	    }
-	    else {
-	        return false;
-	    }
+		IFile file = page.createNewFile();
+		if (file != null) {
+			try {
+				IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), file);
+			} catch (PartInitException ex) {
+				TexlipsePlugin.log("Error while opening file", ex);
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-	    this.workbench = workbench;
-	    this.selection = selection;
+		this.workbench = workbench;
+		this.selection = selection;
 	}
 }

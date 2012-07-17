@@ -23,35 +23,35 @@ import org.eclipse.jface.viewers.Viewer;
  */
 public class ListEditorContentProvider<T> implements IStructuredContentProvider {
 
-  public static final Object[] EMPTY = new Object[0];
-  private boolean shouldSort;
-  private Comparator<T> comparator;
-  
-  @SuppressWarnings("unchecked")
-  public Object[] getElements(Object input) {
-    if(input instanceof List) {
-      List<T> list = (List<T>) input;
-      if (shouldSort) {
-        T[] array = (T[]) list.toArray();
-        Arrays.<T>sort(array, comparator);
-        return array;
-      }
-      return list.toArray();
-    }
-    return EMPTY;
-  }
+	public static final Object[] EMPTY = new Object[0];
+	private boolean shouldSort;
+	private Comparator<T> comparator;
 
-  public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-  }
-  
-  public void dispose() {
-  }
-  
-  public void setShouldSort(boolean shouldSort) {
-    this.shouldSort = shouldSort;
-  }
-  
-  public void setComparator(Comparator<T> comparator) {
-    this.comparator = comparator;
-  }
+	@SuppressWarnings("unchecked")
+	public Object[] getElements(Object input) {
+		if (input instanceof List) {
+			List<T> list = (List<T>) input;
+			if (shouldSort) {
+				T[] array = (T[]) list.toArray();
+				Arrays.<T> sort(array, comparator);
+				return array;
+			}
+			return list.toArray();
+		}
+		return EMPTY;
+	}
+
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	}
+
+	public void dispose() {
+	}
+
+	public void setShouldSort(boolean shouldSort) {
+		this.shouldSort = shouldSort;
+	}
+
+	public void setComparator(Comparator<T> comparator) {
+		this.comparator = comparator;
+	}
 }

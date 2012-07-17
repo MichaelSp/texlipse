@@ -26,150 +26,147 @@ import org.eclipse.ui.texteditor.ITextEditor;
  */
 public abstract class AbstractTexSelectionChange implements IEditorActionDelegate {
 
-    // target editor containing the selected text
-    private IEditorPart targetEditor;
+	// target editor containing the selected text
+	private IEditorPart targetEditor;
 
-    // current selection
-    private TexSelections selection;
+	// current selection
+	private TexSelections selection;
 
-    // start tag
-    private String startTag;
+	// start tag
+	private String startTag;
 
-    // end tag
-    private String endTag;
+	// end tag
+	private String endTag;
 
-    /**
-     * Creates the selection changer.
-     * The start and stop tags are initialized here.
-     */
-    protected AbstractTexSelectionChange() {
-        startTag = getStartTag();
-        endTag = getEndTag();
-    }
+	/**
+	 * Creates the selection changer. The start and stop tags are initialized
+	 * here.
+	 */
+	protected AbstractTexSelectionChange() {
+		startTag = getStartTag();
+		endTag = getEndTag();
+	}
 
-    /**
-     * Returns the start tag.
-     * This is the default implementation, which
-     * should be overridden by subclasses.
-     * @return start tag
-     */
-    protected String getStartTag() {
-        return "\\{";
-    }
+	/**
+	 * Returns the start tag. This is the default implementation, which should
+	 * be overridden by subclasses.
+	 * 
+	 * @return start tag
+	 */
+	protected String getStartTag() {
+		return "\\{";
+	}
 
-    /**
-     * Returns the end tag.
-     * This is the default implementation that only returns "}".
-     * @return end tag
-     */
-    protected String getEndTag() {
-        return "}";
-    }
+	/**
+	 * Returns the end tag. This is the default implementation that only returns
+	 * "}".
+	 * 
+	 * @return end tag
+	 */
+	protected String getEndTag() {
+		return "}";
+	}
 
-    /**
-     * Sets the active editor.
-     * This method is called by Eclipse.
-     * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction,
-     *      org.eclipse.ui.IEditorPart)
-     */
-    public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-        this.targetEditor = targetEditor;
-    }
+	/**
+	 * Sets the active editor. This method is called by Eclipse.
+	 * 
+	 * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.ui.IEditorPart)
+	 */
+	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		this.targetEditor = targetEditor;
+	}
 
-    /**
-     * Runs the selection modification action.
-     * This method is called by Eclipse.
-     * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-     */
-    public void run(IAction action) {
-        selection = new TexSelections(getTextEditor());
-        if (isSelectionChanged()) {
-            unchange();
-        } else {
-            change();
-        }
-    }
+	/**
+	 * Runs the selection modification action. This method is called by Eclipse.
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 */
+	public void run(IAction action) {
+		selection = new TexSelections(getTextEditor());
+		if (isSelectionChanged()) {
+			unchange();
+		} else {
+			change();
+		}
+	}
 
-    /**
-     * Returns the currectly active text editor.
-     * @return text editor
-     */
-    private ITextEditor getTextEditor() {
-        if (targetEditor instanceof ITextEditor) {
-            return (ITextEditor) targetEditor;
-        } else {
-            throw new RuntimeException("Expecting text editor. Found:"
-                    + targetEditor.getClass().getName());
-        }
-    }
+	/**
+	 * Returns the currectly active text editor.
+	 * 
+	 * @return text editor
+	 */
+	private ITextEditor getTextEditor() {
+		if (targetEditor instanceof ITextEditor) {
+			return (ITextEditor) targetEditor;
+		} else {
+			throw new RuntimeException("Expecting text editor. Found:" + targetEditor.getClass().getName());
+		}
+	}
 
-    /**
-     * Changes the selection to be inside the start and end tags.
-     */
-    private void change() {
-        try {
-            
-            int selStart = selection.getTextSelection().getOffset();
-            String replaceText = startTag
-                    + selection.getCompleteSelection() + endTag;
+	/**
+	 * Changes the selection to be inside the start and end tags.
+	 */
+	private void change() {
+		try {
 
-            // Replace the text with the modified information
-            selection.getDocument().replace(selStart,
-                    selection.getSelLength(), replaceText);
+			int selStart = selection.getTextSelection().getOffset();
+			String replaceText = startTag + selection.getCompleteSelection() + endTag;
 
-            getTextEditor().selectAndReveal(selStart, replaceText.length());
-            
-        } catch (Exception e) {
-            TexlipsePlugin.log("Wrapping selection inside " + startTag, e);
-        }
-    }
+			// Replace the text with the modified information
+			selection.getDocument().replace(selStart, selection.getSelLength(), replaceText);
 
-    /**
-     * Removes the start and end tags from selection start and end.
-     * Assumes that the selection starts with the start tag and
-     * ends with the end tag.
-     */
-    private void unchange() {
-        try {
-            String selected = selection.getCompleteSelection();
-            int selStart = selection.getTextSelection().getOffset();
-            
-            // Replace the text with the modified information
-            String replaceText = selected.substring(startTag.length(),
-                    selected.length() - endTag.length());
-            selection.getDocument().replace(selStart,
-                    selection.getSelLength(), replaceText);
-            
-            getTextEditor().selectAndReveal(selStart, replaceText.length());
-            
-        } catch (Exception e) {
-            TexlipsePlugin.log("Unwrapping selection from " + startTag, e);
-        }
-    }
+			getTextEditor().selectAndReveal(selStart, replaceText.length());
 
-    /**
-     * Checks if the selection is already changed.
-     * @return true, if the selection starts with the start tag and ends
-     *      with the end tag
-     */
-    private boolean isSelectionChanged() {
-        return selection.getCompleteSelection().startsWith(startTag)
-                && selection.getCompleteSelection().endsWith(endTag);
-    }
+		} catch (Exception e) {
+			TexlipsePlugin.log("Wrapping selection inside " + startTag, e);
+		}
+	}
 
-    /**
-     * Receive a notification about a changed selection.
-     * This action is set enabled or disabled according to the type of selection.
-     * This method is called by Eclipse.
-     * 
-     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-     *      org.eclipse.jface.viewers.ISelection)
-     */
-    public void selectionChanged(IAction action, ISelection selection) {
-        if (selection instanceof TextSelection) {
-            action.setEnabled(true);
-            return;
-        }
-        action.setEnabled(targetEditor instanceof ITextEditor);
-    }
+	/**
+	 * Removes the start and end tags from selection start and end. Assumes that
+	 * the selection starts with the start tag and ends with the end tag.
+	 */
+	private void unchange() {
+		try {
+			String selected = selection.getCompleteSelection();
+			int selStart = selection.getTextSelection().getOffset();
+
+			// Replace the text with the modified information
+			String replaceText = selected.substring(startTag.length(), selected.length() - endTag.length());
+			selection.getDocument().replace(selStart, selection.getSelLength(), replaceText);
+
+			getTextEditor().selectAndReveal(selStart, replaceText.length());
+
+		} catch (Exception e) {
+			TexlipsePlugin.log("Unwrapping selection from " + startTag, e);
+		}
+	}
+
+	/**
+	 * Checks if the selection is already changed.
+	 * 
+	 * @return true, if the selection starts with the start tag and ends with
+	 *         the end tag
+	 */
+	private boolean isSelectionChanged() {
+		return selection.getCompleteSelection().startsWith(startTag)
+				&& selection.getCompleteSelection().endsWith(endTag);
+	}
+
+	/**
+	 * Receive a notification about a changed selection. This action is set
+	 * enabled or disabled according to the type of selection. This method is
+	 * called by Eclipse.
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.jface.viewers.ISelection)
+	 */
+	public void selectionChanged(IAction action, ISelection selection) {
+		if (selection instanceof TextSelection) {
+			action.setEnabled(true);
+			return;
+		}
+		action.setEnabled(targetEditor instanceof ITextEditor);
+	}
 }

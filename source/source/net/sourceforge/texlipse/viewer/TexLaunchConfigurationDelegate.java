@@ -24,75 +24,71 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-
 /**
  * Launch a document viewer program using the given launch configuration.
  * 
  * @author Kimmo Karlsson
- * @author Tor Arne Vestbø
+ * @author Tor Arne Vestbï¿½
  */
 public class TexLaunchConfigurationDelegate extends LaunchConfigurationDelegate {
 
-	 public static final String CONFIGURATION_ID = "net.sourceforge.texlipse.viewer.launchConfigurationType";
-	
-   /**
-     * Constructor, does nothing.
-     */
-    public TexLaunchConfigurationDelegate() {
-    }
-    
-    /**
-     * @return list of projects which should be built before viewing
-     */
-    protected IProject[] getBuildOrder(ILaunchConfiguration configuration, String mode) throws CoreException {
-        IProject project = TexlipsePlugin.getCurrentProject();
-        if (project == null) {
-            return null;
-        }
-        return new IProject[] { project };
-    }
+	public static final String CONFIGURATION_ID = "net.sourceforge.texlipse.viewer.launchConfigurationType";
 
-    /**
-     * Launches the viewer specified in the  <code>configuration</code> argument
-     */
-    public void launch(ILaunchConfiguration configuration, String mode,
-            ILaunch launch, IProgressMonitor monitor) throws CoreException {
+	/**
+	 * Constructor, does nothing.
+	 */
+	public TexLaunchConfigurationDelegate() {
+	}
 
-        Map regMap = configuration.getAttributes();
-        ViewerAttributeRegistry registry = new ViewerAttributeRegistry();
-        registry.setValues(regMap);
-        
-        Map addEnv = configuration.getAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES, new HashMap());
-        
-        monitor.beginTask("Viewing document", 100);     
-        Process process = ViewerManager.preview(registry, addEnv, monitor);
-       
-        // if this process is added to launcer, the output will not be parsed correctly
-                //launch.addProcess(DebugPlugin.newProcess(launch, process, mode));
-        
-        // Return focus to Eclipse after previewing (optional)
-        IPreferenceStore prefs = TexlipsePlugin.getDefault().getPreferenceStore();
-        if (prefs.getBoolean(TexlipseProperties.BUILDER_RETURN_FOCUS)) {
-            
-            try {
-                Thread.sleep(500); // A small delay required
-            } catch (InterruptedException e) {
-                // swallow
-            }
-            
-            ViewerManager.returnFocusToEclipse(false);
-        }
-        
-    }
+	/**
+	 * @return list of projects which should be built before viewing
+	 */
+	protected IProject[] getBuildOrder(ILaunchConfiguration configuration, String mode) throws CoreException {
+		IProject project = TexlipsePlugin.getCurrentProject();
+		if (project == null) {
+			return null;
+		}
+		return new IProject[] { project };
+	}
 
-    /* 
-     * @see LaunchConfigurationDelegate#getProjectsForProblemSearch(ILaunchConfiguration, String)
-     */
-    protected IProject[] getProjectsForProblemSearch(ILaunchConfiguration configuration, String mode) throws CoreException {
-        return new IProject[] { TexlipsePlugin.getCurrentProject() };
-    }
-    
-    
-    
-    
+	/**
+	 * Launches the viewer specified in the <code>configuration</code> argument
+	 */
+	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
+			throws CoreException {
+
+		@SuppressWarnings("unchecked")
+		Map<String, String> regMap = configuration.getAttributes();
+		ViewerAttributeRegistry registry = new ViewerAttributeRegistry();
+		registry.setValues(regMap);
+
+		configuration.getAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES, new HashMap<Object, Object>());
+
+		monitor.beginTask("Viewing document", 100);
+
+		// Return focus to Eclipse after previewing (optional)
+		IPreferenceStore prefs = TexlipsePlugin.getDefault().getPreferenceStore();
+		if (prefs.getBoolean(TexlipseProperties.BUILDER_RETURN_FOCUS)) {
+
+			try {
+				Thread.sleep(500); // A small delay required
+			} catch (InterruptedException e) {
+				// swallow
+			}
+
+			ViewerManager.returnFocusToEclipse(false);
+		}
+
+	}
+
+	/*
+	 * @see
+	 * LaunchConfigurationDelegate#getProjectsForProblemSearch(ILaunchConfiguration
+	 * , String)
+	 */
+	protected IProject[] getProjectsForProblemSearch(ILaunchConfiguration configuration, String mode)
+			throws CoreException {
+		return new IProject[] { TexlipsePlugin.getCurrentProject() };
+	}
+
 }

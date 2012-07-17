@@ -2,31 +2,26 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-import net.sourceforge.texlipse.bibparser.analysis.*;
+import net.sourceforge.texlipse.bibparser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TEstring extends Token
-{
-    public TEstring(String text)
-    {
-        setText(text);
-    }
+public final class TEstring extends Token {
+	public TEstring(String text) {
+		setText(text);
+	}
 
-    public TEstring(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	public TEstring(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
 
-    @Override
-    public Object clone()
-    {
-      return new TEstring(getText(), getLine(), getPos());
-    }
+	@Override
+	public Object clone() {
+		return new TEstring(getText(), getLine(), getPos());
+	}
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTEstring(this);
-    }
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTEstring(this);
+	}
 }

@@ -2,7 +2,6 @@
 
 package net.sourceforge.texlipse.bibparser.node;
 
-public abstract class PBibtex extends Node
-{
-    // Empty body
+public abstract class PBibtex extends Node {
+	// Empty body
 }
