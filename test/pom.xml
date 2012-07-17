@@ -11,4 +11,12 @@
   	<version>1.5.0-SNAPSHOT</version>
   	<relativePath>..</relativePath>
   </parent>
+  <dependencies>
+  	<dependency>
+  		<groupId>net.sourceforge.texlipse</groupId>
+  		<artifactId>texlipse</artifactId>
+  		<version>1.5.0-SNAPSHOT</version>
+  		<type>pom</type>
+  	</dependency>
+  </dependencies>
 </project>
