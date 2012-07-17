@@ -279,7 +279,7 @@ public class BibCompletionProcessor implements IContentAssistProcessor {
     private ICompletionProposal[] computeTemplateCompletions(int offset, int replacementLength, String prefix, ITextViewer viewer) {
         List templateProposals = new ArrayList();
         this.templatesCompletion.addTemplateProposals(viewer, offset, templateProposals);
-        ArrayList returnProposals = new ArrayList();
+        ArrayList<ICompletionProposal> returnProposals = new ArrayList<ICompletionProposal>();
         
         for (Iterator iter = templateProposals.iterator(); iter.hasNext();) {
             ICompletionProposal proposal = (ICompletionProposal) iter.next();

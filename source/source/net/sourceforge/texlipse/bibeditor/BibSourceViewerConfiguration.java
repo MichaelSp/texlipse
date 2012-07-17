@@ -34,7 +34,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
  */
 public class BibSourceViewerConfiguration extends SourceViewerConfiguration {
 
-    private BibEditor editor;
+    private BibTextEditor editor;
     private TexAnnotationHover annotationHover;
     private ContentAssistant assistant;
     
@@ -43,7 +43,7 @@ public class BibSourceViewerConfiguration extends SourceViewerConfiguration {
      * 
      * @param te The editor that this configuration is associated to
      */
-    public BibSourceViewerConfiguration(BibEditor te) {
+    public BibSourceViewerConfiguration(BibTextEditor te) {
         super();
         this.editor = te;
         this.annotationHover = new TexAnnotationHover();
@@ -85,7 +85,7 @@ public class BibSourceViewerConfiguration extends SourceViewerConfiguration {
      * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredDocumentPartitioning(org.eclipse.jface.text.source.ISourceViewer)
      */
     public String getConfiguredDocumentPartitioning(ISourceViewer sourceViewer) {
-        return BibEditor.BIB_PARTITIONING;
+        return BibTextEditor.BIB_PARTITIONING;
     }
     
     /* (non-Javadoc)

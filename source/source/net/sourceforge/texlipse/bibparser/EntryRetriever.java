@@ -412,7 +412,8 @@ public final class EntryRetriever extends DepthFirstAdapter {
             currEntry.year = fieldValue;
         } else if ("crossref".equals(currField)) {
             crossref = fieldValue;
-        }
+        } else 
+        	currEntry.addUnkownField(currField, fieldValue);
         
         // Test for empty fields
         if (fieldValue.equalsIgnoreCase("")) {

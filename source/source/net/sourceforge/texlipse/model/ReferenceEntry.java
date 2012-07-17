@@ -13,6 +13,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -34,6 +36,7 @@ public final class ReferenceEntry extends AbstractEntry {
     public String author;
     public String journal;
     public String year;
+	private Map<String,String> unkownFields = new HashMap<String, String>();
     
     /**
      * The document of the reference declaration (used for BibTeX viewing)
@@ -114,5 +117,13 @@ public final class ReferenceEntry extends AbstractEntry {
         }
         info = extract.toString();
     }
+
+	public void addUnkownField(String fieldName, String fieldValue) {
+		unkownFields.put(fieldName,fieldValue);
+	}
+
+	public String getField(String name) {
+		return unkownFields.get(name);
+	}
 
 }

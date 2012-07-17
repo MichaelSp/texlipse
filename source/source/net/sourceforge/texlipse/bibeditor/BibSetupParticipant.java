@@ -36,7 +36,7 @@ public class BibSetupParticipant implements IDocumentSetupParticipant {
             IDocumentExtension3 extension3 = (IDocumentExtension3) document;
             IDocumentPartitioner partitioner = 
                 new FastPartitioner(new BibPartitionScanner(), BibPartitionScanner.BIB_PARTITION_TYPES);
-            extension3.setDocumentPartitioner(BibEditor.BIB_PARTITIONING, partitioner);
+            extension3.setDocumentPartitioner(BibTextEditor.BIB_PARTITIONING, partitioner);
             partitioner.connect(document);
         }
     }

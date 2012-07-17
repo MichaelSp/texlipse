@@ -31,7 +31,7 @@ import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
  */
 public class BibCodeFolder {
     
-    private BibEditor editor;
+    private BibTextEditor editor;
     private ProjectionAnnotationModel model;
     private ArrayList oldNodes;
     //private ArrayList<TexProjectionAnnotation> oldNodes;
@@ -43,7 +43,7 @@ public class BibCodeFolder {
      * 
      * @param editor The editor to which this folder is associated
      */
-    public BibCodeFolder(BibEditor editor) {
+    public BibCodeFolder(BibTextEditor editor) {
         this.editor = editor;
         this.firstRun = true;
     }

@@ -72,7 +72,7 @@ public class BibCodeScanner extends RuleBasedScanner {
         IToken other = new Token(new TextAttribute(provider
                 .getColor(BibColorProvider.DEFAULT)));
 
-        List rules = new ArrayList();
+        List<IRule> rules = new ArrayList<IRule>();
 
         // Add rule for single line comments.
         rules.add(new EndOfLineRule("%", comment));

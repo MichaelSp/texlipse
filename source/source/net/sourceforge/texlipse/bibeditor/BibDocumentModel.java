@@ -40,8 +40,8 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public class BibDocumentModel {
     
-    private BibEditor editor;
-    private List entryList;    
+    private BibTextEditor editor;
+    private List<ReferenceEntry> entryList;    
     private List abbrevs;
     private AbbrevManager abbrManager;
     
@@ -52,7 +52,7 @@ public class BibDocumentModel {
      * 
      * @param editor The editor that this model is associated with.
      */
-    public BibDocumentModel(BibEditor editor) {
+    public BibDocumentModel(BibTextEditor editor) {
         this.editor = editor;
         abbrManager = new AbbrevManager();
     }
@@ -79,8 +79,8 @@ public class BibDocumentModel {
             this.entryList = parser.getEntries();
             
             List<ParseErrorMessage> parseErrors = parser.getErrors();
-            List parseWarnings = parser.getWarnings();
-            List tasks = parser.getTasks();
+            List<ParseErrorMessage> parseWarnings = parser.getWarnings();
+            List<ParseErrorMessage> tasks = parser.getTasks();
             
             MarkerHandler marker = MarkerHandler.getInstance();
             marker.clearErrorMarkers(editor);
@@ -193,12 +193,12 @@ public class BibDocumentModel {
             // the offset of the last line in the document
             if (entryList.isEmpty()) return;
             int lastLine = document.getNumberOfLines();
-            ReferenceEntry rel = (ReferenceEntry) entryList.get(entryList.size() - 1);
+            ReferenceEntry rel = entryList.get(entryList.size() - 1);
             if (rel.endLine == lastLine) {
                 rel.endLine--;
             }
-            for (Iterator iter = entryList.iterator(); iter.hasNext();) {
-                ReferenceEntry re = (ReferenceEntry) iter.next();
+            for (Iterator<ReferenceEntry> iter = entryList.iterator(); iter.hasNext();) {
+                ReferenceEntry re = iter.next();
                 int beginOffset = document.getLineOffset(re.startLine - 1);
                 int length = document.getLineOffset(re.endLine) - beginOffset;
                 re.setPosition(beginOffset, length);
@@ -231,4 +231,8 @@ public class BibDocumentModel {
             // TexlipsePlugin.log("There were parse errors in the document", e);
         }
     }
+
+	public List<ReferenceEntry> getReferenceList() {
+		return entryList;
+	}
 }
