@@ -32,7 +32,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
  */
 public class BibSourceViewerConfiguration extends SourceViewerConfiguration {
 
-	private BibTextEditor editor;
+	private BibEditor editor;
 	private TexAnnotationHover annotationHover;
 	private ContentAssistant assistant;
 
@@ -42,7 +42,7 @@ public class BibSourceViewerConfiguration extends SourceViewerConfiguration {
 	 * @param te
 	 *            The editor that this configuration is associated to
 	 */
-	public BibSourceViewerConfiguration(BibTextEditor te) {
+	public BibSourceViewerConfiguration(BibEditor te) {
 		super();
 		this.editor = te;
 		this.annotationHover = new TexAnnotationHover();

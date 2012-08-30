@@ -39,7 +39,7 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public class BibDocumentModel {
 
-	private BibTextEditor editor;
+	private BibEditor editor;
 	private List<ReferenceEntry> entryList;
 	private List<ReferenceEntry> abbrevs;
 	private AbbrevManager abbrManager;
@@ -52,7 +52,7 @@ public class BibDocumentModel {
 	 * @param editor
 	 *            The editor that this model is associated with.
 	 */
-	public BibDocumentModel(BibTextEditor editor) {
+	public BibDocumentModel(BibEditor editor) {
 		this.editor = editor;
 		abbrManager = new AbbrevManager();
 	}
@@ -84,16 +84,16 @@ public class BibDocumentModel {
 			List<ParseErrorMessage> tasks = parser.getTasks();
 
 			MarkerHandler marker = MarkerHandler.getInstance();
-			marker.clearErrorMarkers(editor);
+			marker.clearErrorMarkers(editor.getTextEditor());
 			if (parseErrors.size() > 0) {
-				marker.createErrorMarkers(editor, parseErrors);
+				marker.createErrorMarkers(editor.getTextEditor(), parseErrors);
 				throw new TexDocumentParseException("Fatal errors in file");
 			}
 			if (parseWarnings.size() > 0) {
-				marker.createErrorMarkers(editor, parseWarnings);
+				marker.createErrorMarkers(editor.getTextEditor(), parseWarnings);
 			}
 			if (tasks.size() > 0) {
-				marker.createTaskMarkers(editor, tasks);
+				marker.createTaskMarkers(editor.getTextEditor(), tasks);
 			}
 
 			this.abbrevs = parser.getAbbrevs();
@@ -139,14 +139,6 @@ public class BibDocumentModel {
 	}
 
 	/**
-	 * Updates the outline view when outline.doSave is called.
-	 */
-	private void updateOutline() {
-		BibOutlineContainer boc = new BibOutlineContainer(entryList, true);
-		this.editor.getOutlinePage().update(boc);
-	}
-
-	/**
 	 * Updates the document positions of the outline. These are used both for
 	 * outline navigation and code folding.
 	 */
@@ -161,25 +153,6 @@ public class BibDocumentModel {
 		document.addPositionCategory(BibOutlinePage.SEGMENTS);
 
 		try {
-			/*
-			 * int beginOffset = -1, endOffset = -1; ReferenceEntry prev = null,
-			 * next = null; //Iterator it = currentOutline.iterator(); Iterator
-			 * it = entryList.iterator(); if (it.hasNext()) { prev =
-			 * (ReferenceEntry) it.next(); beginOffset =
-			 * document.getLineOffset(prev.startLine - 1); } while
-			 * (it.hasNext()) { next = (ReferenceEntry) it.next();
-			 * 
-			 * endOffset = document.getLineOffset(next.startLine - 1); int
-			 * length = endOffset - beginOffset;
-			 * 
-			 * prev.setPosition(beginOffset, length);
-			 * document.addPosition(BibOutlinePage.SEGMENTS, prev.position);
-			 * 
-			 * prev = next; beginOffset = endOffset; } if (beginOffset != -1) {
-			 * prev.setPosition(beginOffset, document.getLength() -
-			 * beginOffset); document.addPosition(BibOutlinePage.SEGMENTS,
-			 * prev.position); }
-			 */
 			// This hack is needed because Eclipse doesn't allow us to get
 			// the offset of the last line in the document
 			if (entryList.isEmpty())
@@ -205,7 +178,7 @@ public class BibDocumentModel {
 
 	/**
 	 * Updates the document model. This includes parsing the document and
-	 * retrieving updated outline and abbreviation informaiton as well as
+	 * retrieving updated outline and abbreviation information as well as
 	 * updating these into the editor.
 	 */
 	public void update() {
@@ -213,11 +186,8 @@ public class BibDocumentModel {
 			doParse();
 			this.updateDocumentPositions();
 			updateBibContainer();
-			if (this.editor.getOutlinePage() != null) {
-				this.updateOutline();
-			}
 			updateAbbrManager();
-			editor.updateCodeFolder(entryList);
+			editor.updateEntryList(entryList);
 		} catch (TexDocumentParseException e) {
 			// We do nothing, since the error is already added
 			// TexlipsePlugin.log("There were parse errors in the document", e);

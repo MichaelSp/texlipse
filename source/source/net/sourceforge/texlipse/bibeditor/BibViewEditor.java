@@ -9,9 +9,15 @@ import net.sourceforge.texlipse.bibeditor.utils.ListEditorComposite;
 import net.sourceforge.texlipse.bibeditor.utils.ListEditorContentProvider;
 import net.sourceforge.texlipse.model.ReferenceEntry;
 
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
@@ -29,7 +35,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
@@ -40,15 +45,17 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class BibViewEditor extends FormPage {
+public class BibViewEditor extends FormPage  {
+	private static final Logger log = LoggerFactory.getLogger(BibViewEditor.class);
 	public final static String ID = "net.sourceforge.texlipse.bibeditor.BibEditor";
 	private static final String VALUE_PROVIDER = "ValueProvider";
 	private static final String MODIFY_LISTENER = "ModifyListener";
-	private final FormEditor bibEditor;
+	private final BibEditor bibEditor;
 	private Section referencesSection;
 	private GridData referencesSectionData;
-	private ListEditorComposite<ReferenceEntry> propertiesEditor;
 	private ListEditorComposite<ReferenceEntry> entryEditor;
 	private List<ReferenceEntry> entrys;
 	private Section detailSection;
@@ -60,7 +67,7 @@ public class BibViewEditor extends FormPage {
 	private Text referenceUrlText;
 	private Text yearText;
 
-	public BibViewEditor(FormEditor editor, String id, String title) {
+	public BibViewEditor(BibEditor editor, String id, String title) {
 		super(editor, id, title);
 		bibEditor = editor;
 	}
@@ -77,6 +84,7 @@ public class BibViewEditor extends FormPage {
 
 		createReferencesSection(toolkit, leftComposite);
 		createDetailSection(toolkit, rightComposite);
+
 	}
 
 	private Composite createBody(FormToolkit toolkit, ScrolledForm form) {
@@ -203,7 +211,7 @@ public class BibViewEditor extends FormPage {
 
 		entryEditor = new ListEditorComposite<ReferenceEntry>(referencesSection, SWT.NONE);
 		referencesSection.setClient(entryEditor);
-		entryEditor.getViewer().getTable().setData("name", "properties"); //$NON-NLS-1$ //$NON-NLS-2$
+		entryEditor.getViewer().getTable().setData("name", "properties");
 
 		entryEditor.setContentProvider(new ListEditorContentProvider<ReferenceEntry>());
 		entryEditor.setLabelProvider(new ReferenceLabelProvider());
@@ -220,8 +228,8 @@ public class BibViewEditor extends FormPage {
 				deleteReference(entryEditor.getSelection());
 			}
 		});
-		entryEditor.setDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
+		entryEditor.addSelectionListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent arg0) {
 				editReference(entryEditor.getSelection());
 			}
 		});
@@ -242,11 +250,16 @@ public class BibViewEditor extends FormPage {
 			return;
 		}
 		currentReference = selection.get(0);
-		bibkeyText.setText(currentReference.getkey(true));
-		yearText.setText(currentReference.year);
-		authorsText.setText(currentReference.author);
-		jornalText.setText(currentReference.journal);
-		referenceUrlText.setText(currentReference.getField("url"));
+		setIfNotNull(bibkeyText, currentReference.getkey(true));
+		setIfNotNull(yearText, currentReference.year);
+		setIfNotNull(authorsText, currentReference.author);
+		setIfNotNull(jornalText, currentReference.journal);
+		setIfNotNull(referenceUrlText, currentReference.getField("url"));
+	}
+
+	private void setIfNotNull(Text txt, String value) {
+		if (value != null && txt != null)
+			txt.setText(value);
 	}
 
 	protected void deleteReference(List<ReferenceEntry> selection) {
@@ -258,13 +271,17 @@ public class BibViewEditor extends FormPage {
 		// TODO Auto-generated method stub
 
 	}
-
-	public void update(BibDocumentModel bibDocumentModel) {
-		entrys = bibDocumentModel.getReferenceList();
-		if (entryEditor == null) {
-			return;
-		} else
-			entryEditor.setInput(entrys);
+	
+	@Override
+	public boolean isDirty() {
+		return entryEditor.isDirty();
 	}
 
+	public void update(List<ReferenceEntry> entryList) {
+		entrys = entryList;
+		if (entryEditor == null) {
+			return;
+		}
+		entryEditor.setInput(entrys);
+	}
 }

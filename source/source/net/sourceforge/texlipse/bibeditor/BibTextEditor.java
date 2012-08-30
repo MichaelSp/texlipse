@@ -12,6 +12,7 @@ package net.sourceforge.texlipse.bibeditor;
 import java.util.List;
 
 import net.sourceforge.texlipse.TexlipsePlugin;
+import net.sourceforge.texlipse.bibparser.BibOutlineContainer;
 import net.sourceforge.texlipse.editor.TexPairMatcher;
 import net.sourceforge.texlipse.model.ReferenceEntry;
 import net.sourceforge.texlipse.properties.TexlipseProperties;
@@ -27,10 +28,13 @@ import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * BibTeX editor.
@@ -38,6 +42,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author Oskar Ojala
  */
 public class BibTextEditor extends TextEditor {
+	private static final Logger log = LoggerFactory.getLogger(BibTextEditor.class);
 
 	/**
 	 * The name of the partitioning variable used for partitioning the BibTeX
@@ -51,18 +56,20 @@ public class BibTextEditor extends TextEditor {
 	private final TexPairMatcher fBracketMatcher = new TexPairMatcher("{}[]()");
 
 	private BibOutlinePage outlinePage;
-	private BibDocumentModel documentModel;
 	private final BibCodeFolder folder;
 	private ProjectionSupport fProjectionSupport;
 
 	private final BibEditor bibEditor;
-
+	
 	/**
 	 * Constructs a new BibTeX editor.
 	 */
 	public BibTextEditor(BibEditor editor) {
 		super();
 		bibEditor = editor;
+		
+		setSourceViewerConfiguration(new BibSourceViewerConfiguration(bibEditor));
+		
 		folder = new BibCodeFolder(this);
 	}
 
@@ -76,18 +83,6 @@ public class BibTextEditor extends TextEditor {
 		if (outlinePage != null)
 			outlinePage = null;
 		super.dispose();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#initializeEditor()
-	 */
-	@Override
-	protected void initializeEditor() {
-		this.documentModel = new BibDocumentModel(this);
-		setSourceViewerConfiguration(new BibSourceViewerConfiguration(this));
 	}
 
 	/*
@@ -138,7 +133,7 @@ public class BibTextEditor extends TextEditor {
 			projectionViewer.doOperation(ProjectionViewer.TOGGLE);
 		}
 
-		this.documentModel.update();
+		this.bibEditor.update();
 	}
 
 	/*
@@ -170,7 +165,6 @@ public class BibTextEditor extends TextEditor {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		super.doSave(monitor);
-		this.documentModel.update();
 	}
 
 	/*
@@ -184,7 +178,7 @@ public class BibTextEditor extends TextEditor {
 		if (IContentOutlinePage.class.equals(required)) {
 			if (this.outlinePage == null) {
 				this.outlinePage = new BibOutlinePage(this);
-				this.documentModel.update();
+				this.bibEditor.updateEntryList(bibEditor.getDocumentModel().getReferenceList());
 			}
 			return outlinePage;
 		} else if (fProjectionSupport != null) {
@@ -233,13 +227,6 @@ public class BibTextEditor extends TextEditor {
 	}
 
 	/**
-	 * @return Returns the documentModel.
-	 */
-	public BibDocumentModel getDocumentModel() {
-		return documentModel;
-	}
-
-	/**
 	 * @return The project that belongs to the current file or null if it does
 	 *         not belong to any project
 	 */
@@ -251,7 +238,8 @@ public class BibTextEditor extends TextEditor {
 			return res.getProject();
 	}
 
-	public void updateViewEditor() {
-		bibEditor.updateViewEditor();
+	public void updateOutlinePage(List<ReferenceEntry> entryList) {
+		if (getOutlinePage() != null)
+			getOutlinePage().update(new BibOutlineContainer(entryList, true));
 	}
 }

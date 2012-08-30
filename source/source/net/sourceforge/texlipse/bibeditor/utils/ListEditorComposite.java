@@ -61,6 +61,7 @@ public class ListEditorComposite<T> extends Composite {
 	private static final String REMOVE = "REMOVE"; //$NON-NLS-1$
 
 	boolean readOnly = false;
+	boolean dirtyFlag = false;
 
 	protected FormToolkit toolkit;
 
@@ -274,5 +275,9 @@ public class ListEditorComposite<T> extends Composite {
 		button.setLayoutData(gd);
 		button.setEnabled(false);
 		return button;
+	}
+
+	public boolean isDirty() {
+		return dirtyFlag;
 	}
 }
